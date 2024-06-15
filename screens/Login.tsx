@@ -1,50 +1,44 @@
-// screens/LoginScreen.js
-import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
-import {Formik} from 'formik';
-import * as Yup from 'yup';
-import InputField from './components/InputFieldComponent';
-import Button from './components/ButtonComponent';
+import React, {useState, useContext} from 'react';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {AuthContext} from './elements/AuthContext';
+import TextInputComponent from './components/InputFieldComponent'; // Ensure the correct path
 
 const LoginScreen = ({navigation}) => {
-  const handleLogin = values => {
-    navigation.push('Home');
-    console.log(values);
+  const {login, loginError} = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    await login({email, password});
+    navigation.navigate('Home');
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome back...</Text>
       <Image
-        style={styles.image}
-        source={{uri: 'https://path-to-your-image.png'}} // Replace with your image URL
+        style={styles.logo}
+        source={{uri: 'https://path-to-your-logo.png'}} // Replace with your logo URL
       />
-      <Formik
-        initialValues={{email: '', password: ''}}
-        validationSchema={Yup.object({
-          email: Yup.string().email('Invalid email').required('Required'),
-          password: Yup.string().required('Required'),
-        })}
-        onSubmit={handleLogin}>
-        {({handleChange, handleBlur, handleSubmit, values}) => (
-          <View>
-            <InputField
-              placeholder="Email"
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-              value={values.email}
-            />
-            <InputField
-              placeholder="Password"
-              secureTextEntry
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
-              value={values.password}
-            />
-            <Button title="Login" onPress={handleLogin} />
-          </View>
-        )}
-      </Formik>
+      <Text style={styles.title}>Flower Billing</Text>
+      <View>
+        <TextInputComponent
+          placeholder="Phone No"
+          onChangeText={setEmail}
+          value={email}
+          keyboardType="numeric"
+          autoCapitalize="none"
+        />
+        <TextInputComponent
+          placeholder="Password"
+          secureTextEntry
+          onChangeText={setPassword}
+          value={password}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>SIGN IN</Text>
+        </TouchableOpacity>
+        {/* {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null} */}
+      </View>
     </View>
   );
 };
@@ -54,22 +48,35 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
+    backgroundColor: '#4B134F',
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  image: {
+  logo: {
     width: 100,
     height: 100,
-    marginBottom: 20,
     alignSelf: 'center',
+    marginBottom: 20,
   },
-  link: {
-    marginTop: 20,
-    color: '#4CAF50',
+  title: {
+    fontSize: 32,
+    color: '#fff',
+    marginBottom: 20,
     textAlign: 'center',
+  },
+  button: {
+    backgroundColor: '#E9446A',
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 10,
   },
 });
 

@@ -1,52 +1,36 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { createContext, useEffect, useState } from 'react';
-import { EndPoint } from '../env/index';
+import React, {createContext, useEffect, useState} from 'react';
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userToken, setUserToken] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
   const [loginError, setLoginError] = useState('');
 
-  const login = async () => {
-    // let formData = new FormData();
+  const login = async values => {
+    await AsyncStorage.setItem('userToken', 'Uday');
+    setUserToken('Uday');
+    // try {
+    //   setIsLoading(true);
+    //   // Simulating an API call for login
+    //   const {email, password} = values;
+    //   if (email === 'test@test.com' && password === 'password') {
 
-    // formData.append('mobile_no', mobileno);
-    // formData.append('password', password);
-    // fetch(`${EndPoint}authenticate-user`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //     Accept: 'application/json',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(response => response.json())
-    //   .then(async json => {
-    //     if (json.success == true) {
-    //       let userInfo = json.data;
-    //       // console.log(userInfo);
-          setUserInfo(userInfo);
-    //       setUserToken(userInfo.api_token);
-          await AsyncStorage.setItem('userInfo', 'Uday');
-          await AsyncStorage.setItem('userToken', 'Uday');
-        // } else {
-        //   setLoginError(json.message);
-        // }
-
-        // setIsLoading(false);
-      // })
-      // .catch(error => {
-      //   console.log('___________error________', error);
-      // });
+    //     setLoginError('');
+    //   } else {
+    //     setLoginError('Invalid credentials');
+    //   }
+    // } catch (e) {
+    //   console.log(e);
+    //   setLoginError('Failed to login');
+    // }
+    // setIsLoading(false);
   };
 
   const logout = () => {
     setUserToken(null);
     AsyncStorage.removeItem('userToken');
-    AsyncStorage.removeItem('userInfo');
     setIsLoading(false);
     setLoginError('');
   };
@@ -60,7 +44,7 @@ export const AuthProvider = ({ children }) => {
       }
       setIsLoading(false);
     } catch (e) {
-      console.log('is logged in error $(e)');
+      console.log(`isLoggedIn error: ${e}`);
     }
   };
 
@@ -70,7 +54,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ login, logout, isLoading, userToken, loginError }}>
+      value={{login, logout, isLoading, userToken, loginError}}>
       {children}
     </AuthContext.Provider>
   );
