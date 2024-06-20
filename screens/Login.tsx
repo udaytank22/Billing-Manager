@@ -1,7 +1,8 @@
 import React, {useState, useContext} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {AuthContext} from './elements/AuthContext';
-import TextInputComponent from './components/InputFieldComponent'; // Ensure the correct path
+import TextInputComponent from './components/InputFieldComponent';
+import * as Animatable from 'react-native-animatable'; // Ensure the correct path
 
 const LoginScreen = ({navigation}) => {
   const {login, loginError} = useContext(AuthContext);
@@ -14,10 +15,11 @@ const LoginScreen = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image
+    <Animatable.View animation="fadeIn" delay={500} style={styles.container}>
+      <Animatable.Image
+        animation="slideInUp"
         style={styles.logo}
-        source={{uri: 'https://path-to-your-logo.png'}} // Replace with your logo URL
+        source={require('../Images/Uday_s_Billing_System_3.png')} // Replace with your logo URL
       />
       <Text style={styles.title}>Flower Billing</Text>
       <View>
@@ -39,7 +41,7 @@ const LoginScreen = ({navigation}) => {
         </TouchableOpacity>
         {/* {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null} */}
       </View>
-    </View>
+    </Animatable.View>
   );
 };
 
@@ -48,17 +50,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
-    backgroundColor: '#4B134F',
+    backgroundColor: '#252525',
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: '100%',
+    height: '50%',
     alignSelf: 'center',
     marginBottom: 20,
   },
   title: {
     fontSize: 32,
-    color: '#fff',
+    fontFamily: 'Arial',
+    color: '#7D7D7D',
+    fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
   },

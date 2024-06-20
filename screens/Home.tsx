@@ -5,9 +5,9 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons
-import CardComponent from './components/HomeCardComponent'; // Make sure this path is correct
+} from 'react-native'; // Assuming you want to use FontAwesome icons
+import CardComponent from './components/HomeCardComponent';
+import * as Animatable from 'react-native-animatable';
 
 const Home = ({navigation}) => {
   const handleCardPress = title => {
@@ -21,33 +21,27 @@ const Home = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.drawerIcon}>
-          <Icon name="bars" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.headerText}>Dashboard</Text>
-      </View>
       <ScrollView contentContainerStyle={styles.gridContainer}>
-        <View style={styles.grid}>
+        <Animatable.View animation="fadeIn" delay={500} style={styles.grid}>
           <CardComponent
-            title="Net Credits"
-            value="6778"
+            title="Enter Daily Flower Collection"
+            value="Flower"
             backgroundColor="#8e44ad"
-            onPress={() => navigation.navigate('FlowerHome')}
+            onPress={() => navigation.navigate('Flower')}
             style={styles.card}
           />
           <CardComponent
-            title="Total Bookings"
-            value="35"
+            title="Enter Daily Vegetable Collection"
+            value="Vegetable"
             backgroundColor="#2980b9"
-            onPress={() => handleCardPress('Total Bookings')}
+            onPress={() => navigation.navigate('Vegetable')}
             style={styles.card}
           />
           <CardComponent
-            title="Bookings Pending"
-            value="2"
+            title="Enter Employes Details"
+            value="employes"
             backgroundColor="#e74c3c"
-            onPress={() => handleCardPress('Bookings Pending')}
+            onPress={() => navigation.navigate('EmployeeHome')}
             style={styles.card}
           />
           <CardComponent
@@ -85,7 +79,7 @@ const Home = ({navigation}) => {
             onPress={() => handleCardPress('Messages')}
             style={styles.card}
           />
-        </View>
+        </Animatable.View>
       </ScrollView>
     </View>
   );
@@ -94,7 +88,7 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#252525',
   },
   header: {
     flexDirection: 'row',
@@ -110,7 +104,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     color: '#fff',
-    textAlign: 'center',
+    // textAlign: 'center',
     flex: 1, // To make sure the text takes remaining space
   },
   gridContainer: {

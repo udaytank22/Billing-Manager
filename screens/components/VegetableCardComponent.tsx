@@ -4,28 +4,33 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-const FlowerCardComonent = ({
-  customerName,
-  flowerQuantity,
-  flowerAmount,
-  purchaseDate,
+const VegetableCardComonent = ({
+  vegetableName,
+  vegetableWeight,
+  vegetableQuentity,
+  dateNeeded,
+  remark,
   onPress,
 }) => {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.cardDetails}>
-        <Text style={styles.cardTitle}>{customerName}</Text>
+        <Text style={styles.cardTitle}>{vegetableName}</Text>
         <View style={styles.detailRow}>
-          <Icon name="leaf" size={16} color="#27ae60" />
-          <Text style={styles.detailText}>{flowerQuantity} નંગ</Text>
+          <FontAwesomeIcon name="leaf" size={16} color="#e67e22" />
+          <Text style={styles.detailText}>{vegetableWeight} કિલો</Text>
         </View>
         <View style={styles.detailRow}>
-          <FontAwesomeIcon name="rupee" size={16} color="#e67e22" />
-          <Text style={styles.detailText}>{flowerAmount} રૂપિયા</Text>
+          <FontAwesomeIcon name="shopping-cart" size={16} color="#e67e22" />
+          <Text style={styles.detailText}>{vegetableQuentity} નંગ</Text>
         </View>
         <View style={styles.detailRow}>
           <FontAwesomeIcon name="calendar" size={16} color="#3498db" />
-          <Text style={styles.detailText}>{purchaseDate}</Text>
+          <Text style={styles.detailText}>{dateNeeded}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <FontAwesomeIcon name="comment" size={16} color="#e67e22" />
+          <Text style={styles.detailText}>{remark}</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.infoButton} onPress={onPress}>
@@ -63,7 +68,7 @@ const styles = StyleSheet.create({
   detailText: {
     marginLeft: 10,
     fontSize: 20,
-    color: '#555',
+    color: '#000',
   },
   infoButton: {
     justifyContent: 'center',
@@ -79,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlowerCardComonent;
+export default VegetableCardComonent;
