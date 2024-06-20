@@ -15,8 +15,8 @@ const CardComponent = ({title, value, backgroundColor, onPress}) => {
 
 const styles = StyleSheet.create({
   card: {
-    height: 180,
-    width: 180,
+    height: 160,
+    width: 160,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
@@ -33,9 +33,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   title: {
-    fontSize: 16,
+    fontSize: 10,
     color: '#fff',
     marginTop: 10,
+    textAlign: 'center',
   },
 });
 

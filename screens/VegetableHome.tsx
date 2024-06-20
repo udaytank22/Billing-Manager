@@ -8,36 +8,37 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import CardComponent from './components/FlowerCardComponent';
+import CardComponent from './components/VegetableCardComponent';
 import FixedBottom from './elements/FixedBottom';
 
-const FloweHome = ({route, navigation}) => {
+const VegetableHome = ({route, navigation}) => {
   const [search, setSearch] = React.useState('');
 
   const cardsData = [
     {
-      customerName: 'ઉદય ટાંક ',
-      flowerQuantity: '500',
-      flowerAmount: '500',
+      customerName: 'બટાકા  ',
+      VegetableWeight: '500',
+      VegetableQuentity: '50',
       purchaseDate: '2023-06-15',
     },
     {
-      customerName: 'Jane Doe',
-      flowerQuantity: '100',
-      flowerAmount: '1000',
+      customerName: 'લીલી ડુંગળી',
+      VegetableWeight: '500',
+      VegetableQuentity: '20',
       purchaseDate: '2023-06-16',
     },
     {
-      customerName: 'John Smith',
-      flowerQuantity: '800',
-      flowerAmount: '800',
+      customerName: 'ફુલાવર ',
+      VegetableWeight: '500',
+      VegetableQuentity: '80',
       purchaseDate: '2023-06-17',
     },
     {
-      customerName: 'John Smith',
-      flowerQuantity: '800',
-      flowerAmount: '800',
+      customerName: 'કાકડી',
+      VegetableWeight: '500',
+      VegetableQuentity: '80',
       purchaseDate: '2023-06-17',
+      Remark: 'Just Testing',
     },
     // Add more data as needed
   ];
@@ -63,10 +64,11 @@ const FloweHome = ({route, navigation}) => {
         {filteredData.map((card, index) => (
           <CardComponent
             key={index}
-            customerName={card.customerName}
-            flowerQuantity={card.flowerQuantity}
-            flowerAmount={card.flowerAmount}
-            purchaseDate={card.purchaseDate}
+            vegetableName={card.customerName}
+            vegetableWeight={card.VegetableWeight}
+            vegetableQuentity={card.VegetableQuentity}
+            dateNeeded={card.purchaseDate}
+            remark={card.Remark}
             onPress={() => navigation.navigate('EditFlower')}
           />
         ))}
@@ -129,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FloweHome;
+export default VegetableHome;
