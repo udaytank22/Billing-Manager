@@ -29,7 +29,7 @@ const FlowerCardComonent = ({
         </View>
       </View>
       <TouchableOpacity style={styles.infoButton} onPress={onPress}>
-        <Text style={styles.infoButtonText}>Edit</Text>
+        <Text style={styles.infoButtonText}>એડિટ</Text>
       </TouchableOpacity>
     </View>
   );

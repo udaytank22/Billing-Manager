@@ -14,12 +14,12 @@ const Flower = () => {
           tabBarLabelStyle: {fontSize: 13},
         }}>
         <topbar.Screen
-          name="Daily"
+          name="દૈનિક"
           component={FloweHome}
           initialParams={{status: 'Daily'}}
         />
         <topbar.Screen
-          name="All Entry"
+          name="બધી એન્ટ્રી"
           component={FloweHome}
           initialParams={{status: 'AllEntry'}}
         />

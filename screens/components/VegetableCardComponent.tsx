@@ -28,13 +28,15 @@ const VegetableCardComonent = ({
           <FontAwesomeIcon name="calendar" size={16} color="#3498db" />
           <Text style={styles.detailText}>{dateNeeded}</Text>
         </View>
-        <View style={styles.detailRow}>
-          <FontAwesomeIcon name="comment" size={16} color="#e67e22" />
-          <Text style={styles.detailText}>{remark}</Text>
-        </View>
+        {remark && (
+          <View style={styles.detailRow}>
+            <FontAwesomeIcon name="comment" size={16} color="#e67e22" />
+            <Text style={styles.detailText}>{remark}</Text>
+          </View>
+        )}
       </View>
       <TouchableOpacity style={styles.infoButton} onPress={onPress}>
-        <Text style={styles.infoButtonText}>Edit</Text>
+        <Text style={styles.infoButtonText}>એડિટ</Text>
       </TouchableOpacity>
     </View>
   );

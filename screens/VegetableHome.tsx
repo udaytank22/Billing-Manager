@@ -3,15 +3,15 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   TextInput,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import CardComponent from './components/VegetableCardComponent';
+import VegetableCardComonent from './components/VegetableCardComponent';
 import FixedBottom from './elements/FixedBottom';
 
-const VegetableHome = ({route, navigation}) => {
+const VegrtableHome = ({navigation, route}) => {
   const [search, setSearch] = React.useState('');
 
   const cardsData = [
@@ -53,26 +53,34 @@ const VegetableHome = ({route, navigation}) => {
         <Icon name="search" size={20} color="#555" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
-          placeholder="Search"
+          placeholder="શોધો"
           placeholderTextColor="#000"
           value={search}
           onChangeText={setSearch}
         />
       </View>
 
-      <ScrollView contentContainerStyle={styles.cardsContainer}>
-        {filteredData.map((card, index) => (
-          <CardComponent
-            key={index}
-            vegetableName={card.customerName}
-            vegetableWeight={card.VegetableWeight}
-            vegetableQuentity={card.VegetableQuentity}
-            dateNeeded={card.purchaseDate}
-            remark={card.Remark}
-            onPress={() => navigation.navigate('EditFlower')}
+      <FlatList
+        data={filteredData}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.cardsContainer}
+        renderItem={({item}) => (
+          <VegetableCardComonent
+            vegetableName={item.customerName}
+            vegetableWeight={item.VegetableWeight}
+            vegetableQuentity={item.VegetableQuentity}
+            dateNeeded={item.purchaseDate}
+            remark={item.Remark}
+            type={'VegrtableHome'}
+            onPress={() =>
+              navigation.navigate('EditFlower', {
+                cardData: item,
+                pageType: 'VegrtableHome',
+              })
+            }
           />
-        ))}
-      </ScrollView>
+        )}
+      />
 
       {route.params.status === 'Daily' && (
         <FixedBottom>
@@ -86,7 +94,7 @@ const VegetableHome = ({route, navigation}) => {
                 height: '50%',
                 justifyContent: 'center',
               }}
-              onPress={() => navigation.push('AddFlower')}>
+              onPress={() => navigation.push('AddVegetableForm')}>
               <Text
                 style={{
                   fontSize: 20,
@@ -94,7 +102,7 @@ const VegetableHome = ({route, navigation}) => {
                   textAlignVertical: 'center',
                   color: 'white',
                 }}>
-                Add Entry
+                એન્ટ્રી ઉમેરો
               </Text>
             </TouchableOpacity>
           </View>
@@ -131,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VegetableHome;
+export default VegrtableHome;

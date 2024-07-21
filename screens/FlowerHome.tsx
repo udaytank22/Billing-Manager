@@ -3,9 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   TextInput,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import CardComponent from './components/FlowerCardComponent';
@@ -52,48 +52,40 @@ const FloweHome = ({route, navigation}) => {
         <Icon name="search" size={20} color="#555" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
-          placeholder="Search"
+          placeholder="શોધો"
           placeholderTextColor="#000"
           value={search}
           onChangeText={setSearch}
         />
       </View>
 
-      <ScrollView contentContainerStyle={styles.cardsContainer}>
-        {filteredData.map((card, index) => (
+      <FlatList
+        data={filteredData}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.cardsContainer}
+        renderItem={({item}) => (
           <CardComponent
-            key={index}
-            customerName={card.customerName}
-            flowerQuantity={card.flowerQuantity}
-            flowerAmount={card.flowerAmount}
-            purchaseDate={card.purchaseDate}
-            onPress={() => navigation.navigate('EditFlower')}
+            customerName={item.customerName}
+            flowerQuantity={item.flowerQuantity}
+            flowerAmount={item.flowerAmount}
+            purchaseDate={item.purchaseDate}
+            onPress={() =>
+              navigation.navigate('EditFlower', {
+                cardData: item,
+                pageType: 'FlowerHome',
+              })
+            }
           />
-        ))}
-      </ScrollView>
+        )}
+      />
 
       {route.params.status === 'Daily' && (
         <FixedBottom>
           <View>
             <TouchableOpacity
-              style={{
-                marginRight: 15,
-                backgroundColor: '#1d3557',
-                borderRadius: 20,
-                width: '50%',
-                height: '50%',
-                justifyContent: 'center',
-              }}
+              style={styles.addButton}
               onPress={() => navigation.push('AddFlower')}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  textAlign: 'center',
-                  textAlignVertical: 'center',
-                  color: 'white',
-                }}>
-                Add Entry
-              </Text>
+              <Text style={styles.addButtonText}>એન્ટ્રી ઉમેરો</Text>
             </TouchableOpacity>
           </View>
         </FixedBottom>
@@ -126,6 +118,20 @@ const styles = StyleSheet.create({
   },
   cardsContainer: {
     paddingBottom: 20,
+  },
+  addButton: {
+    marginRight: 15,
+    backgroundColor: '#1d3557',
+    borderRadius: 20,
+    width: '50%',
+    height: '50%',
+    justifyContent: 'center',
+  },
+  addButtonText: {
+    fontSize: 20,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: 'white',
   },
 });
 
