@@ -15,12 +15,12 @@ const Vegetable = () => {
           tabBarLabelStyle: {fontSize: 13},
         }}>
         <topbar.Screen
-          name="Daily"
+          name="દૈનિક"
           component={VegetableHome}
           initialParams={{status: 'Daily'}}
         />
         <topbar.Screen
-          name="All Entry"
+          name="બધી એન્ટ્રી"
           component={VegetableHome}
           initialParams={{status: 'AllEntry'}}
         />

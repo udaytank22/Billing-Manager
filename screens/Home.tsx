@@ -24,59 +24,24 @@ const Home = ({navigation}) => {
       <ScrollView contentContainerStyle={styles.gridContainer}>
         <Animatable.View animation="fadeIn" delay={500} style={styles.grid}>
           <CardComponent
-            title="Enter Daily Flower Collection"
-            value="Flower"
+            title="ડેઇલી ફ્લાવર કલેક્શન દાખલ કરો"
+            value="ફ્લાવર"
             backgroundColor="#8e44ad"
             onPress={() => navigation.navigate('Flower')}
             style={styles.card}
           />
           <CardComponent
-            title="Enter Daily Vegetable Collection"
-            value="Vegetable"
+            title="દૈનિક શાકભાજી સંગ્રહ દાખલ કરો"
+            value="શાકભાજી"
             backgroundColor="#2980b9"
             onPress={() => navigation.navigate('Vegetable')}
             style={styles.card}
           />
           <CardComponent
-            title="Enter Employes Details"
-            value="employes"
+            title="મુલી ની હાજરી નાખો"
+            value="મુલી"
             backgroundColor="#e74c3c"
             onPress={() => navigation.navigate('EmployeeHome')}
-            style={styles.card}
-          />
-          <CardComponent
-            title="Booking Completed"
-            value="2"
-            backgroundColor="#e67e22"
-            onPress={() => handleCardPress('Booking Completed')}
-            style={styles.card}
-          />
-          <CardComponent
-            title="Booking Running"
-            value="6"
-            backgroundColor="#27ae60"
-            onPress={() => handleCardPress('Booking Running')}
-            style={styles.card}
-          />
-          <CardComponent
-            title="Total Tutoring Courses"
-            value="5"
-            backgroundColor="#3498db"
-            onPress={() => handleCardPress('Total Tutoring Courses')}
-            style={styles.card}
-          />
-          <CardComponent
-            title="Questions"
-            value="2"
-            backgroundColor="#795548"
-            onPress={() => handleCardPress('Questions')}
-            style={styles.card}
-          />
-          <CardComponent
-            title="Messages"
-            value="1"
-            backgroundColor="#6a1b9a"
-            onPress={() => handleCardPress('Messages')}
             style={styles.card}
           />
         </Animatable.View>

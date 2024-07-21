@@ -13,7 +13,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import TextInputComponent from './components/InputFieldComponent';
 import DropDownComponent from './components/DropDownComponent';
 
-const AddFlowerForm = () => {
+const AddVegetableForm = () => {
   const [customer, setCustomer] = useState('');
   const [quantity, setQuantity] = useState('');
   const [fromDate, setFromDate] = useState(new Date());
@@ -23,9 +23,9 @@ const AddFlowerForm = () => {
   const [remark, setRemark] = useState('');
 
   const customers = [
-    {label: 'ઉદય ટાંક', value: 'ઉદય ટાંક'},
-    {label: 'Jane Doe', value: 'Jane Doe'},
-    {label: 'John Smith', value: 'John Smith'},
+    {label: 'ઉદય ટાંક', value: 'બટાકા'},
+    {label: 'Jane Doe', value: 'લીલી ડુંગળી'},
+    {label: 'John Smith', value: 'ફુલાવર'},
     // Add more customers as needed
   ];
 
@@ -65,12 +65,12 @@ const AddFlowerForm = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>ફ્લાવર ઉમેરો</Text>
+      <Text style={styles.title}>શાકભાજી ઉમેરો</Text>
       <DropDownComponent
         selectedValue={customer}
         onValueChange={itemValue => setCustomer(itemValue)}
         items={customers}
-        placeholder="ગ્રાહક પસંદ કરો"
+        placeholder="શાકભાજી પસંદ કરો"
       />
       <TextInputComponent
         placeholder="જથ્થો"
@@ -142,4 +142,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddFlowerForm;
+export default AddVegetableForm;

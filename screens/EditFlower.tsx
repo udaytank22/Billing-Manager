@@ -1,31 +1,33 @@
-// EditDataForm.js
 import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Platform,
   Pressable,
 } from 'react-native';
 import TextInputComponent from './components/InputFieldComponent';
 
 const EditFlower = ({route}) => {
-  //   const {cardData} = route.params; // Receive card data from the route parameters
+  const {cardData, pageType} = route.params;
+  console.log(pageType);
 
-  //   const [customer, setCustomer] = useState(cardData.customerName);
-  //   const [quantity, setQuantity] = useState(cardData.flowerQuantity);
-  //   const [fromDate, setFromDate] = useState(new Date(cardData.purchaseDate));
-  //   const [fromDateDisplay, setFromDateDisplay] = useState('');
-  //   const [fromDateServer, setFromDateServer] = useState('');
-  //   const [remark, setRemark] = useState('');
+  const [customer, setCustomer] = useState(cardData.customerName);
+  const [quantity, setQuantity] = useState(
+    pageType === 'VegrtableHome'
+      ? cardData.VegetableWeight
+      : cardData.flowerQuantity,
+  );
+  const [fromDate, setFromDate] = useState(new Date(cardData.purchaseDate));
+  const [fromDateDisplay, setFromDateDisplay] = useState('');
+  const [fromDateServer, setFromDateServer] = useState('');
+  const [remark, setRemark] = useState('');
 
-  //   useEffect(() => {
-  //     // Set the formatted dates based on the card data
-  //     setFromDateDisplay(formatDate(new Date(cardData.purchaseDate), 'display'));
-  //     setFromDateServer(formatDate(new Date(cardData.purchaseDate), 'server'));
-  //     setRemark(cardData.remark || '');
-  //   }, [cardData]);
+  useEffect(() => {
+    setFromDateDisplay(formatDate(new Date(cardData.purchaseDate), 'display'));
+    setFromDateServer(formatDate(new Date(cardData.purchaseDate), 'server'));
+    setRemark(cardData.remark || '');
+  }, [cardData]);
 
   const formatDate = (rawDate, type) => {
     let date = new Date(rawDate);
@@ -39,43 +41,41 @@ const EditFlower = ({route}) => {
     }
   };
 
-  //   const handleSubmit = () => {
-  //     console.log('Customer:', customer);
-  //     console.log('Quantity:', quantity);
-  //     console.log('Date:', fromDateServer);
-  //     console.log('Remark:', remark);
-  //     // Handle form submission to database
-  //   };
+  const handleSubmit = () => {
+    console.log('Customer:', customer);
+    console.log('Quantity:', quantity);
+    console.log('Date:', fromDateServer);
+    console.log('Remark:', remark);
+    // Handle form submission to database
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Edit Data</Text>
       <TextInputComponent
         placeholder="Customer"
-        // value={customer}
+        value={customer}
         editable={false}
       />
       <TextInputComponent
         placeholder="Quantity"
         keyboardType="numeric"
-        // value={quantity}
-        editable={false}
+        value={quantity}
+        onChangeText={setQuantity}
       />
       <View style={styles.dateInput}>
         <Pressable>
           <Text style={styles.dateText}>
-            {/* {fromDateDisplay || 'Select Date'} */}
+            {fromDateDisplay || 'Select Date'}
           </Text>
         </Pressable>
       </View>
       <TextInputComponent
         placeholder="Remark"
-        // value={remark}
-        // onChangeText={setRemark}
+        value={remark}
+        onChangeText={setRemark}
       />
-      <TouchableOpacity
-        style={styles.submitButton}
-        onPress={() => console.warn('Its Working')}>
+      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
         <Text style={styles.submitButtonText}>Submit</Text>
       </TouchableOpacity>
     </View>

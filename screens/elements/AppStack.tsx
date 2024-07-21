@@ -9,6 +9,7 @@ import Vegetable from '../VegetableTopBar';
 import EmployeeHome from '../EmployeeHome';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons
+import AddVegetableForm from '../AddVegetable';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,42 +20,38 @@ const AppStack = () => {
         name="Home"
         component={Home}
         options={{
-          headerTitle: 'Home',
+          headerTitle: 'હોમ',
           headerTintColor: '#fff',
           headerStyle: {
             backgroundColor: '#4B134F',
           },
-          headerRight: () => (
-            <TouchableOpacity style={{marginRight: 10}}>
-              <Icon name="user" size={24} color="white" />
-            </TouchableOpacity>
-          ),
         }}
       />
-      <Stack.Screen
-        name="Flower"
-        component={Flower}
-        // options={{headerShown: false}}
-      />
+      <Stack.Screen name="Flower" component={Flower} options={{title: 'ફૂલ'}} />
       <Stack.Screen
         name="Vegetable"
         component={Vegetable}
-        // options={{headerShown: false}}
+        options={{title: 'શાક'}}
       />
       <Stack.Screen
         name="EmployeeHome"
         component={EmployeeHome}
-        // options={{headerShown: false}}
+        options={{title: 'મુલી'}}
       />
       <Stack.Screen
         name="AddFlower"
         component={AddFlower}
-        // options={{headerShown: false}}
+        options={{title: 'ફ્લાવર ઉમેરો'}}
+      />
+      <Stack.Screen
+        name="AddVegetableForm"
+        component={AddVegetableForm}
+        options={{title: 'વેજીટેબલ ઉમેરો'}}
       />
       <Stack.Screen
         name="EditFlower"
         component={EditFlower}
-        // options={{headerShown: false}}
+        options={{title: 'સંપાદિત કરો ફોર્મ'}}
       />
     </Stack.Navigator>
   );

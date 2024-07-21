@@ -1,15 +1,21 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 
 const CardComponent = ({title, value, backgroundColor, onPress}) => {
   return (
-    <TouchableOpacity
+    <Pressable
       style={[styles.card, {backgroundColor, shadowColor: backgroundColor}]}
       onPress={onPress} // Pass onPress handler from parent component
       activeOpacity={0.8}>
       <Text style={styles.value}>{value}</Text>
       <Text style={styles.title}>{title}</Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

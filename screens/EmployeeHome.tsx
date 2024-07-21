@@ -3,48 +3,41 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   TextInput,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import CardComponent from './components/VegetableCardComponent';
+import EmployeeCardComponent from './components/EmployeeCardComponent';
 import FixedBottom from './elements/FixedBottom';
 
 const EmployeeHome = ({navigation}) => {
   const [search, setSearch] = React.useState('');
 
-  const cardsData = [
+  const employeeData = [
     {
-      customerName: 'બટાકા  ',
-      VegetableWeight: '500',
-      VegetableQuentity: '50',
-      purchaseDate: '2023-06-15',
+      name: 'રાજ કુમાર',
+      dayType: 'આખો દિવસ',
+      date: '2024-07-21',
+      shift: 'સવાર',
     },
     {
-      customerName: 'લીલી ડુંગળી',
-      VegetableWeight: '500',
-      VegetableQuentity: '20',
-      purchaseDate: '2023-06-16',
+      name: 'આરતી બેન',
+      dayType: 'અડધું',
+      date: '2024-07-20',
+      shift: 'સાંજ',
     },
     {
-      customerName: 'ફુલાવર ',
-      VegetableWeight: '500',
-      VegetableQuentity: '80',
-      purchaseDate: '2023-06-17',
+      name: 'વિપુલ સિંહ',
+      dayType: 'આખો દિવસ',
+      date: '2024-07-19',
+      shift: 'સવાર',
     },
-    {
-      customerName: 'કાકડી',
-      VegetableWeight: '500',
-      VegetableQuentity: '80',
-      purchaseDate: '2023-06-17',
-      Remark: 'Just Testing',
-    },
-    // Add more data as needed
+    // Add more dummy data as needed
   ];
 
-  const filteredData = cardsData.filter(card =>
-    card.customerName.toLowerCase().includes(search.toLowerCase()),
+  const filteredData = employeeData.filter(employee =>
+    employee.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -53,26 +46,26 @@ const EmployeeHome = ({navigation}) => {
         <Icon name="search" size={20} color="#555" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
-          placeholder="Search"
+          placeholder="શોધો"
           placeholderTextColor="#000"
           value={search}
           onChangeText={setSearch}
         />
       </View>
 
-      <ScrollView contentContainerStyle={styles.cardsContainer}>
-        {filteredData.map((card, index) => (
-          <CardComponent
-            key={index}
-            vegetableName={card.customerName}
-            vegetableWeight={card.VegetableWeight}
-            vegetableQuentity={card.VegetableQuentity}
-            dateNeeded={card.purchaseDate}
-            remark={card.Remark}
-            onPress={() => navigation.navigate('EditFlower')}
+      <FlatList
+        data={filteredData}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.cardsContainer}
+        renderItem={({item}) => (
+          <EmployeeCardComponent
+            name={item.name}
+            dayType={item.dayType}
+            date={item.date}
+            shift={item.shift}
           />
-        ))}
-      </ScrollView>
+        )}
+      />
 
       <FixedBottom>
         <View>
@@ -85,7 +78,7 @@ const EmployeeHome = ({navigation}) => {
               height: '50%',
               justifyContent: 'center',
             }}
-            onPress={() => navigation.push('AddFlower')}>
+            onPress={() => navigation.push('AddEmployee')}>
             <Text
               style={{
                 fontSize: 20,
@@ -93,7 +86,7 @@ const EmployeeHome = ({navigation}) => {
                 textAlignVertical: 'center',
                 color: 'white',
               }}>
-              Add Entry
+              એન્ટ્રી ઉમેરો
             </Text>
           </TouchableOpacity>
         </View>
@@ -106,13 +99,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+    padding: 20,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 10,
-    margin: 20,
     borderRadius: 10,
     elevation: 2,
   },
