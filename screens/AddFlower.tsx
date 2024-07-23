@@ -16,11 +16,21 @@ import DropDownComponent from './components/DropDownComponent';
 const AddFlowerForm = () => {
   const [customer, setCustomer] = useState('');
   const [quantity, setQuantity] = useState('');
+  const [amount, setAmount] = useState('');
+  const [rate, setRate] = useState('30');
+  const [totalAmount, setTotalAmount] = useState('');
   const [fromDate, setFromDate] = useState(new Date());
   const [fromDateDisplay, setFromDateDisplay] = useState('');
   const [fromDateServer, setFromDateServer] = useState('');
   const [showFromPicker, setShowFromPicker] = useState(false);
   const [remark, setRemark] = useState('');
+
+  const calculateAmounts = (quantity, rate) => {
+    const q = parseFloat(quantity) || 0;
+    const r = parseFloat(rate) || 0;
+    const calculatedAmount = (q * r) / 100;
+    return calculatedAmount.toString();
+  };
 
   const customers = [
     {label: 'ઉદય ટાંક', value: 'ઉદય ટાંક'},
@@ -76,7 +86,38 @@ const AddFlowerForm = () => {
         placeholder="જથ્થો"
         keyboardType="numeric"
         value={quantity}
-        onChangeText={setQuantity}
+        onChangeText={text => {
+          setQuantity(text);
+          const newAmount = calculateAmounts(text, rate);
+          setAmount(newAmount);
+          setTotalAmount(newAmount);
+        }}
+      />
+      <TextInputComponent
+        placeholder="ભાવ"
+        keyboardType="numeric"
+        value={rate}
+        onChangeText={text => {
+          setRate(text);
+          const newAmount = calculateAmounts(quantity, text);
+          setAmount(newAmount);
+          setTotalAmount(newAmount);
+        }}
+        editable={false}
+      />
+      <TextInputComponent
+        placeholder="રૂપિયા"
+        keyboardType="numeric"
+        value={amount}
+        onChangeText={setAmount}
+        editable={false}
+      />
+      <TextInputComponent
+        placeholder="ટોટલ"
+        keyboardType="numeric"
+        value={totalAmount}
+        onChangeText={setTotalAmount}
+        editable={false}
       />
       <View style={styles.dateInput}>
         <Pressable onPress={toggleFromDatePicker}>

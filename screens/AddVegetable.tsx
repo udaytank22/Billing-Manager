@@ -1,4 +1,3 @@
-// AddFlowerForm.js
 import React, {useState} from 'react';
 import {
   View,
@@ -15,12 +14,14 @@ import DropDownComponent from './components/DropDownComponent';
 
 const AddVegetableForm = () => {
   const [customer, setCustomer] = useState('');
-  const [quantity, setQuantity] = useState('');
+  const [bags, setBags] = useState([{quantity: '', weight: ''}]);
   const [fromDate, setFromDate] = useState(new Date());
   const [fromDateDisplay, setFromDateDisplay] = useState('');
   const [fromDateServer, setFromDateServer] = useState('');
   const [showFromPicker, setShowFromPicker] = useState(false);
   const [remark, setRemark] = useState('');
+  const [totalBags, setTotalBags] = useState('');
+  const [totalWeight, setTotalWeight] = useState('');
 
   const customers = [
     {label: 'ઉદય ટાંક', value: 'બટાકા'},
@@ -55,9 +56,38 @@ const AddVegetableForm = () => {
     setFromDateServer(formatDate(currentDate, 'server'));
   };
 
+  const handleAddBag = () => {
+    setBags([...bags, {quantity: '', weight: ''}]);
+  };
+
+  const handleBagChange = (index, field, value) => {
+    const updatedBags = bags.map((bag, i) => {
+      if (i === index) {
+        return {...bag, [field]: value};
+      }
+      return bag;
+    });
+    setBags(updatedBags);
+    calculateTotals(updatedBags);
+  };
+
+  const calculateTotals = bags => {
+    let totalBags = 0;
+    let totalWeight = 0;
+    bags.forEach(bag => {
+      totalBags += parseInt(bag.quantity) || 0;
+      totalWeight +=
+        (parseInt(bag.quantity) || 0) * (parseFloat(bag.weight) || 0);
+    });
+    setTotalBags(totalBags.toString());
+    setTotalWeight(totalWeight.toString());
+  };
+
   const handleSubmit = () => {
     console.log('Customer:', customer);
-    console.log('Quantity:', quantity);
+    console.log('Bags:', bags);
+    console.log('Total Bags:', totalBags);
+    console.log('Total Weight:', totalWeight);
     console.log('Date:', fromDateServer);
     console.log('Remark:', remark);
     // Handle form submission to database
@@ -72,11 +102,36 @@ const AddVegetableForm = () => {
         items={customers}
         placeholder="શાકભાજી પસંદ કરો"
       />
+      {bags.map((bag, index) => (
+        <View key={index} style={styles.bagContainer}>
+          <TextInputComponent
+            placeholder="બેગની સંખ્યા"
+            keyboardType="numeric"
+            value={bag.quantity}
+            onChangeText={text => handleBagChange(index, 'quantity', text)}
+          />
+          <TextInputComponent
+            placeholder="વજન (કિલોગ્રામમાં)"
+            keyboardType="numeric"
+            value={bag.weight}
+            onChangeText={text => handleBagChange(index, 'weight', text)}
+          />
+        </View>
+      ))}
+      <TouchableOpacity style={styles.addButton} onPress={handleAddBag}>
+        <Text style={styles.addButtonText}>બેગ ઉમેરો</Text>
+      </TouchableOpacity>
       <TextInputComponent
-        placeholder="જથ્થો"
+        placeholder="કુલ બેગ"
         keyboardType="numeric"
-        value={quantity}
-        onChangeText={setQuantity}
+        value={totalBags}
+        editable={false}
+      />
+      <TextInputComponent
+        placeholder="કુલ વજન"
+        keyboardType="numeric"
+        value={totalWeight}
+        editable={false}
       />
       <View style={styles.dateInput}>
         <Pressable onPress={toggleFromDatePicker}>
@@ -116,6 +171,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#333',
+  },
+  bagContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  addButton: {
+    backgroundColor: '#2196F3',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  addButtonText: {
+    color: '#fff',
+    fontSize: 16,
   },
   dateInput: {
     height: 50,

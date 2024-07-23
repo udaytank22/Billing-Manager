@@ -44,6 +44,13 @@ const Home = ({navigation}) => {
             onPress={() => navigation.navigate('EmployeeHome')}
             style={styles.card}
           />
+          <CardComponent
+            title="રૂપિયાનો હિસાબ દાખલ કરો"
+            value="રૂપિયા"
+            backgroundColor="#e74c3c"
+            onPress={() => navigation.navigate('MoneyTopTabBar')}
+            style={styles.card}
+          />
         </Animatable.View>
       </ScrollView>
     </View>
