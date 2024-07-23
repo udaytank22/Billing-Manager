@@ -8,6 +8,7 @@ const TextInputComponent = ({
   keyboardType,
   onBlur,
   value,
+  editable,
 }) => {
   return (
     <TextInput
@@ -19,6 +20,7 @@ const TextInputComponent = ({
       onChangeText={onChangeText}
       onBlur={onBlur}
       value={value}
+      editable={editable}
     />
   );
 };

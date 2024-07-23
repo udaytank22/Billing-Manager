@@ -10,6 +10,8 @@ import EmployeeHome from '../EmployeeHome';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons
 import AddVegetableForm from '../AddVegetable';
+import MoneyHome from '../MoneyHome';
+import MoneyTopTabBar from '../MoneyTopTabBar';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,9 +36,19 @@ const AppStack = () => {
         options={{title: 'શાક'}}
       />
       <Stack.Screen
+        name="MoneyTopTabBar"
+        component={MoneyTopTabBar}
+        options={{title: 'રૂપિયાનો હિસાબ'}}
+      />
+      <Stack.Screen
         name="EmployeeHome"
         component={EmployeeHome}
         options={{title: 'મુલી'}}
+      />
+      <Stack.Screen
+        name="MoneyHome"
+        component={MoneyHome}
+        options={{title: 'રૂપિયાનો હિસાબ'}}
       />
       <Stack.Screen
         name="AddFlower"
