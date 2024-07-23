@@ -12,6 +12,9 @@ import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want t
 import AddVegetableForm from '../AddVegetable';
 import MoneyHome from '../MoneyHome';
 import MoneyTopTabBar from '../MoneyTopTabBar';
+import AddEmployeeForm from '../AddEmployeeForm';
+import MoneyCollectionForm from '../MoneyCollectionForm';
+import MakeBill from '../MakeBill';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,9 +26,9 @@ const AppStack = () => {
         component={Home}
         options={{
           headerTitle: 'હોમ',
-          headerTintColor: '#fff',
+          headerTintColor: '#000',
           headerStyle: {
-            backgroundColor: '#4B134F',
+            backgroundColor: '#f9e79f',
           },
         }}
       />
@@ -64,6 +67,21 @@ const AppStack = () => {
         name="EditFlower"
         component={EditFlower}
         options={{title: 'સંપાદિત કરો ફોર્મ'}}
+      />
+      <Stack.Screen
+        name="AddEmployeeForm"
+        component={AddEmployeeForm}
+        options={{title: 'મુલી ઉમેરો'}}
+      />
+      <Stack.Screen
+        name="MoneyCollectionForm"
+        component={MoneyCollectionForm}
+        options={{title: 'રૂપિયા કલેક્શન ફોર્મ'}}
+      />
+      <Stack.Screen
+        name="MakeBill"
+        component={MakeBill}
+        options={{title: 'બિલ બનાવો'}}
       />
     </Stack.Navigator>
   );

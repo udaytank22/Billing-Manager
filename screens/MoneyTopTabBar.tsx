@@ -15,14 +15,14 @@ const MoneyTopTabBar = () => {
           tabBarLabelStyle: {fontSize: 13},
         }}>
         <topbar.Screen
-          name="આવેલા"
-          component={MoneyHome}
-          initialParams={{status: 'Collected'}}
-        />
-        <topbar.Screen
           name="બાકી"
           component={MoneyHome}
           initialParams={{status: 'Pending'}}
+        />
+        <topbar.Screen
+          name="આવેલા"
+          component={MoneyHome}
+          initialParams={{status: 'Collected'}}
         />
       </topbar.Navigator>
     </>

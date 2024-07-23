@@ -1,9 +1,10 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, Pressable, Text} from 'react-native';
 import CollectedCard from './elements/CollectionCard';
+import FixedBottom from './elements/FixedBottom';
 
-const MoneyHome = ({route}) => {
-  console.log(route.params.status);
+const MoneyHome = ({route, navigation}) => {
+  // console.log(route.params.status);
 
   const customers = [
     {
@@ -27,17 +28,45 @@ const MoneyHome = ({route}) => {
   ];
 
   return (
-    <ScrollView style={styles.container}>
-      {customers.map((customer, index) => (
-        <CollectedCard
-          key={index}
-          name={customer.name}
-          collectedAmount={customer.collectedAmount}
-          notCollectedAmount={customer.notCollectedAmount}
-          status={route.params.status}
-        />
-      ))}
-    </ScrollView>
+    <>
+      <ScrollView style={styles.container}>
+        {customers.map((customer, index) => (
+          <CollectedCard
+            key={index}
+            name={customer.name}
+            collectedAmount={customer.collectedAmount}
+            notCollectedAmount={customer.notCollectedAmount}
+            status={route.params.status}
+          />
+        ))}
+      </ScrollView>
+      {route.params.status === 'Pending' && (
+        <FixedBottom>
+          <View>
+            <Pressable
+              style={{
+                marginRight: 15,
+                backgroundColor: '#1d3557',
+                borderRadius: 20,
+                width: '50%',
+                height: '50%',
+                justifyContent: 'center',
+              }}
+              onPress={() => navigation.push('MoneyCollectionForm')}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  textAlign: 'center',
+                  textAlignVertical: 'center',
+                  color: 'white',
+                }}>
+                એન્ટ્રી ઉમેરો
+              </Text>
+            </Pressable>
+          </View>
+        </FixedBottom>
+      )}
+    </>
   );
 };
 
