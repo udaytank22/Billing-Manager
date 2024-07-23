@@ -78,7 +78,7 @@ const EmployeeHome = ({navigation}) => {
               height: '50%',
               justifyContent: 'center',
             }}
-            onPress={() => navigation.push('AddEmployee')}>
+            onPress={() => navigation.push('AddEmployeeForm')}>
             <Text
               style={{
                 fontSize: 20,

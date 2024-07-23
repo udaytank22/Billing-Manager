@@ -1,48 +1,41 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const CardComponent = ({title, value, backgroundColor, onPress}) => {
+const CardComponent = ({title, value, backgroundColor, icon, onPress}) => {
   return (
-    <Pressable
-      style={[styles.card, {backgroundColor, shadowColor: backgroundColor}]}
-      onPress={onPress} // Pass onPress handler from parent component
-      activeOpacity={0.8}>
-      <Text style={styles.value}>{value}</Text>
-      <Text style={styles.title}>{title}</Text>
-    </Pressable>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.card, {backgroundColor}]}>
+      <View style={styles.content}>
+        <Icon name={icon} size={24} color="#000" style={styles.icon} />
+        <Text style={styles.title}>{title}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    height: 160,
-    width: 160,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 20,
+    marginVertical: 10,
     borderRadius: 10,
-    margin: 10,
+    elevation: 5,
     shadowColor: '#000',
+    shadowOpacity: 0.1,
     shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-    elevation: 5, // For Android
+    shadowRadius: 10,
   },
-  value: {
-    fontSize: 24,
-    color: '#fff',
-    fontWeight: 'bold',
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    marginRight: 10,
   },
   title: {
-    fontSize: 10,
-    color: '#fff',
-    marginTop: 10,
-    textAlign: 'center',
+    fontSize: 18,
+    color: '#000',
   },
 });
 

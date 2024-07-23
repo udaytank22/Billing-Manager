@@ -1,24 +1,9 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-} from 'react-native'; // Assuming you want to use FontAwesome icons
+import {View, StyleSheet, ScrollView} from 'react-native';
 import CardComponent from './components/HomeCardComponent';
 import * as Animatable from 'react-native-animatable';
 
 const Home = ({navigation}) => {
-  const handleCardPress = title => {
-    // Handle press logic here
-    console.log(`Pressed ${title}`);
-  };
-
-  // const openDrawer = () => {
-  //   navigation.openDrawer(); // Function to open the drawer navigation
-  // };
-
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.gridContainer}>
@@ -26,29 +11,41 @@ const Home = ({navigation}) => {
           <CardComponent
             title="ડેઇલી ફ્લાવર કલેક્શન દાખલ કરો"
             value="ફ્લાવર"
-            backgroundColor="#8e44ad"
+            backgroundColor="#f2a1c8" // Light pink
+            icon="leaf"
             onPress={() => navigation.navigate('Flower')}
             style={styles.card}
           />
           <CardComponent
             title="દૈનિક શાકભાજી સંગ્રહ દાખલ કરો"
             value="શાકભાજી"
-            backgroundColor="#2980b9"
+            backgroundColor="#a2d9ce" // Light green
+            icon="shopping-basket"
             onPress={() => navigation.navigate('Vegetable')}
             style={styles.card}
           />
           <CardComponent
             title="મુલી ની હાજરી નાખો"
             value="મુલી"
-            backgroundColor="#e74c3c"
+            backgroundColor="#f9e79f" // Light yellow
+            icon="group"
             onPress={() => navigation.navigate('EmployeeHome')}
             style={styles.card}
           />
           <CardComponent
             title="રૂપિયાનો હિસાબ દાખલ કરો"
             value="રૂપિયા"
-            backgroundColor="#e74c3c"
+            backgroundColor="#85c1ae" // Light teal
+            icon="money"
             onPress={() => navigation.navigate('MoneyTopTabBar')}
+            style={styles.card}
+          />
+          <CardComponent
+            title="બિલ બનાવો અને ડાઉનલોડ કરો"
+            value="રૂપિયા"
+            backgroundColor="#d5a6d1" // Light lavender
+            icon="file"
+            onPress={() => navigation.navigate('MakeBill')}
             style={styles.card}
           />
         </Animatable.View>
@@ -60,37 +57,21 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#252525',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#4B134F',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginBottom: 20,
-  },
-  drawerIcon: {
-    marginRight: 10,
-  },
-  headerText: {
-    fontSize: 24,
-    color: '#fff',
-    // textAlign: 'center',
-    flex: 1, // To make sure the text takes remaining space
+    padding: 10,
+    backgroundColor: '#f5f5f5', // Light grey background
   },
   gridContainer: {
     paddingHorizontal: 10,
     paddingBottom: 20,
   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
   },
   card: {
-    width: '48%', // Two cards per row with some spacing
+    width: '100%',
     marginBottom: 10,
+    borderRadius: 10, // Rounded corners for a modern look
+    elevation: 3, // Add shadow for better visibility
   },
 });
 
