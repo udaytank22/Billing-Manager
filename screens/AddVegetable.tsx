@@ -7,10 +7,11 @@ import {
   Platform,
   Pressable,
   TextInput,
+  Modal,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import TextInputComponent from './components/InputFieldComponent';
-import DropDownComponent from './components/DropDownComponent';
+import {Dropdown} from 'react-native-element-dropdown';
 
 const AddVegetableForm = () => {
   const [customer, setCustomer] = useState('');
@@ -22,13 +23,14 @@ const AddVegetableForm = () => {
   const [remark, setRemark] = useState('');
   const [totalBags, setTotalBags] = useState('');
   const [totalWeight, setTotalWeight] = useState('');
-
-  const customers = [
-    {label: 'ઉદય ટાંક', value: 'બટાકા'},
-    {label: 'Jane Doe', value: 'લીલી ડુંગળી'},
-    {label: 'John Smith', value: 'ફુલાવર'},
-    // Add more customers as needed
-  ];
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newVegetableName, setNewVegetableName] = useState('');
+  const [newVegetableType, setNewVegetableType] = useState('');
+  const [vegetables, setVegetables] = useState([
+    {label: 'બટાકા', value: 'બટાકા'},
+    {label: 'લીલી ડુંગળી', value: 'લીલી ડુંગળી'},
+    {label: 'ફુલાવર', value: 'ફુલાવર'},
+  ]);
 
   const toggleFromDatePicker = () => {
     setShowFromPicker(!showFromPicker);
@@ -93,14 +95,54 @@ const AddVegetableForm = () => {
     // Handle form submission to database
   };
 
+  const handleAddVegetable = () => {
+    setModalVisible(true);
+  };
+
+  const handleModalSubmit = () => {
+    if (newVegetableName) {
+      setVegetables([...vegetables, {label: newVegetableName}]);
+      setCustomer(newVegetableName);
+      setModalVisible(false);
+      setNewVegetableName('');
+    } else {
+      alert('Please fill in the vegetable name field.');
+    }
+  };
+
+  const renderDropdownItem = item => {
+    if (item.value === 'add_new') {
+      return (
+        <TouchableOpacity
+          style={[styles.addNewItem, styles.dropdownItem]}
+          onPress={handleAddVegetable}>
+          <Text style={styles.addNewText}>નવી શાકભાજી ઉમેરો</Text>
+        </TouchableOpacity>
+      );
+    }
+    return (
+      <View style={styles.dropdownItem}>
+        <Text>{item.label}</Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>શાકભાજી ઉમેરો</Text>
-      <DropDownComponent
-        selectedValue={customer}
-        onValueChange={itemValue => setCustomer(itemValue)}
-        items={customers}
+      <Dropdown
+        style={styles.dropdown}
+        data={[...vegetables, {label: 'Add New Vegetable', value: 'add_new'}]}
+        labelField="label"
+        valueField="value"
         placeholder="શાકભાજી પસંદ કરો"
+        value={customer}
+        onChange={item => {
+          if (item.value !== 'add_new') {
+            setCustomer(item.value);
+          }
+        }}
+        renderItem={renderDropdownItem}
       />
       {bags.map((bag, index) => (
         <View key={index} style={styles.bagContainer}>
@@ -156,6 +198,37 @@ const AddVegetableForm = () => {
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
         <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
       </TouchableOpacity>
+
+      {/* Modal for adding a new vegetable */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>નવી શાકભાજી ઉમેરો</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="શાકભાજીનું નામ"
+              value={newVegetableName}
+              onChangeText={setNewVegetableName}
+            />
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+              onPress={handleModalSubmit}>
+              <Text style={styles.textStyle}>ઉમેરો</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>રદ કરો</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -171,6 +244,31 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#333',
+  },
+  dropdown: {
+    height: 50,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    marginBottom: 20,
+    paddingLeft: 15,
+  },
+  addNewItem: {
+    padding: 10,
+    alignItems: 'center',
+    backgroundColor: '#2196F3',
+    borderRadius: 5,
+    marginVertical: 5,
+  },
+  addNewText: {
+    color: '#fff',
+  },
+  dropdownItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginVertical: 5,
   },
   bagContainer: {
     flexDirection: 'row',
@@ -210,6 +308,58 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: '#fff',
     fontSize: 16,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    width: '80%', // Full width of the modal
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    width: '100%', // Full width
+    alignItems: 'center',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+    marginTop: 10,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 18,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    width: 200,
   },
 });
 

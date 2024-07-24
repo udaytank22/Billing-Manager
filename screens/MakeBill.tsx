@@ -9,12 +9,21 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {Dropdown} from 'react-native-element-dropdown';
 
 const MakeBill = () => {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [showFromPicker, setShowFromPicker] = useState(false);
   const [showToPicker, setShowToPicker] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+  const customers = [
+    {label: 'કસ્ટમર 1', value: 'customer1'},
+    {label: 'કસ્ટમર 2', value: 'customer2'},
+    {label: 'કસ્ટમર 3', value: 'customer3'},
+    {label: 'કસ્ટમર 4', value: 'customer4'},
+  ];
 
   const toggleFromDatePicker = () => {
     setShowFromPicker(!showFromPicker);
@@ -60,6 +69,17 @@ const MakeBill = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>બિલ બનાવો</Text>
+      <Dropdown
+        style={styles.dropdown}
+        data={customers}
+        labelField="label"
+        valueField="value"
+        placeholder="કસ્ટમર પસંદ કરો"
+        value={selectedCustomer}
+        onChange={item => {
+          setSelectedCustomer(item.value);
+        }}
+      />
       <View style={styles.dateInput}>
         <Pressable onPress={toggleFromDatePicker}>
           <Text style={styles.dateText}>
@@ -115,6 +135,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#333',
+  },
+  dropdown: {
+    height: 50,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    marginBottom: 20,
+    paddingHorizontal: 15,
   },
   dateInput: {
     height: 50,
