@@ -8,22 +8,37 @@ const CollectedCard = ({
   notCollectedAmount,
   status,
   type,
+  collectedDate,
 }) => {
   console.log(type);
   return (
     <View style={styles.card}>
       <Text style={styles.name}>{name}</Text>
       {status === 'Collected' && (
-        <View style={styles.amountContainer}>
-          <Text style={styles.amountLabel}>એકત્રિત રકમ: </Text>
-          <Text style={styles.amount}>{collectedAmount} રૂપિયા</Text>
-        </View>
+        <>
+          <View style={styles.amountContainer}>
+            <Text style={styles.amountLabel}>એકત્રિત રકમ: </Text>
+            <Text style={styles.amount}>{collectedAmount} રૂપિયા</Text>
+          </View>
+          <View style={styles.amountContainer}>
+            <Text style={styles.amountLabel}>આવેલા રૂપિયા ની તારીખ: </Text>
+            <Text style={styles.amount}>{collectedDate}</Text>
+          </View>
+        </>
       )}
       {status === 'Pending' && (
-        <View style={styles.amountContainer}>
-          <Text style={styles.amountLabel}>બાકી રકમ: </Text>
-          <Text style={styles.amount}>{notCollectedAmount} રૂપિયા</Text>
-        </View>
+        <>
+          <View style={styles.amountContainer}>
+            <Text style={styles.amountLabel}>બાકી રકમ: </Text>
+            <Text style={styles.amount}>{notCollectedAmount} રૂપિયા</Text>
+          </View>
+          <View style={styles.amountContainer}>
+            <Text style={styles.amountLabel}>
+              છેલ્લે આવેલા રૂપિયા ની તારીખ:
+            </Text>
+            <Text style={styles.amount}>{collectedDate}</Text>
+          </View>
+        </>
       )}
       <View style={styles.statusContainer}>
         <Text style={styles.statusLabel}>સ્થિતિ: </Text>

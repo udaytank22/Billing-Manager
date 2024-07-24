@@ -7,7 +7,11 @@ const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.gridContainer}>
-        <Animatable.View animation="fadeIn" delay={500} style={styles.grid}>
+        <Animatable.View
+          animation="slideInUp"
+          duration={800}
+          delay={500}
+          style={styles.grid}>
           <CardComponent
             title="ડેઇલી ફ્લાવર કલેક્શન દાખલ કરો"
             value="ફ્લાવર"
