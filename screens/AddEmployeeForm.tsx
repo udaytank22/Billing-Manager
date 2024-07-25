@@ -93,13 +93,13 @@ const AddEmployeeForm = () => {
         <TouchableOpacity
           style={[styles.addNewItem, styles.dropdownItem]}
           onPress={handleAddEmployee}>
-          <Text style={styles.addNewText}>Add New Employee</Text>
+          <Text style={styles.addNewText}>નવા મુલી ઉમેરો</Text>
         </TouchableOpacity>
       );
     }
     return (
       <View style={styles.dropdownItem}>
-        <Text>{item.label}</Text>
+        <Text style={styles.dropdownText}>{item.label}</Text>
       </View>
     );
   };
@@ -113,6 +113,7 @@ const AddEmployeeForm = () => {
         labelField="label"
         valueField="value"
         placeholder="કર્મચારી પસંદ કરો"
+        placeholderStyle={styles.placeholderText}
         value={employee}
         onChange={item => {
           if (item.value !== 'add_new') {
@@ -127,6 +128,7 @@ const AddEmployeeForm = () => {
         labelField="label"
         valueField="value"
         placeholder="કામનો પ્રકાર પસંદ કરો"
+        placeholderStyle={styles.placeholderText}
         value={workingType}
         onChange={item => setWorkingType(item.value)}
       />
@@ -136,6 +138,7 @@ const AddEmployeeForm = () => {
         labelField="label"
         valueField="value"
         placeholder="સમય પસંદ કરો"
+        placeholderStyle={styles.placeholderText}
         value={time}
         onChange={item => setTime(item.value)}
       />
@@ -166,12 +169,12 @@ const AddEmployeeForm = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Add New Employee</Text>
+        onRequestClose={() => setModalVisible(!modalVisible)}>
+        <Pressable
+          style={styles.centeredView}
+          onPressOut={() => setModalVisible(false)}>
+          <Pressable style={styles.modalView}>
+            <Text style={styles.modalText}>નવા મુલી ઉમેરો</Text>
             <TextInput
               style={styles.input}
               placeholder="Employee Name"
@@ -179,17 +182,21 @@ const AddEmployeeForm = () => {
               onChangeText={setNewEmployeeName}
             />
             <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
+              style={[styles.button, styles.buttonFullWidth, styles.buttonAdd]}
               onPress={handleModalSubmit}>
-              <Text style={styles.textStyle}>Add</Text>
+              <Text style={styles.textStyle}>ઉમેરો</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
+              style={[
+                styles.button,
+                styles.buttonFullWidth,
+                styles.buttonClose,
+              ]}
               onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Cancel</Text>
+              <Text style={styles.textStyle}>રદ કરો</Text>
             </TouchableOpacity>
-          </View>
-        </View>
+          </Pressable>
+        </Pressable>
       </Modal>
     </View>
   );
@@ -217,20 +224,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingLeft: 15,
   },
-  addNewItem: {
-    padding: 10,
-    alignItems: 'center',
-    backgroundColor: '#2196F3',
-    borderRadius: 5,
-    marginVertical: 5,
-  },
-  addNewText: {
-    color: '#fff',
-  },
   dropdownItem: {
     paddingVertical: 10,
     paddingHorizontal: 10,
     marginVertical: 5,
+    backgroundColor: '#fff',
+  },
+  dropdownText: {
+    color: 'black', // Set dropdown item text color to black
+  },
+  placeholderText: {
+    color: 'black', // Set placeholder text color to black
   },
   dateInput: {
     height: 50,
@@ -243,7 +247,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   dateText: {
-    color: '#000',
+    color: 'black', // Set date picker text color to black
   },
   submitButton: {
     backgroundColor: '#4CAF50',
@@ -260,6 +264,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
     margin: 20,
@@ -275,15 +280,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    width: '80%', // Adjust as needed
   },
   button: {
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+    marginTop: 10,
+  },
+  buttonFullWidth: {
+    width: '100%',
+  },
+  buttonAdd: {
+    backgroundColor: '#4CAF50', // Change this to your preferred color
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
-    marginTop: 10,
+    backgroundColor: '#4CAF50',
   },
   textStyle: {
     color: 'white',
@@ -294,6 +306,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
     fontSize: 18,
+    color: 'black', // Set modal title color to black
   },
   input: {
     height: 40,
@@ -302,7 +315,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
-    width: 200,
+    width: '100%',
   },
 });
 

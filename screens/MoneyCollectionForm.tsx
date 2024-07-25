@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-  TextInput,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import TextInputComponent from './components/InputFieldComponent';
 
@@ -14,7 +7,7 @@ const MoneyCollectionForm = () => {
   const [customer, setCustomer] = useState('');
   const [notCollectedAmount, setNotCollectedAmount] = useState('');
   const [collectedAmount, setCollectedAmount] = useState('');
-  const [totalAmount, setTotalAmount] = useState('');
+  const [totalAmount, setTotalAmount] = useState('0'); // Default value set to '0'
   const [remark, setRemark] = useState('');
   const [customers, setCustomers] = useState([
     {label: 'ઉદય ટાંક', value: 'uday', notCollected: '200'},
@@ -31,7 +24,7 @@ const MoneyCollectionForm = () => {
   const handleCollectedAmountChange = text => {
     setCollectedAmount(text);
     const total = parseFloat(notCollectedAmount) - parseFloat(text);
-    setTotalAmount(total > 0 ? total.toString() : '');
+    setTotalAmount(total >= 0 ? total.toString() : ''); // Display '0' if calculation is zero
   };
 
   const handleSubmit = () => {
@@ -43,6 +36,12 @@ const MoneyCollectionForm = () => {
     // Handle form submission to database
   };
 
+  const renderDropdownItem = item => (
+    <View style={styles.dropdownItem}>
+      <Text style={styles.dropdownText}>{item.label}</Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>રૂપિયાનો હિસાબ દાખલ કરો</Text>
@@ -52,8 +51,11 @@ const MoneyCollectionForm = () => {
         labelField="label"
         valueField="value"
         placeholder="ગ્રાહક પસંદ કરો"
+        placeholderStyle={styles.placeholderText}
         value={customer}
         onChange={item => handleCustomerChange(item.value)}
+        renderItem={renderDropdownItem}
+        selectedTextStyle={styles.selectedText} // Ensure selected option text color is black
       />
       <TextInputComponent
         placeholder="બાકી રકમ"
@@ -81,9 +83,6 @@ const MoneyCollectionForm = () => {
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
         <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
       </TouchableOpacity>
-
-      {/* Modal for adding a new customer */}
-      {/* The modal and related logic has been removed as per the request */}
     </View>
   );
 };
@@ -109,6 +108,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginBottom: 20,
     paddingLeft: 15,
+  },
+  dropdownItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+  },
+  dropdownText: {
+    color: 'black', // Set dropdown item text color to black
+  },
+  placeholderText: {
+    color: '#c0c0c0', // Placeholder text color
+  },
+  selectedText: {
+    color: 'black', // Ensure selected dropdown item text color is black
   },
   submitButton: {
     backgroundColor: '#4CAF50',

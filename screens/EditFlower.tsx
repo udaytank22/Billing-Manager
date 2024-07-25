@@ -51,14 +51,14 @@ const EditFlower = ({route}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Edit Data</Text>
+      <Text style={styles.title}>ડેટા સંપાદિત કરો</Text>
       <TextInputComponent
-        placeholder="Customer"
+        placeholder="ગ્રાહક"
         value={customer}
         editable={false}
       />
       <TextInputComponent
-        placeholder="Quantity"
+        placeholder="જથ્થો"
         keyboardType="numeric"
         value={quantity}
         onChangeText={setQuantity}
@@ -66,17 +66,17 @@ const EditFlower = ({route}) => {
       <View style={styles.dateInput}>
         <Pressable>
           <Text style={styles.dateText}>
-            {fromDateDisplay || 'Select Date'}
+            {fromDateDisplay || 'તારીખ પસંદ કરો'}
           </Text>
         </Pressable>
       </View>
       <TextInputComponent
-        placeholder="Remark"
+        placeholder="નોંધ"
         value={remark}
         onChangeText={setRemark}
       />
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Submit</Text>
+        <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
       </TouchableOpacity>
     </View>
   );

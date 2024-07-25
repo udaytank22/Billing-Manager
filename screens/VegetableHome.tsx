@@ -160,7 +160,8 @@ const VegrtableHome = ({navigation, route}) => {
               data={customers}
               labelField="label"
               valueField="value"
-              placeholder="કસ્ટમર નામ પસંદ કરો"
+              placeholder="શાકભાજી નામ પસંદ કરો"
+              placeholderStyle={{color: '#000'}}
               value={selectedCustomer}
               onChange={item => setSelectedCustomer(item.value)}
             />

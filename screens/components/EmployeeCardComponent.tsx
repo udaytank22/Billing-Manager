@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
+    color: '#000',
   },
   detail: {
     fontSize: 16,

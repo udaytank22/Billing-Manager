@@ -147,6 +147,7 @@ const MoneyHome = ({route, navigation}) => {
               labelField="label"
               valueField="value"
               placeholder="નામ પસંદ કરો"
+              placeholderStyle={{color: '#000'}}
               value={selectedName}
               onChange={item => setSelectedName(item.value)}
             />
