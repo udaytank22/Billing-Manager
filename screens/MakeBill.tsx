@@ -66,6 +66,12 @@ const MakeBill = () => {
     console.log('Share PDF');
   };
 
+  const renderDropdownItem = item => (
+    <View style={styles.dropdownItem}>
+      <Text style={styles.dropdownText}>{item.label}</Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>બિલ બનાવો</Text>
@@ -75,10 +81,13 @@ const MakeBill = () => {
         labelField="label"
         valueField="value"
         placeholder="કસ્ટમર પસંદ કરો"
+        placeholderStyle={styles.placeholderText}
         value={selectedCustomer}
         onChange={item => {
           setSelectedCustomer(item.value);
         }}
+        renderItem={renderDropdownItem}
+        selectedTextStyle={styles.selectedText} // Ensure selected text color is black
       />
       <View style={styles.dateInput}>
         <Pressable onPress={toggleFromDatePicker}>
@@ -144,6 +153,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginBottom: 20,
     paddingHorizontal: 15,
+  },
+  dropdownItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+  },
+  dropdownText: {
+    color: 'black', // Dropdown item text color
+  },
+  placeholderText: {
+    color: '#c0c0c0', // Placeholder text color
+  },
+  selectedText: {
+    color: 'black', // Ensure selected dropdown item text color is black
   },
   dateInput: {
     height: 50,

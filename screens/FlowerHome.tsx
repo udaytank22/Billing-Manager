@@ -38,13 +38,13 @@ const FloweHome = ({route, navigation}) => {
       purchaseDate: '2023-06-15',
     },
     {
-      customerName: 'Jane Doe',
+      customerName: 'જેન ડો',
       flowerQuantity: '100',
       flowerAmount: '1000',
       purchaseDate: '2023-06-16',
     },
     {
-      customerName: 'John Smith',
+      customerName: 'જૉન સ્મિથ',
       flowerQuantity: '800',
       flowerAmount: '800',
       purchaseDate: '2023-06-17',
@@ -102,7 +102,7 @@ const FloweHome = ({route, navigation}) => {
         <TextInput
           style={styles.searchInput}
           placeholder="શોધો"
-          placeholderTextColor="#000"
+          placeholderTextColor="#888"
           value={search}
           onChangeText={setSearch}
         />
@@ -151,6 +151,7 @@ const FloweHome = ({route, navigation}) => {
               labelField="label"
               valueField="value"
               placeholder="ગ્રાહક પસંદ કરો"
+              placeholderStyle={{color: '#000'}}
               value={selectedCustomer}
               onChange={item => setSelectedCustomer(item.value)}
             />
@@ -173,6 +174,7 @@ const FloweHome = ({route, navigation}) => {
             <TextInput
               style={styles.amountInput}
               placeholder="કુલ રકમ"
+              placeholderTextColor="#888"
               keyboardType="numeric"
               value={selectedAmount}
               onChangeText={setSelectedAmount}

@@ -93,6 +93,10 @@ const AddFlowerForm = () => {
     }
   };
 
+  const handlePressOutside = () => {
+    setModalVisible(false);
+  };
+
   const renderDropdownItem = item => {
     if (item.value === 'add_new') {
       return (
@@ -103,7 +107,7 @@ const AddFlowerForm = () => {
     }
     return (
       <View style={styles.dropdownItem}>
-        <Text>{item.label}</Text>
+        <Text style={styles.dropdownItemText}>{item.label}</Text>
       </View>
     );
   };
@@ -117,6 +121,7 @@ const AddFlowerForm = () => {
         labelField="label"
         valueField="value"
         placeholder="ગ્રાહક પસંદ કરો"
+        placeholderStyle={styles.dropdownPlaceholder}
         value={customer}
         onChange={item => {
           if (item.value !== 'add_new') {
@@ -170,10 +175,12 @@ const AddFlowerForm = () => {
         </Pressable>
         {showFromPicker && (
           <DateTimePicker
+            placeholderText="તારીખ પસંદ કરો"
             value={fromDate}
             mode="date"
             display="spinner"
             onChange={onChangeFromDate}
+            style={styles.datePicker}
           />
         )}
       </View>
@@ -191,12 +198,13 @@ const AddFlowerForm = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>નવો ગ્રાહક ઉમેરો</Text>
+        onRequestClose={handlePressOutside}>
+        <Pressable style={styles.centeredView} onPress={handlePressOutside}>
+          <Pressable
+            style={styles.modalView}
+            onPress={e => e.stopPropagation()} // Prevents press inside the modal from closing it
+          >
+            <Text style={styles.modalTitle}>નવો ગ્રાહક ઉમેરો</Text>
             <TextInput
               style={styles.input}
               placeholder="ગ્રાહક નું નામ"
@@ -211,17 +219,17 @@ const AddFlowerForm = () => {
               keyboardType="phone-pad"
             />
             <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
+              style={[styles.button, styles.buttonAdd]}
               onPress={handleModalSubmit}>
               <Text style={styles.textStyle}>ઉમેરો</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
+              style={[styles.button, styles.buttonCancel]}
+              onPress={handlePressOutside}>
               <Text style={styles.textStyle}>રદ કરો</Text>
             </TouchableOpacity>
-          </View>
-        </View>
+          </Pressable>
+        </Pressable>
       </Modal>
     </View>
   );
@@ -248,6 +256,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginBottom: 20,
   },
+  dropdownPlaceholder: {
+    color: '#000', // Black color for placeholder text
+  },
+  dropdownItem: {
+    padding: 10,
+  },
+  dropdownItemText: {
+    color: '#000', // Black color for dropdown options
+  },
   addNewItem: {
     padding: 10,
     alignItems: 'center',
@@ -257,9 +274,6 @@ const styles = StyleSheet.create({
   addNewText: {
     color: '#fff',
     fontSize: 16,
-  },
-  dropdownItem: {
-    padding: 10,
   },
   dateInput: {
     height: 50,
@@ -272,7 +286,10 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   dateText: {
-    color: '#000',
+    color: '#000', // Black color for selected date
+  },
+  datePicker: {
+    color: '#c0c0c0', // DatePicker color
   },
   submitButton: {
     backgroundColor: '#4CAF50',
@@ -313,19 +330,23 @@ const styles = StyleSheet.create({
     width: '100%', // Full width
     alignItems: 'center',
   },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-    marginTop: 10,
+  buttonAdd: {
+    backgroundColor: '#4CAF50', // Preferred color
+  },
+  buttonCancel: {
+    backgroundColor: '#4CAF50',
+    marginTop: 5, // Preferred color
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  modalText: {
+  modalTitle: {
     marginBottom: 15,
     textAlign: 'center',
     fontSize: 18,
+    color: '#000', // Black color for modal title
   },
   input: {
     height: 40,
@@ -334,7 +355,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
-    width: 200,
+    width: '100%',
   },
 });
 

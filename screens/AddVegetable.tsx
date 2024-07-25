@@ -25,7 +25,6 @@ const AddVegetableForm = () => {
   const [totalWeight, setTotalWeight] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [newVegetableName, setNewVegetableName] = useState('');
-  const [newVegetableType, setNewVegetableType] = useState('');
   const [vegetables, setVegetables] = useState([
     {label: 'બટાકા', value: 'બટાકા'},
     {label: 'લીલી ડુંગળી', value: 'લીલી ડુંગળી'},
@@ -101,7 +100,10 @@ const AddVegetableForm = () => {
 
   const handleModalSubmit = () => {
     if (newVegetableName) {
-      setVegetables([...vegetables, {label: newVegetableName}]);
+      setVegetables([
+        ...vegetables,
+        {label: newVegetableName, value: newVegetableName},
+      ]);
       setCustomer(newVegetableName);
       setModalVisible(false);
       setNewVegetableName('');
@@ -110,11 +112,15 @@ const AddVegetableForm = () => {
     }
   };
 
+  const handlePressOutside = () => {
+    setModalVisible(false);
+  };
+
   const renderDropdownItem = item => {
     if (item.value === 'add_new') {
       return (
         <TouchableOpacity
-          style={[styles.addNewItem, styles.dropdownItem]}
+          style={[styles.addNewItem]}
           onPress={handleAddVegetable}>
           <Text style={styles.addNewText}>નવી શાકભાજી ઉમેરો</Text>
         </TouchableOpacity>
@@ -122,7 +128,7 @@ const AddVegetableForm = () => {
     }
     return (
       <View style={styles.dropdownItem}>
-        <Text>{item.label}</Text>
+        <Text style={styles.dropdownText}>{item.label}</Text>
       </View>
     );
   };
@@ -136,6 +142,7 @@ const AddVegetableForm = () => {
         labelField="label"
         valueField="value"
         placeholder="શાકભાજી પસંદ કરો"
+        placeholderStyle={styles.placeholderText}
         value={customer}
         onChange={item => {
           if (item.value !== 'add_new') {
@@ -147,7 +154,7 @@ const AddVegetableForm = () => {
       {bags.map((bag, index) => (
         <View key={index} style={styles.bagContainer}>
           <TextInputComponent
-            placeholder="બેગની સંખ્યા"
+            placeholder="ઝબલાની સંખ્યા"
             keyboardType="numeric"
             value={bag.quantity}
             onChangeText={text => handleBagChange(index, 'quantity', text)}
@@ -161,7 +168,7 @@ const AddVegetableForm = () => {
         </View>
       ))}
       <TouchableOpacity style={styles.addButton} onPress={handleAddBag}>
-        <Text style={styles.addButtonText}>બેગ ઉમેરો</Text>
+        <Text style={styles.addButtonText}>ઝબલા ઉમેરો</Text>
       </TouchableOpacity>
       <TextInputComponent
         placeholder="કુલ બેગ"
@@ -204,12 +211,13 @@ const AddVegetableForm = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>નવી શાકભાજી ઉમેરો</Text>
+        onRequestClose={handlePressOutside}>
+        <Pressable style={styles.centeredView} onPress={handlePressOutside}>
+          <Pressable
+            style={styles.modalView}
+            onPress={e => e.stopPropagation()} // Prevents press inside the modal from closing it
+          >
+            <Text style={styles.modalTitle}>નવી શાકભાજી ઉમેરો</Text>
             <TextInput
               style={styles.input}
               placeholder="શાકભાજીનું નામ"
@@ -217,17 +225,17 @@ const AddVegetableForm = () => {
               onChangeText={setNewVegetableName}
             />
             <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
+              style={[styles.button, styles.buttonAdd]}
               onPress={handleModalSubmit}>
               <Text style={styles.textStyle}>ઉમેરો</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
+              style={[styles.button, styles.buttonCancel]}
+              onPress={handlePressOutside}>
               <Text style={styles.textStyle}>રદ કરો</Text>
             </TouchableOpacity>
-          </View>
-        </View>
+          </Pressable>
+        </Pressable>
       </Modal>
     </View>
   );
@@ -253,22 +261,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
     marginBottom: 20,
-    paddingLeft: 15,
+    paddingHorizontal: 15,
+  },
+  dropdownItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginVertical: 5,
+    backgroundColor: '#fff',
+  },
+  dropdownText: {
+    color: 'black',
   },
   addNewItem: {
     padding: 10,
     alignItems: 'center',
-    backgroundColor: '#2196F3',
+    backgroundColor: '#4CAF50',
     borderRadius: 5,
     marginVertical: 5,
   },
   addNewText: {
     color: '#fff',
   },
-  dropdownItem: {
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    marginVertical: 5,
+  placeholderText: {
+    color: 'black',
   },
   bagContainer: {
     flexDirection: 'row',
@@ -276,7 +291,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   addButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#4CAF50',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
@@ -294,10 +309,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
     marginBottom: 20,
-    paddingLeft: 15,
+    paddingHorizontal: 15,
   },
   dateText: {
-    color: '#000',
+    color: 'black',
   },
   submitButton: {
     backgroundColor: '#4CAF50',
@@ -338,19 +353,23 @@ const styles = StyleSheet.create({
     width: '100%', // Full width
     alignItems: 'center',
   },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-    marginTop: 10,
+  buttonAdd: {
+    backgroundColor: '#4CAF50', // Preferred color
+  },
+  buttonCancel: {
+    backgroundColor: '#4CAF50',
+    marginTop: 10, // Preferred color
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  modalText: {
+  modalTitle: {
     marginBottom: 15,
     textAlign: 'center',
     fontSize: 18,
+    color: 'black', // Black color for modal title
   },
   input: {
     height: 40,
@@ -359,7 +378,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
-    width: 200,
+    width: '100%', // Full width
   },
 });
 
