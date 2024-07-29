@@ -129,6 +129,7 @@ const AddFlowerForm = () => {
           }
         }}
         renderItem={renderDropdownItem}
+        selectedTextStyle={styles.dropdownSelectedText} // Add this line
       />
       <TextInputComponent
         placeholder="જથ્થો"
@@ -208,6 +209,7 @@ const AddFlowerForm = () => {
             <TextInput
               style={styles.input}
               placeholder="ગ્રાહક નું નામ"
+              placeholderTextColor="#c0c0c0"
               value={newCustomerName}
               onChangeText={setNewCustomerName}
             />
@@ -215,6 +217,7 @@ const AddFlowerForm = () => {
               style={styles.input}
               placeholder="ગ્રાહક મોબાઇલ નંબર"
               value={newCustomerMobile}
+              placeholderTextColor="#c0c0c0"
               onChangeText={setNewCustomerMobile}
               keyboardType="phone-pad"
             />
@@ -264,6 +267,9 @@ const styles = StyleSheet.create({
   },
   dropdownItemText: {
     color: '#000', // Black color for dropdown options
+  },
+  dropdownSelectedText: {
+    color: '#000', // Black color for selected item text
   },
   addNewItem: {
     padding: 10,

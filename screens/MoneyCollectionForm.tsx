@@ -9,6 +9,7 @@ const MoneyCollectionForm = () => {
   const [collectedAmount, setCollectedAmount] = useState('');
   const [totalAmount, setTotalAmount] = useState('0'); // Default value set to '0'
   const [remark, setRemark] = useState('');
+  const [status, setStatus] = useState(''); // Status to display deposited amount
   const [customers, setCustomers] = useState([
     {label: 'ઉદય ટાંક', value: 'uday', notCollected: '200'},
     {label: 'જયેશ પટેલ', value: 'jayesh', notCollected: '150'},
@@ -23,8 +24,17 @@ const MoneyCollectionForm = () => {
 
   const handleCollectedAmountChange = text => {
     setCollectedAmount(text);
-    const total = parseFloat(notCollectedAmount) - parseFloat(text);
-    setTotalAmount(total >= 0 ? total.toString() : ''); // Display '0' if calculation is zero
+    const collected = parseFloat(text);
+    const notCollected = parseFloat(notCollectedAmount);
+    const total = notCollected - collected;
+
+    if (collected > notCollected) {
+      setTotalAmount(notCollectedAmount);
+      setStatus(`જમા: ₹${(collected - notCollected).toString()}`);
+    } else {
+      setTotalAmount(total >= 0 ? total.toString() : '');
+      setStatus('');
+    }
   };
 
   const handleSubmit = () => {
@@ -33,6 +43,7 @@ const MoneyCollectionForm = () => {
     console.log('Collected Amount:', collectedAmount);
     console.log('Total Amount:', totalAmount);
     console.log('Remark:', remark);
+    console.log('Status:', status);
     // Handle form submission to database
   };
 
@@ -75,6 +86,7 @@ const MoneyCollectionForm = () => {
         value={totalAmount}
         editable={false}
       />
+      {status ? <Text style={styles.statusText}>{status}</Text> : null}
       <TextInputComponent
         placeholder="નોંધ"
         value={remark}
@@ -122,6 +134,10 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: 'black', // Ensure selected dropdown item text color is black
+  },
+  statusText: {
+    color: '#000', // Red color for status text
+    fontSize: 16,
   },
   submitButton: {
     backgroundColor: '#4CAF50',

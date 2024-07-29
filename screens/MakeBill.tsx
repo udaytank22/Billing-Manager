@@ -56,6 +56,34 @@ const MakeBill = () => {
     setToDate(selectedDate);
   };
 
+  async function downloadPdf(url) {
+    try {
+      const {config, fs} = RNFetchBlob;
+      const downloads = fs.dirs.DownloadDir;
+      const filePath = `${downloads}/DiseleReport.pdf`;
+
+      const exists = await fs.exists(filePath);
+      if (exists) {
+        await fs.unlink(filePath);
+      }
+
+      // Download the file using RNFetchBlob
+      const result = await config({
+        fileCache: true,
+        addAndroidDownloads: {
+          useDownloadManager: true,
+          notification: true,
+          path: filePath,
+          description: 'Downloading PDF document',
+          mediaScannable: true,
+        },
+      }).fetch('GET', url);
+
+      console.log('PDF document downloaded successfully', result.path());
+    } catch (err) {
+      console.warn('Error downloading PDF', err);
+    }
+  }
   const handleDownload = () => {
     // Add logic to download the PDF
     console.log('Download PDF');
