@@ -91,9 +91,9 @@ const AddEmployeeForm = () => {
     if (item.value === 'add_new') {
       return (
         <TouchableOpacity
-          style={[styles.addNewItem, styles.dropdownItem]}
+          style={[styles.addNewItem]}
           onPress={handleAddEmployee}>
-          <Text style={styles.addNewText}>નવા મુલી ઉમેરો</Text>
+          <Text style={styles.addNewText}>નવી શાકભાજી ઉમેરો</Text>
         </TouchableOpacity>
       );
     }
@@ -121,6 +121,7 @@ const AddEmployeeForm = () => {
           }
         }}
         renderItem={renderDropdownItem}
+        selectedTextStyle={styles.selectedText}
       />
       <Dropdown
         style={styles.dropdown}
@@ -131,6 +132,8 @@ const AddEmployeeForm = () => {
         placeholderStyle={styles.placeholderText}
         value={workingType}
         onChange={item => setWorkingType(item.value)}
+        renderItem={renderDropdownItem}
+        selectedTextStyle={styles.selectedText}
       />
       <Dropdown
         style={styles.dropdown}
@@ -141,6 +144,8 @@ const AddEmployeeForm = () => {
         placeholderStyle={styles.placeholderText}
         value={time}
         onChange={item => setTime(item.value)}
+        renderItem={renderDropdownItem}
+        selectedTextStyle={styles.selectedText}
       />
       <View style={styles.dateInput}>
         <Pressable onPress={toggleDatePicker}>
@@ -177,8 +182,9 @@ const AddEmployeeForm = () => {
             <Text style={styles.modalText}>નવા મુલી ઉમેરો</Text>
             <TextInput
               style={styles.input}
-              placeholder="Employee Name"
+              placeholder="મુલી નામ ઉમેરો"
               value={newEmployeeName}
+              placeholderTextColor="#c0c0c0"
               onChangeText={setNewEmployeeName}
             />
             <TouchableOpacity
@@ -233,6 +239,9 @@ const styles = StyleSheet.create({
   dropdownText: {
     color: 'black', // Set dropdown item text color to black
   },
+  selectedText: {
+    color: 'black', // Ensure selected text color is black
+  },
   placeholderText: {
     color: 'black', // Set placeholder text color to black
   },
@@ -254,6 +263,16 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
+  },
+  addNewItem: {
+    padding: 10,
+    alignItems: 'center',
+    backgroundColor: '#4CAF50',
+    borderRadius: 5,
+    marginVertical: 5,
+  },
+  addNewText: {
+    color: '#fff',
   },
   submitButtonText: {
     color: '#fff',

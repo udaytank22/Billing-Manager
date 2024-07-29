@@ -150,6 +150,7 @@ const AddVegetableForm = () => {
           }
         }}
         renderItem={renderDropdownItem}
+        selectedTextStyle={styles.selectedText} // Adding selectedTextStyle
       />
       {bags.map((bag, index) => (
         <View key={index} style={styles.bagContainer}>
@@ -222,6 +223,7 @@ const AddVegetableForm = () => {
               style={styles.input}
               placeholder="શાકભાજીનું નામ"
               value={newVegetableName}
+              placeholderTextColor="#c0c0c0"
               onChangeText={setNewVegetableName}
             />
             <TouchableOpacity
@@ -270,6 +272,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   dropdownText: {
+    color: 'black',
+  },
+  selectedText: {
     color: 'black',
   },
   addNewItem: {
