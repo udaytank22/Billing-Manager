@@ -7,14 +7,13 @@ import AddFlower from '../AddFlower';
 import EditFlower from '../EditFlower';
 import Vegetable from '../VegetableTopBar';
 import EmployeeHome from '../EmployeeHome';
-import {TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons
 import AddVegetableForm from '../AddVegetable';
 import MoneyHome from '../MoneyHome';
 import MoneyTopTabBar from '../MoneyTopTabBar';
 import AddEmployeeForm from '../AddEmployeeForm';
 import MoneyCollectionForm from '../MoneyCollectionForm';
 import MakeBill from '../MakeBill';
+import CustomHeader from './CustomHeader'; // Import the custom header component
 
 const Stack = createNativeStackNavigator();
 
@@ -25,11 +24,7 @@ const AppStack = () => {
         name="Home"
         component={Home}
         options={{
-          headerTitle: 'હોમ',
-          headerTintColor: '#000',
-          headerStyle: {
-            backgroundColor: '#f9e79f',
-          },
+          header: () => <CustomHeader title="હોમ" />, // Use custom header here
         }}
       />
       <Stack.Screen name="Flower" component={Flower} options={{title: 'ફૂલ'}} />
