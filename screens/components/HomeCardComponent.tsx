@@ -1,83 +1,70 @@
 import React from 'react';
-import {View, StyleSheet, Pressable, Text} from 'react-native';
+import {View, StyleSheet, Pressable, Image} from 'react-native';
 import {Card, Title, Paragraph} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import LinearGradient from 'react-native-linear-gradient';
 
 const CardComponent = ({
   title,
   value,
   backgroundColor,
-  icon,
+  imageSource,
   onPress,
-  gradient = false,
   disabled = false,
 }) => {
-  const GradientBackground = gradient ? (
-    <LinearGradient colors={backgroundColor} style={styles.gradient}>
-      <Content title={title} value={value} icon={icon} />
-    </LinearGradient>
-  ) : (
-    <View style={[styles.card, {backgroundColor}]}>
-      <Content title={title} value={value} icon={icon} />
-    </View>
-  );
-
   return (
     <Pressable
       onPress={onPress}
       disabled={disabled}
       style={({pressed}) => [
         styles.cardWrapper,
-        pressed && !disabled && {opacity: 1},
+        pressed && !disabled && {opacity: 0.8},
       ]}>
-      {GradientBackground}
+      <Card style={[styles.card, {backgroundColor}]}>
+        <View style={styles.content}>
+          <Image source={imageSource} style={styles.image} />
+          <View style={styles.textContainer}>
+            <Title style={styles.title}>{title}</Title>
+            {value && <Paragraph style={styles.value}>{value}</Paragraph>}
+          </View>
+        </View>
+      </Card>
     </Pressable>
   );
 };
 
-const Content = ({title, value, icon}) => (
-  <View style={styles.content}>
-    <Icon name={icon} size={24} color="#000" style={styles.icon} />
-    <View style={styles.textContainer}>
-      <Title style={styles.title}>{title}</Title>
-      {value && <Paragraph style={styles.value}>{value}</Paragraph>}
-    </View>
-  </View>
-);
-
 const styles = StyleSheet.create({
   cardWrapper: {
     marginBottom: 10,
-    borderRadius: 10,
+    borderRadius: 15,
     overflow: 'hidden',
   },
-  gradient: {
-    padding: 20,
-    borderRadius: 10,
-    elevation: 5,
-  },
   card: {
-    padding: 20,
+    borderRadius: 15,
     elevation: 5,
+    padding: 15,
   },
   content: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  icon: {
-    marginRight: 10,
+  image: {
+    width: 80,
+    height: 80,
+    marginRight: 15,
+    borderRadius: 40, // Make the image circular
+    borderWidth: 3,
+    borderColor: '#fff', // White border around the image for a cartoonish effect
   },
   textContainer: {
     flexDirection: 'column',
   },
   title: {
-    fontSize: 18,
-    color: '#fff',
+    fontSize: 20,
+    color: '#000',
+    fontWeight: 'bold',
   },
   value: {
     fontSize: 16,
-    color: '#fff',
+    color: '#000',
   },
 });
 

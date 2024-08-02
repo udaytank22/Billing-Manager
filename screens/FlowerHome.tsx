@@ -49,6 +49,24 @@ const FloweHome = ({route, navigation}) => {
       flowerAmount: '800',
       purchaseDate: '2023-06-17',
     },
+    {
+      customerName: 'જૉન સ્મિથ',
+      flowerQuantity: '800',
+      flowerAmount: '800',
+      purchaseDate: '2023-06-17',
+    },
+    {
+      customerName: 'જૉન સ્મિથ',
+      flowerQuantity: '800',
+      flowerAmount: '800',
+      purchaseDate: '2023-06-17',
+    },
+    {
+      customerName: 'જૉન સ્મિથ',
+      flowerQuantity: '800',
+      flowerAmount: '800',
+      purchaseDate: '2023-06-17',
+    },
     // Add more data as needed
   ];
 
@@ -221,13 +239,14 @@ const FloweHome = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#1F2E35',
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
-    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
     margin: 20,
     borderRadius: 10,
     elevation: 2,
@@ -255,7 +274,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     marginRight: 15,
-    backgroundColor: '#1d3557',
+    backgroundColor: '#FFC542',
     borderRadius: 20,
     width: '50%',
     height: '50%',
@@ -265,7 +284,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: 'white',
+    color: '#000',
   },
   modalBackground: {
     flex: 1,

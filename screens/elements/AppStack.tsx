@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../Home';
-import FloweHome from '../FlowerHome';
 import Flower from '../FlowerTopBar';
 import AddFlower from '../AddFlower';
 import EditFlower from '../EditFlower';
@@ -13,25 +12,65 @@ import MoneyTopTabBar from '../MoneyTopTabBar';
 import AddEmployeeForm from '../AddEmployeeForm';
 import MoneyCollectionForm from '../MoneyCollectionForm';
 import MakeBill from '../MakeBill';
-import CustomHeader from './CustomHeader'; // Import the custom header component
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
 const AppStack = () => {
+  const [loginusername, setLoginUserName] = useState('');
+
+  const fetchUserDetail = async () => {
+    try {
+      let userInfo = await AsyncStorage.getItem('userInfo');
+      if (userInfo !== null) {
+        const userData = JSON.parse(userInfo);
+        setLoginUserName(userData?.mainDetail?.name);
+        console.log(loginusername);
+      } else {
+        console.log('No user info found');
+      }
+    } catch (error) {
+      console.error('Error retrieving user info', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserDetail();
+  }, []);
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
         component={Home}
         options={{
-          header: () => <CustomHeader title="હોમ" />, // Use custom header here
+          headerTitle: `હોમ ${loginusername}`,
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
         }}
       />
-      <Stack.Screen name="Flower" component={Flower} options={{title: 'ફૂલ'}} />
+      <Stack.Screen
+        name="Flower"
+        component={Flower}
+        options={{
+          title: 'ફૂલ',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
+        }}
+      />
       <Stack.Screen
         name="Vegetable"
         component={Vegetable}
-        options={{title: 'શાક'}}
+        options={{
+          title: 'શાક',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
+        }}
       />
       <Stack.Screen
         name="MoneyTopTabBar"
