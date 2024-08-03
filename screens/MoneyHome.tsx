@@ -3,18 +3,21 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
+  FlatList,
   Pressable,
   Modal,
   TouchableOpacity,
   TextInput,
   Platform,
+  Dimensions,
 } from 'react-native';
 import CollectedCard from './elements/CollectionCard';
-import FixedBottom from './elements/FixedBottom';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Dropdown} from 'react-native-element-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import * as Animatable from 'react-native-animatable';
+
+const {width} = Dimensions.get('window');
 
 const MoneyHome = ({route, navigation}) => {
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -59,6 +62,55 @@ const MoneyHome = ({route, navigation}) => {
       lastCollectedDate: '27/01/2024',
       status: 'Collected',
     },
+    {
+      name: 'રાજેશ ગોસ્વામી',
+      collectedAmount: '800',
+      notCollectedAmount: '150',
+      lastCollectedDate: '15/03/2024',
+      status: 'Pending',
+    },
+    {
+      name: 'નિતિન શર્મા',
+      collectedAmount: '600',
+      notCollectedAmount: '100',
+      lastCollectedDate: '20/02/2024',
+      status: 'Collected',
+    },
+    {
+      name: 'પ્રિયા પટેલ',
+      collectedAmount: '400',
+      notCollectedAmount: '50',
+      lastCollectedDate: '10/04/2024',
+      status: 'Pending',
+    },
+    {
+      name: 'રાહુલ સિંહ',
+      collectedAmount: '900',
+      notCollectedAmount: '200',
+      lastCollectedDate: '05/06/2024',
+      status: 'Collected',
+    },
+    {
+      name: 'કિરણ ગાંધી',
+      collectedAmount: '550',
+      notCollectedAmount: '100',
+      lastCollectedDate: '18/07/2024',
+      status: 'Pending',
+    },
+    {
+      name: 'સુરેશ મહેતા',
+      collectedAmount: '350',
+      notCollectedAmount: '50',
+      lastCollectedDate: '22/08/2024',
+      status: 'Collected',
+    },
+    {
+      name: 'દિનેશ પરમાર',
+      collectedAmount: '450',
+      notCollectedAmount: '100',
+      lastCollectedDate: '01/09/2024',
+      status: 'Pending',
+    },
   ];
 
   const filteredCustomers = customers.filter(customer => {
@@ -95,10 +147,29 @@ const MoneyHome = ({route, navigation}) => {
     }
   };
 
+  const renderItem = ({item, index}) => (
+    <Animatable.View
+      key={index}
+      animation="fadeInUp"
+      duration={700}
+      delay={index * 700}>
+      <CollectedCard
+        name={item.name}
+        collectedAmount={item.collectedAmount}
+        notCollectedAmount={item.notCollectedAmount}
+        collectedDate={item.lastCollectedDate}
+        status={item.status}
+      />
+    </Animatable.View>
+  );
+
   return (
     <>
-      <ScrollView style={styles.container}>
-        <View style={styles.searchContainer}>
+      <View style={styles.container}>
+        <Animatable.View
+          animation="fadeIn"
+          duration={5000}
+          style={styles.searchContainer}>
           <Icon
             name="search"
             size={20}
@@ -108,7 +179,7 @@ const MoneyHome = ({route, navigation}) => {
           <TextInput
             style={styles.searchInput}
             placeholder="શોધો"
-            placeholderTextColor="#000"
+            placeholderTextColor="#888"
             value={search}
             onChangeText={setSearch}
           />
@@ -117,19 +188,14 @@ const MoneyHome = ({route, navigation}) => {
             onPress={() => setShowFilterModal(true)}>
             <Text style={styles.filterButtonText}>શોધો</Text>
           </TouchableOpacity>
-        </View>
+        </Animatable.View>
 
-        {filteredCustomers.map((customer, index) => (
-          <CollectedCard
-            key={index}
-            name={customer.name}
-            collectedAmount={customer.collectedAmount}
-            notCollectedAmount={customer.notCollectedAmount}
-            collectedDate={customer.lastCollectedDate}
-            status={customer.status}
-          />
-        ))}
-      </ScrollView>
+        <FlatList
+          data={filteredCustomers}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </View>
 
       {/* Filter Modal */}
       <Modal
@@ -201,15 +267,16 @@ const MoneyHome = ({route, navigation}) => {
       </Modal>
 
       {route.params.status === 'Pending' && (
-        <FixedBottom>
-          <View>
-            <Pressable
-              style={styles.addButton}
-              onPress={() => navigation.push('MoneyCollectionForm')}>
-              <Text style={styles.addButtonText}>એન્ટ્રી ઉમેરો</Text>
-            </Pressable>
-          </View>
-        </FixedBottom>
+        <Animatable.View
+          animation="slideInRight"
+          duration={4000}
+          style={[styles.addButtonContainer, {right: width * -0.03}]}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => navigation.push('MoneyCollectionForm')}>
+            <Text style={styles.addButtonText}>એન્ટ્રી ઉમેરો</Text>
+          </TouchableOpacity>
+        </Animatable.View>
       )}
     </>
   );
@@ -218,31 +285,31 @@ const MoneyHome = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#1F2E35',
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
-    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    margin: 20,
     borderRadius: 10,
     elevation: 2,
-    marginVertical: 10,
   },
   searchIcon: {
     marginRight: 10,
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    height: 40,
     color: '#000',
   },
   filterButton: {
-    backgroundColor: '#007bff',
-    borderRadius: 5,
-    padding: 10,
-    marginLeft: 10,
+    backgroundColor: '#03a9f4',
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 10,
   },
   filterButtonText: {
     color: '#fff',
@@ -252,86 +319,74 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainer: {
-    width: '90%',
+    width: '80%',
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 20,
-    elevation: 5,
   },
   modalTitle: {
     fontSize: 20,
-    marginBottom: 15,
     fontWeight: 'bold',
-    color: '#333',
+    marginBottom: 20,
   },
   dropdown: {
-    marginBottom: 15,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 5,
+    marginBottom: 20,
   },
   dateText: {
-    marginBottom: 15,
     fontSize: 16,
-    color: '#333',
+    marginBottom: 20,
+    color: '#000',
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   applyButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#03a9f4',
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    alignItems: 'center',
-    flex: 1,
-    marginRight: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
   },
   applyButtonText: {
     color: '#fff',
     fontSize: 16,
   },
   clearButton: {
-    backgroundColor: '#FFC107',
+    backgroundColor: '#f44336',
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    alignItems: 'center',
-    flex: 1,
-    marginRight: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
   },
   clearButtonText: {
     color: '#fff',
     fontSize: 16,
   },
   closeButton: {
-    backgroundColor: '#f44336',
+    backgroundColor: '#9e9e9e',
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    alignItems: 'center',
-    flex: 1,
+    paddingHorizontal: 15,
+    borderRadius: 10,
   },
   closeButtonText: {
     color: '#fff',
     fontSize: 16,
   },
+  addButtonContainer: {
+    position: 'absolute',
+    bottom: 40,
+  },
   addButton: {
-    marginRight: 15,
-    backgroundColor: '#1d3557',
-    borderRadius: 20,
-    width: '50%',
-    height: '50%',
-    justifyContent: 'center',
+    backgroundColor: '#FFC542',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 50,
   },
   addButtonText: {
-    fontSize: 20,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: 'white',
+    color: '#000',
+    fontSize: 16,
   },
 });
 

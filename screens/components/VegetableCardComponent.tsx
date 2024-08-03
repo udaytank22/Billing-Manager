@@ -1,89 +1,123 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
-const VegetableCardComonent = ({
+const VegetableCardComponent = ({
   vegetableName,
   vegetableWeight,
-  vegetableQuentity,
+  vegetableQuantity,
   dateNeeded,
   remark,
-  onPress,
+  onEdit,
+  onDelete,
+  animation,
+  delay,
 }) => {
   return (
-    <View style={styles.cardContainer}>
+    <Animatable.View
+      animation={animation}
+      duration={1000}
+      delay={delay}
+      style={styles.cardContainer}>
       <View style={styles.cardDetails}>
         <Text style={styles.cardTitle}>{vegetableName}</Text>
         <View style={styles.detailRow}>
-          <FontAwesomeIcon name="leaf" size={16} color="#e67e22" />
+          <Image
+            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
+            style={styles.icon}
+          />
           <Text style={styles.detailText}>{vegetableWeight} કિલો</Text>
         </View>
         <View style={styles.detailRow}>
-          <FontAwesomeIcon name="shopping-cart" size={16} color="#e67e22" />
-          <Text style={styles.detailText}>{vegetableQuentity} નંગ</Text>
+          <Image
+            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
+            style={styles.icon}
+          />
+          <Text style={styles.detailText}>{vegetableQuantity} નંગ</Text>
         </View>
         <View style={styles.detailRow}>
-          <FontAwesomeIcon name="calendar" size={16} color="#3498db" />
+          <Image
+            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
+            style={styles.icon}
+          />
           <Text style={styles.detailText}>{dateNeeded}</Text>
         </View>
         {remark && (
           <View style={styles.detailRow}>
-            <FontAwesomeIcon name="comment" size={16} color="#e67e22" />
+            <Image
+              source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
+              style={styles.icon}
+            />
             <Text style={styles.detailText}>{remark}</Text>
           </View>
         )}
       </View>
-      <TouchableOpacity style={styles.infoButton} onPress={onPress}>
-        <Text style={styles.infoButtonText}>એડિટ</Text>
-      </TouchableOpacity>
-    </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.editButton} onPress={onEdit}>
+          <Text style={styles.buttonText}>એડિટ</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
+          <Text style={styles.buttonText}>કાઢી નાખો</Text>
+        </TouchableOpacity>
+      </View>
+    </Animatable.View>
   );
 };
 
 const styles = StyleSheet.create({
   cardContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#fff',
+    flexDirection: 'column',
+    backgroundColor: '#475E69',
     padding: 15,
     marginVertical: 10,
     marginHorizontal: 20,
     borderRadius: 10,
-    elevation: 2,
+    elevation: 3,
   },
   cardDetails: {
     flex: 1,
+    marginBottom: 10,
   },
   cardTitle: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: '#000',
+    color: '#fff',
   },
   detailRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 2,
+    marginVertical: 5,
   },
   detailText: {
     marginLeft: 10,
-    fontSize: 20,
-    color: '#000',
+    fontSize: 16,
+    color: '#fff',
   },
-  infoButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  icon: {
+    width: 24,
+    height: 24,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  editButton: {
     backgroundColor: '#4B134F',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
-  infoButtonText: {
+  deleteButton: {
+    backgroundColor: '#E74C3C',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
     color: '#fff',
     fontWeight: 'bold',
   },
 });
 
-export default VegetableCardComonent;
+export default VegetableCardComponent;

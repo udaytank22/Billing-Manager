@@ -1,5 +1,7 @@
+// FlowerCardComponent.js
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 const FlowerCardComponent = ({
   customerName,
@@ -8,28 +10,34 @@ const FlowerCardComponent = ({
   purchaseDate,
   onEdit,
   onDelete,
+  animation,
+  delay,
 }) => {
   return (
-    <View style={styles.cardContainer}>
+    <Animatable.View
+      animation={animation}
+      duration={1000}
+      delay={delay}
+      style={styles.cardContainer}>
       <View style={styles.cardDetails}>
         <Text style={styles.cardTitle}>{customerName}</Text>
         <View style={styles.detailRow}>
           <Image
-            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')} // Replace with your 3D flower image
+            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
             style={styles.icon}
           />
           <Text style={styles.detailText}>{flowerQuantity} નંગ</Text>
         </View>
         <View style={styles.detailRow}>
           <Image
-            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')} // Replace with your 3D rupee image
+            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
             style={styles.icon}
           />
           <Text style={styles.detailText}>{flowerAmount} રૂપિયા</Text>
         </View>
         <View style={styles.detailRow}>
           <Image
-            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')} // Replace with your 3D calendar image
+            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
             style={styles.icon}
           />
           <Text style={styles.detailText}>{purchaseDate}</Text>
@@ -43,7 +51,7 @@ const FlowerCardComponent = ({
           <Text style={styles.buttonText}>કાઢી નાખો</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </Animatable.View>
   );
 };
 

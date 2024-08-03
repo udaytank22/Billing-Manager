@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import Home from '../Home';
 import Flower from '../FlowerTopBar';
 import AddFlower from '../AddFlower';
@@ -14,7 +14,7 @@ import MoneyCollectionForm from '../MoneyCollectionForm';
 import MakeBill from '../MakeBill';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const AppStack = () => {
   const [loginusername, setLoginUserName] = useState('');
@@ -38,7 +38,10 @@ const AppStack = () => {
     fetchUserDetail();
   }, []);
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        ...TransitionPresets.SlideFromRightIOS, // You can choose other presets as well
+      }}>
       <Stack.Screen
         name="Home"
         component={Home}
@@ -75,47 +78,101 @@ const AppStack = () => {
       <Stack.Screen
         name="MoneyTopTabBar"
         component={MoneyTopTabBar}
-        options={{title: 'રૂપિયાનો હિસાબ'}}
+        options={{
+          title: 'રૂપિયાનો હિસાબ',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
+        }}
       />
       <Stack.Screen
         name="EmployeeHome"
         component={EmployeeHome}
-        options={{title: 'મુલી'}}
+        options={{
+          title: 'મુલી',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
+        }}
       />
       <Stack.Screen
         name="MoneyHome"
         component={MoneyHome}
-        options={{title: 'રૂપિયાનો હિસાબ'}}
+        options={{
+          title: 'રૂપિયાનો હિસાબ',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
+        }}
       />
       <Stack.Screen
         name="AddFlower"
         component={AddFlower}
-        options={{title: 'ફ્લાવર ઉમેરો'}}
+        options={{
+          title: 'ફ્લાવર ઉમેરો',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
+        }}
       />
       <Stack.Screen
         name="AddVegetableForm"
         component={AddVegetableForm}
-        options={{title: 'વેજીટેબલ ઉમેરો'}}
+        options={{
+          title: 'વેજીટેબલ ઉમેરો',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
+        }}
       />
       <Stack.Screen
         name="EditFlower"
         component={EditFlower}
-        options={{title: 'સંપાદિત કરો ફોર્મ'}}
+        options={{
+          title: 'સંપાદિત કરો ફોર્મ',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
+        }}
       />
       <Stack.Screen
         name="AddEmployeeForm"
         component={AddEmployeeForm}
-        options={{title: 'મુલી ઉમેરો'}}
+        options={{
+          title: 'મુલી ઉમેરો',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
+        }}
       />
       <Stack.Screen
         name="MoneyCollectionForm"
         component={MoneyCollectionForm}
-        options={{title: 'રૂપિયા કલેક્શન ફોર્મ'}}
+        options={{
+          title: 'રૂપિયા કલેક્શન ફોર્મ',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
+        }}
       />
       <Stack.Screen
         name="MakeBill"
         component={MakeBill}
-        options={{title: 'બિલ બનાવો'}}
+        options={{
+          title: 'બિલ બનાવો',
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#1F2E35',
+          },
+        }}
       />
     </Stack.Navigator>
   );

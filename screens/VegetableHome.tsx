@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   Modal,
+  Dimensions,
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -14,6 +15,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {Dropdown} from 'react-native-element-dropdown';
 import VegetableCardComonent from './components/VegetableCardComponent';
 import FixedBottom from './elements/FixedBottom';
+import * as Animatable from 'react-native-animatable';
+
+const {width} = Dimensions.get('window');
 
 const VegrtableHome = ({navigation, route}) => {
   const [search, setSearch] = useState('');
@@ -105,12 +109,15 @@ const VegrtableHome = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
+      <Animatable.View
+        animation="fadeIn"
+        duration={5000}
+        style={styles.searchContainer}>
         <Icon name="search" size={20} color="#555" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
           placeholder="શોધો"
-          placeholderTextColor="#000"
+          placeholderTextColor="#888"
           value={search}
           onChangeText={setSearch}
         />
@@ -119,7 +126,7 @@ const VegrtableHome = ({navigation, route}) => {
           onPress={() => setShowFilterModal(true)}>
           <Text style={styles.filterButtonText}>શોધો</Text>
         </TouchableOpacity>
-      </View>
+      </Animatable.View>
 
       <FlatList
         data={filteredData.filter(card =>
@@ -127,21 +134,27 @@ const VegrtableHome = ({navigation, route}) => {
         )}
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={styles.cardsContainer}
-        renderItem={({item}) => (
-          <VegetableCardComonent
-            vegetableName={item.customerName}
-            vegetableWeight={item.VegetableWeight}
-            vegetableQuentity={item.VegetableQuentity}
-            dateNeeded={item.purchaseDate}
-            remark={item.Remark}
-            type={'VegrtableHome'}
-            onPress={() =>
-              navigation.navigate('EditFlower', {
-                cardData: item,
-                pageType: 'VegrtableHome',
-              })
-            }
-          />
+        renderItem={({item, index}) => (
+          <Animatable.View
+            animation="fadeInUp"
+            duration={1000}
+            delay={index * 300}
+            style={styles.card}>
+            <VegetableCardComonent
+              vegetableName={item.customerName}
+              vegetableWeight={item.VegetableWeight}
+              vegetableQuentity={item.VegetableQuentity}
+              dateNeeded={item.purchaseDate}
+              remark={item.Remark}
+              type={'VegrtableHome'}
+              onPress={() =>
+                navigation.navigate('EditFlower', {
+                  cardData: item,
+                  pageType: 'VegrtableHome',
+                })
+              }
+            />
+          </Animatable.View>
         )}
       />
 
@@ -213,15 +226,29 @@ const VegrtableHome = ({navigation, route}) => {
       </Modal>
 
       {route.params.status === 'Daily' && (
-        <FixedBottom>
-          <View>
-            <TouchableOpacity
-              style={styles.addButton}
-              onPress={() => navigation.push('AddVegetableForm')}>
-              <Text style={styles.addButtonText}>એન્ટ્રી ઉમેરો</Text>
-            </TouchableOpacity>
-          </View>
-        </FixedBottom>
+        <Animatable.View
+          animation="slideInRight"
+          duration={4000}
+          style={[styles.addButtonContainer, {right: width * -0.03}]}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => navigation.push('AddVegetableForm')}>
+            <Text style={styles.addButtonText}>એન્ટ્રી ઉમેરો</Text>
+          </TouchableOpacity>
+        </Animatable.View>
+      )}
+
+      {route.params.status === 'Daily' && (
+        <Animatable.View
+          animation="slideInRight"
+          duration={4000}
+          style={[styles.newCustomerButtonContainer, {right: width * -0.03}]}>
+          <TouchableOpacity
+            style={styles.newCustomerButton}
+            onPress={() => console.log('Add New Customer')}>
+            <Text style={styles.newCustomerButtonText}>નવો ઘરાક ઉમેરો</Text>
+          </TouchableOpacity>
+        </Animatable.View>
       )}
     </View>
   );
@@ -230,13 +257,18 @@ const VegrtableHome = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#1F2E35',
+  },
+  addButtonContainer: {
+    position: 'absolute',
+    bottom: 80,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
-    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
     margin: 20,
     borderRadius: 10,
     elevation: 2,
@@ -261,6 +293,10 @@ const styles = StyleSheet.create({
   },
   cardsContainer: {
     paddingBottom: 20,
+  },
+  card: {
+    width: '100%',
+    marginBottom: 10,
   },
   modalBackground: {
     flex: 1,
@@ -344,18 +380,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   addButton: {
-    marginRight: 15,
-    backgroundColor: '#1d3557',
-    borderRadius: 20,
-    width: '50%',
-    height: '50%',
-    justifyContent: 'center',
+    backgroundColor: '#FFC542',
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  newCustomerButtonContainer: {
+    position: 'absolute',
+    bottom: 20,
+  },
+  newCustomerButton: {
+    backgroundColor: '#3498db',
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: 'center',
   },
   addButtonText: {
     fontSize: 20,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: 'white',
+    color: '#000',
+  },
+  newCustomerButtonText: {
+    color: '#fff',
+    fontSize: 20,
   },
 });
 

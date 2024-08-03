@@ -50,8 +50,8 @@ const Home = ({navigation}) => {
             <Animatable.View
               key={index}
               animation="fadeInUp"
-              duration={500}
-              delay={index * 300}
+              duration={1000}
+              delay={index * 600}
               style={styles.card}>
               <CardComponent
                 title={card.title}
