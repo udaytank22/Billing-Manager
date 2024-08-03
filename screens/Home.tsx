@@ -4,55 +4,65 @@ import CardComponent from './components/HomeCardComponent';
 import * as Animatable from 'react-native-animatable';
 
 const Home = ({navigation}) => {
+  const cards = [
+    {
+      title: 'ડેઇલી ફ્લાવર કલેક્શન દાખલ કરો',
+      value: 'ફ્લાવર',
+      backgroundColor: '#FFC542',
+      imageSource: require('../Images/view-beautiful-abstract-3d-flower.png'),
+      onPress: () => navigation.navigate('Flower'),
+    },
+    {
+      title: 'દૈનિક શાકભાજી સંગ્રહ દાખલ કરો',
+      value: 'શાકભાજી',
+      backgroundColor: '#FF565E',
+      imageSource: require('../Images/gradient-christmas-basket-illustration.png'),
+      onPress: () => navigation.navigate('Vegetable'),
+    },
+    {
+      title: 'મુલી ની હાજરી નાખો',
+      value: 'મુલી',
+      backgroundColor: '#3ED598',
+      imageSource: require('../Images/india-republic-day-national-celebration-3d-style.png'),
+      onPress: () => navigation.navigate('EmployeeHome'),
+    },
+    {
+      title: 'રૂપિયાનો હિસાબ દાખલ કરો',
+      value: 'રૂપિયા',
+      backgroundColor: '#FF565E',
+      imageSource: require('../Images/stack-money-gold-coins-3d-cartoon-style-icon-coins-with-dollar-sign-wad-cash-currency-flat-vector-illustration-wealth-investment-success-savings-economy-profit-concept.png'),
+      onPress: () => navigation.navigate('MoneyTopTabBar'),
+    },
+    {
+      title: 'બિલ બનાવો અને ડાઉનલોડ કરો',
+      value: 'રૂપિયા',
+      backgroundColor: '#3ED598',
+      imageSource: require('../Images/blue-folder-with-information-about-employee-3d-illustration-cartoon-drawing-folder-with-files-documents-3d-style-white-background-business-recruitment-management-organization-concept.png'),
+      onPress: () => navigation.navigate('MakeBill'),
+    },
+  ];
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.gridContainer}>
-        <Animatable.View
-          animation="slideInUp"
-          duration={800}
-          delay={500}
-          style={styles.grid}>
-          <CardComponent
-            title="ડેઇલી ફ્લાવર કલેક્શન દાખલ કરો"
-            value="ફ્લાવર"
-            backgroundColor="#f2a1c8" // Light pink
-            icon="leaf"
-            onPress={() => navigation.navigate('Flower')}
-            style={styles.card}
-          />
-          <CardComponent
-            title="દૈનિક શાકભાજી સંગ્રહ દાખલ કરો"
-            value="શાકભાજી"
-            backgroundColor="#a2d9ce" // Light green
-            icon="shopping-basket"
-            onPress={() => navigation.navigate('Vegetable')}
-            style={styles.card}
-          />
-          <CardComponent
-            title="મુલી ની હાજરી નાખો"
-            value="મુલી"
-            backgroundColor="#f9e79f" // Light yellow
-            icon="group"
-            onPress={() => navigation.navigate('EmployeeHome')}
-            style={styles.card}
-          />
-          <CardComponent
-            title="રૂપિયાનો હિસાબ દાખલ કરો"
-            value="રૂપિયા"
-            backgroundColor="#85c1ae" // Light teal
-            icon="money"
-            onPress={() => navigation.navigate('MoneyTopTabBar')}
-            style={styles.card}
-          />
-          <CardComponent
-            title="બિલ બનાવો અને ડાઉનલોડ કરો"
-            value="રૂપિયા"
-            backgroundColor="#d5a6d1" // Light lavender
-            icon="file"
-            onPress={() => navigation.navigate('MakeBill')}
-            style={styles.card}
-          />
-        </Animatable.View>
+        <View style={styles.grid}>
+          {cards.map((card, index) => (
+            <Animatable.View
+              key={index}
+              animation="fadeInUp"
+              duration={1000}
+              delay={index * 600}
+              style={styles.card}>
+              <CardComponent
+                title={card.title}
+                value={card.value}
+                backgroundColor={card.backgroundColor}
+                imageSource={card.imageSource}
+                onPress={card.onPress}
+              />
+            </Animatable.View>
+          ))}
+        </View>
       </ScrollView>
     </View>
   );
@@ -62,7 +72,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#f5f5f5', // Light grey background
+    backgroundColor: '#1F2E35', // Background color for the container
   },
   gridContainer: {
     paddingHorizontal: 10,
@@ -74,8 +84,6 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     marginBottom: 10,
-    borderRadius: 10, // Rounded corners for a modern look
-    elevation: 3, // Add shadow for better visibility
   },
 });
 

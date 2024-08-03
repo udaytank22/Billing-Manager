@@ -1,40 +1,69 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {View, StyleSheet, Pressable, Image} from 'react-native';
+import {Card, Title, Paragraph} from 'react-native-paper';
 
-const CardComponent = ({title, value, backgroundColor, icon, onPress}) => {
+const CardComponent = ({
+  title,
+  value,
+  backgroundColor,
+  imageSource,
+  onPress,
+  disabled = false,
+}) => {
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress}
-      style={[styles.card, {backgroundColor}]}>
-      <View style={styles.content}>
-        <Icon name={icon} size={24} color="#000" style={styles.icon} />
-        <Text style={styles.title}>{title}</Text>
-      </View>
-    </TouchableOpacity>
+      disabled={disabled}
+      style={({pressed}) => [
+        styles.cardWrapper,
+        pressed && !disabled && {opacity: 0.8},
+      ]}>
+      <Card style={[styles.card, {backgroundColor}]}>
+        <View style={styles.content}>
+          <Image source={imageSource} style={styles.image} />
+          <View style={styles.textContainer}>
+            <Title style={styles.title}>{title}</Title>
+            {value && <Paragraph style={styles.value}>{value}</Paragraph>}
+          </View>
+        </View>
+      </Card>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
+  cardWrapper: {
+    marginBottom: 10,
+    borderRadius: 15,
+    overflow: 'hidden',
+  },
   card: {
-    padding: 20,
-    marginVertical: 10,
-    borderRadius: 10,
+    borderRadius: 15,
     elevation: 5,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 10,
+    padding: 15,
   },
   content: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  icon: {
-    marginRight: 10,
+  image: {
+    width: 80,
+    height: 80,
+    marginRight: 15,
+    borderRadius: 40, // Make the image circular
+    borderWidth: 3,
+    borderColor: '#fff', // White border around the image for a cartoonish effect
+  },
+  textContainer: {
+    flexDirection: 'column',
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
+    color: '#000',
+    fontWeight: 'bold',
+  },
+  value: {
+    fontSize: 16,
     color: '#000',
   },
 });

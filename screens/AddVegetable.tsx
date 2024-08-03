@@ -12,6 +12,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import TextInputComponent from './components/InputFieldComponent';
 import {Dropdown} from 'react-native-element-dropdown';
+import * as Animatable from 'react-native-animatable';
 
 const AddVegetableForm = () => {
   const [customer, setCustomer] = useState('');
@@ -136,76 +137,96 @@ const AddVegetableForm = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>શાકભાજી ઉમેરો</Text>
-      <Dropdown
-        style={styles.dropdown}
-        data={[...vegetables, {label: 'Add New Vegetable', value: 'add_new'}]}
-        labelField="label"
-        valueField="value"
-        placeholder="શાકભાજી પસંદ કરો"
-        placeholderStyle={styles.placeholderText}
-        value={customer}
-        onChange={item => {
-          if (item.value !== 'add_new') {
-            setCustomer(item.value);
-          }
-        }}
-        renderItem={renderDropdownItem}
-        selectedTextStyle={styles.selectedText} // Adding selectedTextStyle
-      />
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <Text style={styles.fieldTitle}>શાકભાજી પસંદ કરો</Text>
+        <Dropdown
+          style={styles.dropdown}
+          data={vegetables}
+          labelField="label"
+          valueField="value"
+          placeholder="શાકભાજી પસંદ કરો"
+          placeholderStyle={styles.placeholderText}
+          value={customer}
+          onChange={item => {
+            if (item.value !== 'add_new') {
+              setCustomer(item.value);
+            }
+          }}
+          selectedTextStyle={styles.selectedText} // Adding selectedTextStyle
+        />
+      </Animatable.View>
       {bags.map((bag, index) => (
-        <View key={index} style={styles.bagContainer}>
-          <TextInputComponent
-            placeholder="ઝબલાની સંખ્યા"
-            keyboardType="numeric"
-            value={bag.quantity}
-            onChangeText={text => handleBagChange(index, 'quantity', text)}
-          />
-          <TextInputComponent
-            placeholder="વજન (કિલોગ્રામમાં)"
-            keyboardType="numeric"
-            value={bag.weight}
-            onChangeText={text => handleBagChange(index, 'weight', text)}
-          />
-        </View>
+        <Animatable.View key={index} animation="fadeInUp" duration={800}>
+          <View style={styles.bagContainer}>
+            <TextInputComponent
+              placeholder="ઝબલાની સંખ્યા"
+              keyboardType="numeric"
+              value={bag.quantity}
+              onChangeText={text => handleBagChange(index, 'quantity', text)}
+            />
+            <TextInputComponent
+              placeholder="વજન (કિલોગ્રામમાં)"
+              keyboardType="numeric"
+              value={bag.weight}
+              onChangeText={text => handleBagChange(index, 'weight', text)}
+            />
+          </View>
+        </Animatable.View>
       ))}
-      <TouchableOpacity style={styles.addButton} onPress={handleAddBag}>
-        <Text style={styles.addButtonText}>ઝબલા ઉમેરો</Text>
-      </TouchableOpacity>
-      <TextInputComponent
-        placeholder="કુલ બેગ"
-        keyboardType="numeric"
-        value={totalBags}
-        editable={false}
-      />
-      <TextInputComponent
-        placeholder="કુલ વજન"
-        keyboardType="numeric"
-        value={totalWeight}
-        editable={false}
-      />
-      <View style={styles.dateInput}>
-        <Pressable onPress={toggleFromDatePicker}>
-          <Text style={styles.dateText}>
-            {fromDateDisplay || 'તારીખ પસંદ કરો'}
-          </Text>
-        </Pressable>
-        {showFromPicker && (
-          <DateTimePicker
-            value={fromDate}
-            mode="date"
-            display="spinner"
-            onChange={onChangeFromDate}
-          />
-        )}
-      </View>
-      <TextInputComponent
-        placeholder="નોંધ"
-        value={remark}
-        onChangeText={setRemark}
-      />
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
-      </TouchableOpacity>
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <TouchableOpacity style={styles.addButton} onPress={handleAddBag}>
+          <Text style={styles.addButtonText}>ઝબલા ઉમેરો</Text>
+        </TouchableOpacity>
+      </Animatable.View>
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <Text style={styles.fieldTitle}>કુલ બેગ</Text>
+        <TextInputComponent
+          placeholder="કુલ બેગ"
+          keyboardType="numeric"
+          value={totalBags}
+          editable={false}
+        />
+      </Animatable.View>
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <Text style={styles.fieldTitle}>કુલ વજન</Text>
+        <TextInputComponent
+          placeholder="કુલ વજન"
+          keyboardType="numeric"
+          value={totalWeight}
+          editable={false}
+        />
+      </Animatable.View>
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <Text style={styles.fieldTitle}>તારીખ પસંદ કરો</Text>
+        <View style={styles.dateInput}>
+          <Pressable onPress={toggleFromDatePicker}>
+            <Text style={styles.dateText}>
+              {fromDateDisplay || 'તારીખ પસંદ કરો'}
+            </Text>
+          </Pressable>
+          {showFromPicker && (
+            <DateTimePicker
+              value={fromDate}
+              mode="date"
+              display="spinner"
+              onChange={onChangeFromDate}
+            />
+          )}
+        </View>
+      </Animatable.View>
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <Text style={styles.fieldTitle}>નોંધ</Text>
+        <TextInputComponent
+          placeholder="નોંધ"
+          value={remark}
+          onChangeText={setRemark}
+        />
+      </Animatable.View>
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
+        </TouchableOpacity>
+      </Animatable.View>
 
       {/* Modal for adding a new vegetable */}
       <Modal
@@ -220,21 +241,15 @@ const AddVegetableForm = () => {
           >
             <Text style={styles.modalTitle}>નવી શાકભાજી ઉમેરો</Text>
             <TextInput
-              style={styles.input}
-              placeholder="શાકભાજીનું નામ"
+              style={styles.modalInput}
+              placeholder="શાકભાજી નામ"
               value={newVegetableName}
-              placeholderTextColor="#c0c0c0"
               onChangeText={setNewVegetableName}
             />
             <TouchableOpacity
-              style={[styles.button, styles.buttonAdd]}
+              style={styles.modalButton}
               onPress={handleModalSubmit}>
-              <Text style={styles.textStyle}>ઉમેરો</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonCancel]}
-              onPress={handlePressOutside}>
-              <Text style={styles.textStyle}>રદ કરો</Text>
+              <Text style={styles.modalButtonText}>ઉમેરો</Text>
             </TouchableOpacity>
           </Pressable>
         </Pressable>
@@ -246,86 +261,73 @@ const AddVegetableForm = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f5f5f5',
+    padding: 16,
+    backgroundColor: '#1F2E35',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
+    marginBottom: 16,
+    color: '#ffffff',
   },
   dropdown: {
     height: 50,
     borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 5,
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    marginBottom: 20,
-    paddingHorizontal: 15,
-  },
-  dropdownItem: {
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    marginVertical: 5,
-    backgroundColor: '#fff',
-  },
-  dropdownText: {
-    color: 'black',
-  },
-  selectedText: {
-    color: 'black',
-  },
-  addNewItem: {
-    padding: 10,
-    alignItems: 'center',
-    backgroundColor: '#4CAF50',
-    borderRadius: 5,
-    marginVertical: 5,
-  },
-  addNewText: {
-    color: '#fff',
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    marginBottom: 16,
+    backgroundColor: '#ffffff',
   },
   placeholderText: {
-    color: 'black',
+    color: '#000',
+  },
+  dropdownText: {
+    color: '#ffffff',
   },
   bagContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 16,
   },
   addButton: {
     backgroundColor: '#4CAF50',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 8,
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   addButtonText: {
     color: '#fff',
     fontSize: 16,
   },
-  dateInput: {
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    marginBottom: 20,
-    paddingHorizontal: 15,
-  },
-  dateText: {
-    color: 'black',
-  },
   submitButton: {
-    backgroundColor: '#4CAF50',
-    padding: 15,
-    borderRadius: 5,
+    backgroundColor: '#2196F3',
+    padding: 12,
+    borderRadius: 8,
     alignItems: 'center',
+    marginBottom: 16,
   },
   submitButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  modalInput: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    marginBottom: 16,
+    color: '#000000',
+  },
+  modalButton: {
+    backgroundColor: '#4CAF50',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalButtonText: {
     color: '#fff',
     fontSize: 16,
   },
@@ -333,15 +335,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
-    margin: 20,
+    width: '80%',
     backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    width: '80%', // Full width of the modal
+    borderRadius: 8,
+    padding: 16,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -351,39 +351,37 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    width: '100%', // Full width
-    alignItems: 'center',
-  },
-  buttonAdd: {
-    backgroundColor: '#4CAF50', // Preferred color
-  },
-  buttonCancel: {
-    backgroundColor: '#4CAF50',
-    marginTop: 10, // Preferred color
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   modalTitle: {
-    marginBottom: 15,
-    textAlign: 'center',
-    fontSize: 18,
-    color: 'black', // Black color for modal title
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
   },
-  input: {
-    height: 40,
-    borderColor: '#ccc',
+  dateInput: {
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    width: '100%', // Full width
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 16,
+    backgroundColor: '#fff',
+  },
+  dateText: {
+    color: '#000',
+  },
+  fieldTitle: {
+    fontSize: 16,
+    color: '#ffffff',
+    marginBottom: 8,
+  },
+  dropdownItem: {
+    padding: 10,
+    backgroundColor: '#2C3E50',
+  },
+  addNewItem: {
+    padding: 10,
+    backgroundColor: '#1ABC9C',
+  },
+  addNewText: {
+    color: '#ffffff',
   },
 });
 

@@ -14,7 +14,7 @@ const TextInputComponent = ({
     <TextInput
       style={styles.input}
       placeholder={placeholder}
-      placeholderTextColor="#c0c0c0"
+      placeholderTextColor="#000"
       secureTextEntry={secureTextEntry}
       keyboardType={keyboardType}
       onChangeText={onChangeText}

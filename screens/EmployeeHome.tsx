@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,15 @@ import {
   FlatList,
   Modal,
   Platform,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EmployeeCardComponent from './components/EmployeeCardComponent';
-import FixedBottom from './elements/FixedBottom';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Dropdown} from 'react-native-element-dropdown';
+import * as Animatable from 'react-native-animatable';
+
+const {width} = Dimensions.get('window');
 
 const EmployeeHome = ({navigation}) => {
   const [search, setSearch] = useState('');
@@ -21,6 +24,7 @@ const EmployeeHome = ({navigation}) => {
   const [selectedName, setSelectedName] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedShift, setSelectedShift] = useState('');
+  const [visibleIndex, setVisibleIndex] = useState(0);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const names = [
@@ -55,7 +59,48 @@ const EmployeeHome = ({navigation}) => {
       date: '2024-07-19',
       shift: 'સવાર',
     },
-    // Add more data as needed
+    {
+      name: 'પ્રિયા શાહ',
+      dayType: 'અડધું',
+      date: '2024-07-18',
+      shift: 'સાંજ',
+    },
+    {
+      name: 'રાહુલ પટેલ',
+      dayType: 'આખો દિવસ',
+      date: '2024-07-17',
+      shift: 'સવાર',
+    },
+    {
+      name: 'નિશા ગુપ્તા',
+      dayType: 'અડધું',
+      date: '2024-07-16',
+      shift: 'સાંજ',
+    },
+    {
+      name: 'કરણ જોશી',
+      dayType: 'આખો દિવસ',
+      date: '2024-07-15',
+      shift: 'સવાર',
+    },
+    {
+      name: 'સ્વાતિ સિંહ',
+      dayType: 'અડધું',
+      date: '2024-07-14',
+      shift: 'સાંજ',
+    },
+    {
+      name: 'અનિલ શાહ',
+      dayType: 'આખો દિવસ',
+      date: '2024-07-13',
+      shift: 'સવાર',
+    },
+    {
+      name: 'મનીષા પટેલ',
+      dayType: 'અડધું',
+      date: '2024-07-12',
+      shift: 'સાંજ',
+    },
   ];
 
   const filteredData = employeeData.filter(employee => {
@@ -88,14 +133,23 @@ const EmployeeHome = ({navigation}) => {
     }
   };
 
+  const onViewableItemsChanged = useRef(({viewableItems}) => {
+    if (viewableItems.length > 0) {
+      setVisibleIndex(viewableItems[0].index);
+    }
+  });
+
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
+      <Animatable.View
+        animation="fadeIn"
+        duration={5000}
+        style={styles.searchContainer}>
         <Icon name="search" size={20} color="#555" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
           placeholder="શોધો"
-          placeholderTextColor="#000"
+          placeholderTextColor="#888"
           value={search}
           onChangeText={setSearch}
         />
@@ -104,20 +158,25 @@ const EmployeeHome = ({navigation}) => {
           onPress={() => setShowFilterModal(true)}>
           <Text style={styles.filterButtonText}>શોધો</Text>
         </TouchableOpacity>
-      </View>
+      </Animatable.View>
 
       <FlatList
         data={filteredData}
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={styles.cardsContainer}
-        renderItem={({item}) => (
+        showsVerticalScrollIndicator={false}
+        renderItem={({item, index}) => (
           <EmployeeCardComponent
             name={item.name}
             dayType={item.dayType}
             date={item.date}
             shift={item.shift}
+            animation="fadeInUp"
+            delay={index * 700}
           />
         )}
+        onViewableItemsChanged={onViewableItemsChanged.current}
+        viewabilityConfig={{itemVisiblePercentThreshold: 50}}
       />
 
       {/* Filter Modal */}
@@ -189,15 +248,27 @@ const EmployeeHome = ({navigation}) => {
         </View>
       </Modal>
 
-      <FixedBottom>
-        <View>
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => navigation.push('AddEmployeeForm')}>
-            <Text style={styles.addButtonText}>એન્ટ્રી ઉમેરો</Text>
-          </TouchableOpacity>
-        </View>
-      </FixedBottom>
+      <Animatable.View
+        animation="slideInRight"
+        duration={4000}
+        style={[styles.addButtonContainer, {right: width * -0.03}]}>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => navigation.push('AddEmployeeForm')}>
+          <Text style={styles.addButtonText}>એન્ટ્રી ઉમેરો</Text>
+        </TouchableOpacity>
+      </Animatable.View>
+
+      <Animatable.View
+        animation="slideInRight"
+        duration={4000}
+        style={[styles.newCustomerButtonContainer, {right: width * -0.03}]}>
+        <TouchableOpacity
+          style={styles.newCustomerButton}
+          onPress={() => console.log('Add New Customer')}>
+          <Text style={styles.newCustomerButtonText}>નવો ઘરાક ઉમેરો</Text>
+        </TouchableOpacity>
+      </Animatable.View>
     </View>
   );
 };
@@ -205,14 +276,16 @@ const EmployeeHome = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#1F2E35',
     padding: 20,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
-    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 10,
     borderRadius: 10,
     elevation: 2,
   },
@@ -308,19 +381,59 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
   },
-  addButton: {
-    marginRight: 15,
+  floatingButtonContainer: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    flexDirection: 'row',
+  },
+  floatingButton: {
     backgroundColor: '#1d3557',
-    borderRadius: 20,
-    width: '50%',
-    height: '50%',
+    borderRadius: 50,
+    width: 60,
+    height: 60,
     justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  floatingButtonText: {
+    fontSize: 16,
+    color: '#fff',
+    textAlign: 'center',
+  },
+  addButton: {
+    backgroundColor: '#FFC542',
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: 'center',
   },
   addButtonText: {
-    fontSize: 20,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: 'white',
+    color: '#1F2E35',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  addButtonContainer: {
+    position: 'absolute',
+    bottom: 80,
+  },
+  newCustomerButtonContainer: {
+    position: 'absolute',
+    bottom: 20,
+  },
+  newCustomerButton: {
+    backgroundColor: '#3498db',
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  newCustomerButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

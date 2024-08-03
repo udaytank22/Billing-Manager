@@ -1,6 +1,7 @@
-// elements/CollectionCard.js
+// elements/CollectedCard.js
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 const CollectedCard = ({
   name,
@@ -9,81 +10,92 @@ const CollectedCard = ({
   status,
   type,
   collectedDate,
+  animation,
+  delay,
 }) => {
   console.log(type);
   return (
-    <View style={styles.card}>
-      <Text style={styles.name}>{name}</Text>
-      {status === 'Collected' && (
-        <>
-          <View style={styles.amountContainer}>
-            <Text style={styles.amountLabel}>એકત્રિત રકમ: </Text>
-            <Text style={styles.amount}>{collectedAmount} રૂપિયા</Text>
-          </View>
-          <View style={styles.amountContainer}>
-            <Text style={styles.amountLabel}>આવેલા રૂપિયા ની તારીખ: </Text>
-            <Text style={styles.amount}>{collectedDate}</Text>
-          </View>
-        </>
-      )}
-      {status === 'Pending' && (
-        <>
-          <View style={styles.amountContainer}>
-            <Text style={styles.amountLabel}>બાકી રકમ: </Text>
-            <Text style={styles.amount}>{notCollectedAmount} રૂપિયા</Text>
-          </View>
-          <View style={styles.amountContainer}>
-            <Text style={styles.amountLabel}>
-              છેલ્લે આવેલા રૂપિયા ની તારીખ:
-            </Text>
-            <Text style={styles.amount}>{collectedDate}</Text>
-          </View>
-        </>
-      )}
-      <View style={styles.statusContainer}>
-        <Text style={styles.statusLabel}>સ્થિતિ: </Text>
-        <Text
-          style={[
-            styles.status,
-            status === 'Collected' ? styles.collected : styles.pending,
-          ]}>
-          {status === 'Collected' ? 'એકત્રિત' : 'બાકી'}
-        </Text>
+    <Animatable.View
+      animation={animation}
+      duration={1000}
+      delay={delay}
+      style={styles.cardContainer}>
+      <View style={styles.cardDetails}>
+        <Text style={styles.cardTitle}>{name}</Text>
+        {status === 'Collected' && (
+          <>
+            <View style={styles.detailRow}>
+              <Text style={styles.amountLabel}>એકત્રિત રકમ: </Text>
+              <Text style={styles.detailText}>{collectedAmount} રૂપિયા</Text>
+            </View>
+            <View style={styles.detailRow}>
+              <Text style={styles.amountLabel}>આવેલા રૂપિયા ની તારીખ: </Text>
+              <Text style={styles.detailText}>{collectedDate}</Text>
+            </View>
+          </>
+        )}
+        {status === 'Pending' && (
+          <>
+            <View style={styles.detailRow}>
+              <Text style={styles.amountLabel}>બાકી રકમ: </Text>
+              <Text style={styles.detailText}>{notCollectedAmount} રૂપિયા</Text>
+            </View>
+            <View style={styles.detailRow}>
+              <Text style={styles.amountLabel}>
+                છેલ્લે આવેલા રૂપિયા ની તારીખ:{' '}
+              </Text>
+              <Text style={styles.detailText}>{collectedDate}</Text>
+            </View>
+          </>
+        )}
+        <View style={styles.statusContainer}>
+          <Text style={styles.statusLabel}>સ્થિતિ: </Text>
+          <Text
+            style={[
+              styles.status,
+              status === 'Collected' ? styles.collected : styles.pending,
+            ]}>
+            {status === 'Collected' ? 'એકત્રિત' : 'બાકી'}
+          </Text>
+        </View>
       </View>
-    </View>
+    </Animatable.View>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#fff',
+  cardContainer: {
+    flexDirection: 'column',
+    backgroundColor: '#475E69',
     padding: 15,
-    margin: 10,
+    marginVertical: 10,
+    marginHorizontal: 20,
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 10,
-    elevation: 5,
+    elevation: 3,
   },
-  name: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  cardDetails: {
+    flex: 1,
     marginBottom: 10,
-    color: '#333',
   },
-  amountContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  cardTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
     marginBottom: 5,
+    color: '#fff',
+  },
+  detailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5,
   },
   amountLabel: {
     fontSize: 16,
-    color: '#555',
+    color: '#fff',
   },
-  amount: {
+  detailText: {
+    marginLeft: 10,
     fontSize: 16,
-    color: '#000',
+    color: '#fff',
   },
   statusContainer: {
     flexDirection: 'row',
@@ -92,7 +104,7 @@ const styles = StyleSheet.create({
   },
   statusLabel: {
     fontSize: 16,
-    color: '#555',
+    color: '#fff',
   },
   status: {
     fontSize: 16,

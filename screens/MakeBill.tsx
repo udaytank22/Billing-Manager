@@ -10,6 +10,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Dropdown} from 'react-native-element-dropdown';
+import * as Animatable from 'react-native-animatable';
 
 const MakeBill = () => {
   const [fromDate, setFromDate] = useState(null);
@@ -56,34 +57,6 @@ const MakeBill = () => {
     setToDate(selectedDate);
   };
 
-  async function downloadPdf(url) {
-    try {
-      const {config, fs} = RNFetchBlob;
-      const downloads = fs.dirs.DownloadDir;
-      const filePath = `${downloads}/DiseleReport.pdf`;
-
-      const exists = await fs.exists(filePath);
-      if (exists) {
-        await fs.unlink(filePath);
-      }
-
-      // Download the file using RNFetchBlob
-      const result = await config({
-        fileCache: true,
-        addAndroidDownloads: {
-          useDownloadManager: true,
-          notification: true,
-          path: filePath,
-          description: 'Downloading PDF document',
-          mediaScannable: true,
-        },
-      }).fetch('GET', url);
-
-      console.log('PDF document downloaded successfully', result.path());
-    } catch (err) {
-      console.warn('Error downloading PDF', err);
-    }
-  }
   const handleDownload = () => {
     // Add logic to download the PDF
     console.log('Download PDF');
@@ -102,52 +75,67 @@ const MakeBill = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>બિલ બનાવો</Text>
-      <Dropdown
-        style={styles.dropdown}
-        data={customers}
-        labelField="label"
-        valueField="value"
-        placeholder="કસ્ટમર પસંદ કરો"
-        placeholderStyle={styles.placeholderText}
-        value={selectedCustomer}
-        onChange={item => {
-          setSelectedCustomer(item.value);
-        }}
-        renderItem={renderDropdownItem}
-        selectedTextStyle={styles.selectedText} // Ensure selected text color is black
-      />
-      <View style={styles.dateInput}>
-        <Pressable onPress={toggleFromDatePicker}>
-          <Text style={styles.dateText}>
-            {formatDate(fromDate) || 'પ્રારંભ તારીખ પસંદ કરો'}
-          </Text>
-        </Pressable>
-        {showFromPicker && (
-          <DateTimePicker
-            value={fromDate || new Date()}
-            mode="date"
-            display="spinner"
-            onChange={onChangeFromDate}
-          />
-        )}
-      </View>
-      <View style={styles.dateInput}>
-        <Pressable onPress={toggleToDatePicker}>
-          <Text style={styles.dateText}>
-            {formatDate(toDate) || 'અંતિમ તારીખ પસંદ કરો'}
-          </Text>
-        </Pressable>
-        {showToPicker && (
-          <DateTimePicker
-            value={toDate || new Date()}
-            mode="date"
-            display="spinner"
-            onChange={onChangeToDate}
-          />
-        )}
-      </View>
-      <View style={styles.buttonContainer}>
+      <Animatable.Text animation="fadeInUp" style={styles.title}>
+        બિલ બનાવો
+      </Animatable.Text>
+
+      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+        <Text style={styles.fieldTitle}>કસ્ટમર</Text>
+        <Dropdown
+          style={styles.dropdown}
+          data={customers}
+          labelField="label"
+          valueField="value"
+          placeholder="કસ્ટમર પસંદ કરો"
+          placeholderStyle={styles.placeholderText}
+          value={selectedCustomer}
+          onChange={item => {
+            setSelectedCustomer(item.value);
+          }}
+          renderItem={renderDropdownItem}
+          selectedTextStyle={styles.selectedText}
+        />
+      </Animatable.View>
+
+      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+        <Text style={styles.fieldTitle}>પ્રારંભ તારીખ</Text>
+        <View style={styles.dateInput}>
+          <Pressable onPress={toggleFromDatePicker}>
+            <Text style={styles.dateText}>
+              {formatDate(fromDate) || 'પ્રારંભ તારીખ પસંદ કરો'}
+            </Text>
+          </Pressable>
+          {showFromPicker && (
+            <DateTimePicker
+              value={fromDate || new Date()}
+              mode="date"
+              display="spinner"
+              onChange={onChangeFromDate}
+            />
+          )}
+        </View>
+      </Animatable.View>
+
+      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+        <Text style={styles.fieldTitle}>અંતિમ તારીખ</Text>
+        <View style={styles.dateInput}>
+          <Pressable onPress={toggleToDatePicker}>
+            <Text style={styles.dateText}>
+              {formatDate(toDate) || 'અંતિમ તારીખ પસંદ કરો'}
+            </Text>
+          </Pressable>
+          {showToPicker && (
+            <DateTimePicker
+              value={toDate || new Date()}
+              mode="date"
+              display="spinner"
+              onChange={onChangeToDate}
+            />
+          )}
+        </View>
+      </Animatable.View>
+
+      <Animatable.View animation="fadeInUp" style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={handleDownload}>
           <Icon name="download" size={20} color="#fff" style={styles.icon} />
           <Text style={styles.buttonText}>ડાઉનલોડ કરો</Text>
@@ -156,7 +144,7 @@ const MakeBill = () => {
           <Icon name="share" size={20} color="#fff" style={styles.icon} />
           <Text style={styles.buttonText}>શેર કરો</Text>
         </TouchableOpacity>
-      </View>
+      </Animatable.View>
     </View>
   );
 };
@@ -165,13 +153,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#1F2E35',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#333',
+    color: '#fff',
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  fieldTitle: {
+    fontSize: 16,
+    color: '#fff',
+    marginBottom: 5,
   },
   dropdown: {
     height: 50,
@@ -179,7 +175,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     backgroundColor: '#fff',
-    marginBottom: 20,
     paddingHorizontal: 15,
   },
   dropdownItem: {
@@ -188,13 +183,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   dropdownText: {
-    color: 'black', // Dropdown item text color
+    color: 'black',
   },
   placeholderText: {
-    color: '#c0c0c0', // Placeholder text color
+    color: '#c0c0c0',
   },
   selectedText: {
-    color: 'black', // Ensure selected dropdown item text color is black
+    color: 'black',
   },
   dateInput: {
     height: 50,
@@ -203,7 +198,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     backgroundColor: '#fff',
-    marginBottom: 20,
     paddingLeft: 15,
   },
   dateText: {
