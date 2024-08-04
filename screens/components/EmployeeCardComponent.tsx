@@ -23,7 +23,7 @@ const EmployeeCardComponent = ({
         <Text style={styles.cardTitle}>{name}</Text>
         <View style={styles.detailRow}>
           <Image
-            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
+            source={require('../../Images/working-hours.png')}
             style={styles.icon}
           />
           <Text style={styles.detailText}>{`પ્રકાર: ${dayType}`}</Text>
@@ -37,7 +37,7 @@ const EmployeeCardComponent = ({
         </View>
         <View style={styles.detailRow}>
           <Image
-            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
+            source={require('../../Images/hourglass.png')}
             style={styles.icon}
           />
           <Text style={styles.detailText}>{`સમય: ${shift}`}</Text>

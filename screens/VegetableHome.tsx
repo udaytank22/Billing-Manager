@@ -143,7 +143,7 @@ const VegrtableHome = ({navigation, route}) => {
             <VegetableCardComonent
               vegetableName={item.customerName}
               vegetableWeight={item.VegetableWeight}
-              vegetableQuentity={item.VegetableQuentity}
+              vegetableQuantity={item.VegetableQuentity}
               dateNeeded={item.purchaseDate}
               remark={item.Remark}
               type={'VegrtableHome'}

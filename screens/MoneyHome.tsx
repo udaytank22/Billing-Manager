@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    height: 40,
+    fontSize: 16,
     color: '#000',
   },
   filterButton: {

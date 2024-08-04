@@ -23,14 +23,14 @@ const FlowerCardComponent = ({
         <Text style={styles.cardTitle}>{customerName}</Text>
         <View style={styles.detailRow}>
           <Image
-            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
+            source={require('../../Images/view-beautiful-abstract-3d-flower.png')}
             style={styles.icon}
           />
           <Text style={styles.detailText}>{flowerQuantity} નંગ</Text>
         </View>
         <View style={styles.detailRow}>
           <Image
-            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
+            source={require('../../Images/stack-money-gold-coins-3d-cartoon-style-icon-coins-with-dollar-sign-wad-cash-currency-flat-vector-illustration-wealth-investment-success-savings-economy-profit-concept.png')}
             style={styles.icon}
           />
           <Text style={styles.detailText}>{flowerAmount} રૂપિયા</Text>

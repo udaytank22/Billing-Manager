@@ -508,16 +508,11 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: '80%',
-    backgroundColor: 'white',
+    backgroundColor: '#FF565E',
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
     elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 15,
   },
   input: {
     width: '100%',
@@ -527,10 +522,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 15,
-    color: '#000',
+    backgroundColor: '#fff',
   },
   modalSubmitButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#4CAF50',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',

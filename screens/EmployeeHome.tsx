@@ -9,6 +9,7 @@ import {
   Modal,
   Platform,
   Dimensions,
+  Pressable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EmployeeCardComponent from './components/EmployeeCardComponent';
@@ -26,6 +27,8 @@ const EmployeeHome = ({navigation}) => {
   const [selectedShift, setSelectedShift] = useState('');
   const [visibleIndex, setVisibleIndex] = useState(0);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newEmployeeName, setNewEmployeeName] = useState('');
 
   const names = [
     {label: 'રાજ કુમાર', value: 'રાજ કુમાર'},
@@ -103,6 +106,10 @@ const EmployeeHome = ({navigation}) => {
     },
   ];
 
+  const handleAddEmployee = () => {
+    setModalVisible(true);
+  };
+
   const filteredData = employeeData.filter(employee => {
     return (
       (selectedName ? employee.name === selectedName : true) &&
@@ -138,6 +145,10 @@ const EmployeeHome = ({navigation}) => {
       setVisibleIndex(viewableItems[0].index);
     }
   });
+
+  const handleModalSubmit = () => {
+    console.warn('its working');
+  };
 
   return (
     <View style={styles.container}>
@@ -265,10 +276,45 @@ const EmployeeHome = ({navigation}) => {
         style={[styles.newCustomerButtonContainer, {right: width * -0.03}]}>
         <TouchableOpacity
           style={styles.newCustomerButton}
-          onPress={() => console.log('Add New Customer')}>
+          onPress={handleAddEmployee}>
           <Text style={styles.newCustomerButtonText}>નવો ઘરાક ઉમેરો</Text>
         </TouchableOpacity>
       </Animatable.View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(!modalVisible)}>
+        <Pressable
+          style={styles.centeredView}
+          onPressOut={() => setModalVisible(false)}>
+          <Pressable style={styles.modalView}>
+            <Text style={styles.modalText}>નવા મુલી ઉમેરો</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="મુલી નામ ઉમેરો"
+              value={newEmployeeName}
+              placeholderTextColor="#c0c0c0"
+              onChangeText={setNewEmployeeName}
+            />
+            <TouchableOpacity
+              style={[styles.button, styles.buttonFullWidth, styles.buttonAdd]}
+              onPress={handleModalSubmit}>
+              <Text style={styles.textStyle}>ઉમેરો</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                styles.buttonFullWidth,
+                styles.buttonClose,
+              ]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>રદ કરો</Text>
+            </TouchableOpacity>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </View>
   );
 };
@@ -434,6 +480,64 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: '80%', // Adjust as needed
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    marginTop: 10,
+  },
+  buttonFullWidth: {
+    width: '100%',
+  },
+  buttonAdd: {
+    backgroundColor: '#4CAF50', // Change this to your preferred color
+  },
+  buttonClose: {
+    backgroundColor: '#4CAF50',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 18,
+    color: 'black', // Set modal title color to black
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    width: '100%',
   },
 });
 
