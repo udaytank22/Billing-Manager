@@ -9,6 +9,7 @@ import {
   Modal,
   Dimensions,
   Platform,
+  Pressable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -26,6 +27,8 @@ const VegrtableHome = ({navigation, route}) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newVegetableName, setNewVegetableName] = useState('');
 
   const customers = [
     {label: 'બટાકા', value: 'બટાકા'},
@@ -105,6 +108,18 @@ const VegrtableHome = ({navigation, route}) => {
     if (date) {
       setSelectedDate(date);
     }
+  };
+
+  const handleAddVegetable = () => {
+    setModalVisible(true);
+  };
+
+  const handleModalSubmit = () => {
+    console.log('its working');
+  };
+
+  const handlePressOutside = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -245,11 +260,37 @@ const VegrtableHome = ({navigation, route}) => {
           style={[styles.newCustomerButtonContainer, {right: width * -0.03}]}>
           <TouchableOpacity
             style={styles.newCustomerButton}
-            onPress={() => console.log('Add New Customer')}>
+            onPress={handleAddVegetable}>
             <Text style={styles.newCustomerButtonText}>નવો ઘરાક ઉમેરો</Text>
           </TouchableOpacity>
         </Animatable.View>
       )}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={handlePressOutside}>
+        <Pressable style={styles.centeredView} onPress={handlePressOutside}>
+          <Pressable
+            style={styles.modalView}
+            onPress={e => e.stopPropagation()} // Prevents press inside the modal from closing it
+          >
+            <Text style={styles.modalTitle}>નવી શાકભાજી ઉમેરો</Text>
+            <TextInput
+              style={styles.modalInput}
+              placeholder="શાકભાજી નામ"
+              value={newVegetableName}
+              onChangeText={setNewVegetableName}
+              placeholderTextColor="#000"
+            />
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={handleModalSubmit}>
+              <Text style={styles.modalButtonText}>ઉમેરો</Text>
+            </TouchableOpacity>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </View>
   );
 };
@@ -315,7 +356,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 15,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#fff',
   },
   dropdown: {
     marginBottom: 15,
@@ -408,6 +449,45 @@ const styles = StyleSheet.create({
   newCustomerButtonText: {
     color: '#fff',
     fontSize: 20,
+  },
+  modalInput: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    marginBottom: 16,
+    backgroundColor: '#fff',
+  },
+  modalButton: {
+    backgroundColor: '#4CAF50',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalView: {
+    width: '80%',
+    backgroundColor: '#FF565E',
+    borderRadius: 8,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
 

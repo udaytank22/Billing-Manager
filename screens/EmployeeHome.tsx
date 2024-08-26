@@ -295,22 +295,13 @@ const EmployeeHome = ({navigation}) => {
               style={styles.input}
               placeholder="મુલી નામ ઉમેરો"
               value={newEmployeeName}
-              placeholderTextColor="#c0c0c0"
+              placeholderTextColor="#000"
               onChangeText={setNewEmployeeName}
             />
             <TouchableOpacity
               style={[styles.button, styles.buttonFullWidth, styles.buttonAdd]}
               onPress={handleModalSubmit}>
               <Text style={styles.textStyle}>ઉમેરો</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                styles.buttonFullWidth,
-                styles.buttonClose,
-              ]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>રદ કરો</Text>
             </TouchableOpacity>
           </Pressable>
         </Pressable>
@@ -490,7 +481,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#FF565E',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -505,7 +496,7 @@ const styles = StyleSheet.create({
     width: '80%', // Adjust as needed
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 10,
     elevation: 2,
     marginTop: 10,
@@ -528,7 +519,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
     fontSize: 18,
-    color: 'black', // Set modal title color to black
+    color: '#fff', // Set modal title color to black
   },
   input: {
     height: 40,
@@ -538,6 +529,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
     width: '100%',
+    backgroundColor: '#fff',
   },
 });
 

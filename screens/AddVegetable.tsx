@@ -117,23 +117,6 @@ const AddVegetableForm = () => {
     setModalVisible(false);
   };
 
-  const renderDropdownItem = item => {
-    if (item.value === 'add_new') {
-      return (
-        <TouchableOpacity
-          style={[styles.addNewItem]}
-          onPress={handleAddVegetable}>
-          <Text style={styles.addNewText}>નવી શાકભાજી ઉમેરો</Text>
-        </TouchableOpacity>
-      );
-    }
-    return (
-      <View style={styles.dropdownItem}>
-        <Text style={styles.dropdownText}>{item.label}</Text>
-      </View>
-    );
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>શાકભાજી ઉમેરો</Text>
@@ -152,7 +135,12 @@ const AddVegetableForm = () => {
               setCustomer(item.value);
             }
           }}
-          selectedTextStyle={styles.selectedText} // Adding selectedTextStyle
+          selectedTextStyle={styles.selectedText}
+          renderItem={(item, index) => (
+            <View style={{backgroundColor: 'white', margin: 10}}>
+              <Text style={{color: 'black'}}>{item.label}</Text>
+            </View>
+          )}
         />
       </Animatable.View>
       {bags.map((bag, index) => (
@@ -227,33 +215,6 @@ const AddVegetableForm = () => {
           <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
         </TouchableOpacity>
       </Animatable.View>
-
-      {/* Modal for adding a new vegetable */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={handlePressOutside}>
-        <Pressable style={styles.centeredView} onPress={handlePressOutside}>
-          <Pressable
-            style={styles.modalView}
-            onPress={e => e.stopPropagation()} // Prevents press inside the modal from closing it
-          >
-            <Text style={styles.modalTitle}>નવી શાકભાજી ઉમેરો</Text>
-            <TextInput
-              style={styles.modalInput}
-              placeholder="શાકભાજી નામ"
-              value={newVegetableName}
-              onChangeText={setNewVegetableName}
-            />
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleModalSubmit}>
-              <Text style={styles.modalButtonText}>ઉમેરો</Text>
-            </TouchableOpacity>
-          </Pressable>
-        </Pressable>
-      </Modal>
     </View>
   );
 };
@@ -282,6 +243,9 @@ const styles = StyleSheet.create({
   placeholderText: {
     color: '#000',
   },
+  selectedText: {
+    color: '#000',
+  },
   dropdownText: {
     color: '#ffffff',
   },
@@ -293,7 +257,7 @@ const styles = StyleSheet.create({
   addButton: {
     backgroundColor: '#4CAF50',
     padding: 10,
-    borderRadius: 8,
+    borderRadius: 5,
     alignItems: 'center',
     marginBottom: 16,
   },
@@ -304,7 +268,7 @@ const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: '#4CAF50',
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 5,
     alignItems: 'center',
     marginBottom: 16,
   },

@@ -120,6 +120,11 @@ const AddFlowerForm = () => {
             }
           }}
           selectedTextStyle={styles.dropdownSelectedText}
+          renderItem={(item, index) => (
+            <View style={{backgroundColor: 'white', margin: 10}}>
+              <Text style={{color: 'black'}}>{item.label}</Text>
+            </View>
+          )}
         />
       </Animatable.View>
       <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
@@ -278,7 +283,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   submitButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#4CAF50',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
