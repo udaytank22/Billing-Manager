@@ -133,20 +133,7 @@ const FloweHome = ({route, navigation}) => {
     setModalVisible(true);
   };
 
-  const handleModalSubmit = () => {
-    if (newCustomerName && newCustomerMobile) {
-      setCustomers([
-        ...customers,
-        {label: newCustomerName, value: newCustomerName},
-      ]);
-      setCustomer(newCustomerName);
-      setModalVisible(false);
-      setNewCustomerName('');
-      setNewCustomerMobile('');
-    } else {
-      alert('Please fill in both fields.');
-    }
-  };
+  const handleModalSubmit = () => {};
 
   const handlePressOutside = () => {
     setModalVisible(false);
@@ -241,23 +228,32 @@ const FloweHome = ({route, navigation}) => {
               placeholderStyle={{color: '#000'}}
               value={selectedCustomer}
               onChange={item => setSelectedCustomer(item.value)}
+              selectedTextStyle={styles.dropdownSelectedText}
+              renderItem={(item, index) => (
+                <View style={{backgroundColor: 'white', margin: 10}}>
+                  <Text style={{color: 'black'}}>{item.label}</Text>
+                </View>
+              )}
             />
 
-            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-              <Text style={styles.dateText}>
-                {selectedDate ? selectedDate.toDateString() : 'તારીખ પસંદ કરો'}
-              </Text>
-            </TouchableOpacity>
+            <View style={{backgroundColor: '#fff', marginBottom: 20}}>
+              <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                <Text style={styles.dateText}>
+                  {selectedDate
+                    ? selectedDate.toDateString()
+                    : 'તારીખ પસંદ કરો'}
+                </Text>
+              </TouchableOpacity>
 
-            {showDatePicker && (
-              <DateTimePicker
-                value={selectedDate || new Date()}
-                mode="date"
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                onChange={handleDateChange}
-              />
-            )}
-
+              {showDatePicker && (
+                <DateTimePicker
+                  value={selectedDate || new Date()}
+                  mode="date"
+                  display={Platform.OS === 'android' ? 'spinner' : 'default'}
+                  onChange={handleDateChange}
+                />
+              )}
+            </View>
             <TextInput
               style={styles.amountInput}
               placeholder="કુલ રકમ"
@@ -289,67 +285,6 @@ const FloweHome = ({route, navigation}) => {
           </View>
         </View>
       </Modal>
-
-      {route.params.status === 'Daily' && (
-        <Animatable.View
-          animation="slideInRight"
-          duration={4000}
-          style={[styles.addButtonContainer, {right: width * -0.03}]}>
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => navigation.push('AddFlower')}>
-            <Text style={styles.addButtonText}>એન્ટ્રી ઉમેરો</Text>
-          </TouchableOpacity>
-        </Animatable.View>
-      )}
-
-      {route.params.status === 'Daily' && (
-        <Animatable.View
-          animation="slideInRight"
-          duration={4000}
-          style={[styles.newCustomerButtonContainer, {right: width * -0.03}]}>
-          <TouchableOpacity
-            style={styles.newCustomerButton}
-            onPress={handleAddCustomer}>
-            <Text style={styles.newCustomerButtonText}>નવો ઘરાક ઉમેરો</Text>
-          </TouchableOpacity>
-        </Animatable.View>
-      )}
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={handlePressOutside}>
-        <Pressable style={styles.centeredView} onPress={handlePressOutside}>
-          <Pressable
-            style={styles.modalView}
-            onPress={e => e.stopPropagation()} // Prevents press inside the modal from closing it
-          >
-            <Text style={styles.modalTitle}>નવો ગ્રાહક ઉમેરો</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="ગ્રાહક નું નામ"
-              placeholderTextColor="#c0c0c0"
-              value={newCustomerName}
-              onChangeText={setNewCustomerName}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="ગ્રાહક મોબાઇલ નંબર"
-              value={newCustomerMobile}
-              placeholderTextColor="#c0c0c0"
-              onChangeText={setNewCustomerMobile}
-              keyboardType="phone-pad"
-            />
-            <TouchableOpacity
-              style={styles.modalSubmitButton}
-              onPress={handleModalSubmit}>
-              <Text style={styles.submitButtonText}>ઉમેરો</Text>
-            </TouchableOpacity>
-          </Pressable>
-        </Pressable>
-      </Modal>
     </View>
   );
 };
@@ -358,6 +293,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1F2E35',
+  },
+  dropdownSelectedText: {
+    color: '#000',
   },
   searchContainer: {
     flexDirection: 'row',
@@ -432,7 +370,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: '80%',
-    backgroundColor: '#fff',
+    backgroundColor: '#FF565E',
     padding: 20,
     borderRadius: 10,
     elevation: 10,
@@ -450,11 +388,16 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 8,
     marginBottom: 20,
+    backgroundColor: '#fff',
   },
   dateText: {
     fontSize: 16,
     marginBottom: 20,
     color: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'left',
+    marginRight: 20,
   },
   amountInput: {
     height: 50,
@@ -465,6 +408,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 16,
     color: '#000',
+    backgroundColor: '#fff',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -508,16 +452,11 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: '80%',
-    backgroundColor: 'white',
+    backgroundColor: '#FF565E',
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
     elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 15,
   },
   input: {
     width: '100%',
@@ -527,10 +466,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 15,
-    color: '#000',
+    backgroundColor: '#fff',
   },
   modalSubmitButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#4CAF50',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',

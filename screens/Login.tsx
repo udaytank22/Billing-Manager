@@ -1,17 +1,24 @@
-import React, {useState, useContext} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import {AuthContext} from './elements/AuthContext';
-import TextInputComponent from './components/InputFieldComponent';
-import * as Animatable from 'react-native-animatable'; // Ensure the correct path
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import {signInWithGoogle} from './GoogleSignIn'; // Import the Google Sign-In function
 
 const LoginScreen = ({navigation}) => {
-  const {login, loginError} = useContext(AuthContext);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = async () => {
-    await login({email, password});
-    navigation.navigate('Home');
+  const handleGoogleSignIn = async () => {
+    const userInfo = await signInWithGoogle();
+    if (userInfo) {
+      // Extract the token or user information as needed
+      console.log('Google Access Token:', userInfo.idToken);
+      // Navigate to the home screen or another screen
+      navigation.navigate('Home');
+    }
   };
 
   return (
@@ -21,26 +28,14 @@ const LoginScreen = ({navigation}) => {
         style={styles.logo}
         source={require('../Images/Uday_s_Billing_System_3.png')} // Replace with your logo URL
       />
-      <Text style={styles.title}>Flower Billing</Text>
-      <View>
-        <TextInputComponent
-          placeholder="Phone No"
-          onChangeText={setEmail}
-          value={email}
-          keyboardType="numeric"
-          autoCapitalize="none"
-        />
-        <TextInputComponent
-          placeholder="Password"
-          secureTextEntry
-          onChangeText={setPassword}
-          value={password}
-        />
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>SIGN IN</Text>
-        </TouchableOpacity>
-        {/* {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null} */}
-      </View>
+      <Pressable style={styles.button} onPress={handleGoogleSignIn}>
+        <View style={styles.buttonContent}>
+          <Image
+            style={styles.googleLogo}
+            source={require('../Images/google-logo.png')} // Path to your Google logo image
+          />
+        </View>
+      </Pressable>
     </Animatable.View>
   );
 };
@@ -50,37 +45,35 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#252525',
   },
   logo: {
-    width: '100%',
-    height: '50%',
-    alignSelf: 'center',
+    width: '80%',
+    height: '40%',
     marginBottom: 20,
-  },
-  title: {
-    fontSize: 32,
-    fontFamily: 'Arial',
-    color: '#7D7D7D',
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
   },
   button: {
-    backgroundColor: '#E9446A',
-    padding: 15,
-    borderRadius: 5,
+    backgroundColor: '#FFFFFF', // White background for the button
+    padding: 5,
+    borderRadius: 15,
     alignItems: 'center',
     marginTop: 20,
+    flexDirection: 'row', // Align items horizontally
+  },
+  buttonContent: {
+    flexDirection: 'row', // Align logo and text horizontally
+    alignItems: 'center', // Center items vertically
+  },
+  googleLogo: {
+    width: 240, // Adjust as needed
+    height: 100, // Adjust as needed
+    marginRight: 10, // Space between logo and text
   },
   buttonText: {
-    color: '#fff',
+    color: '#000000', // Black text color
     fontSize: 16,
-  },
-  errorText: {
-    color: 'red',
-    textAlign: 'center',
-    marginTop: 10,
+    fontWeight: 'bold',
   },
 });
 

@@ -23,14 +23,14 @@ const VegetableCardComponent = ({
         <Text style={styles.cardTitle}>{vegetableName}</Text>
         <View style={styles.detailRow}>
           <Image
-            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
+            source={require('../../Images/gradient-christmas-basket-illustration.png')}
             style={styles.icon}
           />
           <Text style={styles.detailText}>{vegetableWeight} કિલો</Text>
         </View>
         <View style={styles.detailRow}>
           <Image
-            source={require('../../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
+            source={require('../../Images/pallet.png')}
             style={styles.icon}
           />
           <Text style={styles.detailText}>{vegetableQuantity} નંગ</Text>

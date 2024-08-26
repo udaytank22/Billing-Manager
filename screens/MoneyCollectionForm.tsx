@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import TextInputComponent from './components/InputFieldComponent';
+import * as Animatable from 'react-native-animatable';
 
 const MoneyCollectionForm = () => {
   const [customer, setCustomer] = useState('');
@@ -56,45 +57,73 @@ const MoneyCollectionForm = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>રૂપિયાનો હિસાબ દાખલ કરો</Text>
-      <Dropdown
-        style={styles.dropdown}
-        data={customers}
-        labelField="label"
-        valueField="value"
-        placeholder="ગ્રાહક પસંદ કરો"
-        placeholderStyle={styles.placeholderText}
-        value={customer}
-        onChange={item => handleCustomerChange(item.value)}
-        renderItem={renderDropdownItem}
-        selectedTextStyle={styles.selectedText} // Ensure selected option text color is black
-      />
-      <TextInputComponent
-        placeholder="બાકી રકમ"
-        keyboardType="numeric"
-        value={notCollectedAmount}
-        editable={false}
-      />
-      <TextInputComponent
-        placeholder="એકત્રિત રકમ"
-        keyboardType="numeric"
-        value={collectedAmount}
-        onChangeText={handleCollectedAmountChange}
-      />
-      <TextInputComponent
-        placeholder="કુલ રકમ"
-        keyboardType="numeric"
-        value={totalAmount}
-        editable={false}
-      />
-      {status ? <Text style={styles.statusText}>{status}</Text> : null}
-      <TextInputComponent
-        placeholder="નોંધ"
-        value={remark}
-        onChangeText={setRemark}
-      />
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
-      </TouchableOpacity>
+
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <Text style={styles.fieldTitle}>ગ્રાહક પસંદ કરો</Text>
+        <Dropdown
+          style={styles.dropdown}
+          data={customers}
+          labelField="label"
+          valueField="value"
+          placeholder="ગ્રાહક પસંદ કરો"
+          placeholderStyle={styles.placeholderText}
+          value={customer}
+          onChange={item => handleCustomerChange(item.value)}
+          renderItem={renderDropdownItem}
+          selectedTextStyle={styles.selectedText} // Ensure selected option text color is black
+        />
+      </Animatable.View>
+
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <Text style={styles.fieldTitle}>બાકી રકમ</Text>
+        <TextInputComponent
+          placeholder="બાકી રકમ"
+          keyboardType="numeric"
+          value={notCollectedAmount}
+          editable={false}
+        />
+      </Animatable.View>
+
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <Text style={styles.fieldTitle}>એકત્રિત રકમ</Text>
+        <TextInputComponent
+          placeholder="એકત્રિત રકમ"
+          keyboardType="numeric"
+          value={collectedAmount}
+          onChangeText={handleCollectedAmountChange}
+        />
+      </Animatable.View>
+
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <Text style={styles.fieldTitle}>કુલ રકમ</Text>
+        <TextInputComponent
+          placeholder="કુલ રકમ"
+          keyboardType="numeric"
+          value={totalAmount}
+          editable={false}
+        />
+      </Animatable.View>
+
+      {status ? (
+        <Animatable.View animation="fadeInUp" duration={800}>
+          <Text style={styles.statusText}>{status}</Text>
+        </Animatable.View>
+      ) : null}
+
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <Text style={styles.fieldTitle}>નોંધ</Text>
+        <TextInputComponent
+          placeholder="નોંધ"
+          value={remark}
+          onChangeText={setRemark}
+        />
+      </Animatable.View>
+
+      <Animatable.View animation="fadeInUp" duration={800}>
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
+        </TouchableOpacity>
+      </Animatable.View>
     </View>
   );
 };
@@ -103,13 +132,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#1F2E35',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#333',
+    color: '#fff',
+  },
+  fieldTitle: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#fff',
   },
   dropdown: {
     height: 50,
@@ -136,8 +170,9 @@ const styles = StyleSheet.create({
     color: 'black', // Ensure selected dropdown item text color is black
   },
   statusText: {
-    color: '#000', // Red color for status text
+    color: '#fff', // Red color for status text
     fontSize: 16,
+    marginBottom: 20,
   },
   submitButton: {
     backgroundColor: '#4CAF50',
