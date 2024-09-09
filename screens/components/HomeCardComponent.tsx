@@ -1,11 +1,10 @@
 import React from 'react';
-import {View, StyleSheet, Pressable, Image} from 'react-native';
-import {Card, Title, Paragraph} from 'react-native-paper';
+import { View, StyleSheet, Pressable, Image } from 'react-native';
+import { Card, Title, Paragraph } from 'react-native-paper';
 
 const CardComponent = ({
   title,
   value,
-  backgroundColor,
   imageSource,
   onPress,
   disabled = false,
@@ -14,11 +13,11 @@ const CardComponent = ({
     <Pressable
       onPress={onPress}
       disabled={disabled}
-      style={({pressed}) => [
+      style={({ pressed }) => [
         styles.cardWrapper,
-        pressed && !disabled && {opacity: 0.8},
+        pressed && !disabled && { opacity: 0.8 },
       ]}>
-      <Card style={[styles.card, {backgroundColor}]}>
+      <Card style={[styles.card]}>
         <View style={styles.content}>
           <Image source={imageSource} style={styles.image} />
           <View style={styles.textContainer}>
@@ -35,11 +34,11 @@ const styles = StyleSheet.create({
   cardWrapper: {
     marginBottom: 10,
     borderRadius: 15,
-    overflow: 'hidden',
+    // overflow: 'hidden',
   },
   card: {
     borderRadius: 15,
-    elevation: 5,
+    // elevation: 5,
     padding: 15,
   },
   content: {
@@ -51,8 +50,8 @@ const styles = StyleSheet.create({
     height: 80,
     marginRight: 15,
     borderRadius: 40, // Make the image circular
-    borderWidth: 3,
-    borderColor: '#fff', // White border around the image for a cartoonish effect
+    // borderWidth: 3,
+    // borderColor: '#fff', // White border around the image for a cartoonish effect
   },
   textContainer: {
     flexDirection: 'column',

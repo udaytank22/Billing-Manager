@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -12,7 +12,7 @@ import {
 import CardComponent from './components/HomeCardComponent';
 import * as Animatable from 'react-native-animatable';
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
   const [isAddNowOpen, setIsAddNowOpen] = useState(false);
   const [newVegetableName, setNewVegetableName] = useState('');
   const [newCustomerName, setNewCustomerName] = useState('');
@@ -24,35 +24,30 @@ const Home = ({navigation}) => {
     {
       title: 'ડેઇલી ફ્લાવર કલેક્શન દાખલ કરો',
       value: 'ફ્લાવર',
-      backgroundColor: '#FFC542',
       imageSource: require('../Images/view-beautiful-abstract-3d-flower.png'),
       onPress: () => navigation.navigate('Flower'),
     },
     {
       title: 'દૈનિક શાકભાજી સંગ્રહ દાખલ કરો',
       value: 'શાકભાજી',
-      backgroundColor: '#FF565E',
       imageSource: require('../Images/gradient-christmas-basket-illustration.png'),
       onPress: () => navigation.navigate('Vegetable'),
     },
     {
       title: 'મુલી ની હાજરી નાખો',
       value: 'મુલી',
-      backgroundColor: '#3ED598',
       imageSource: require('../Images/india-republic-day-national-celebration-3d-style.png'),
       onPress: () => navigation.navigate('EmployeeHome'),
     },
     {
       title: 'રૂપિયાનો હિસાબ દાખલ કરો',
       value: 'રૂપિયા',
-      backgroundColor: '#FF565E',
       imageSource: require('../Images/stack-money-gold-coins-3d-cartoon-style-icon-coins-with-dollar-sign-wad-cash-currency-flat-vector-illustration-wealth-investment-success-savings-economy-profit-concept.png'),
       onPress: () => navigation.navigate('MoneyTopTabBar'),
     },
     {
       title: 'બિલ બનાવો અને ડાઉનલોડ કરો',
       value: 'રૂપિયા',
-      backgroundColor: '#3ED598',
       imageSource: require('../Images/blue-folder-with-information-about-employee-3d-illustration-cartoon-drawing-folder-with-files-documents-3d-style-white-background-business-recruitment-management-organization-concept.png'),
       onPress: () => navigation.navigate('MakeBill'),
     },
@@ -69,14 +64,26 @@ const Home = ({navigation}) => {
   };
 
   const handleModalSubmit = () => {
-    // Handle form submission for the modal here
-    // You can also close the modal after submission
     setVegetableModalVisible(false);
     setCustomerModalVisible(false);
   };
 
   return (
     <View style={styles.container}>
+      <View style={styles.topSection}>
+        <Text style={styles.title}>Daily Summary</Text>
+        <View style={styles.summaryRow}>
+          <View style={styles.summaryItem}>
+            <Text style={styles.summaryValue}>Total Flowers</Text>
+            <Text style={styles.summaryLabel}>1,245</Text>
+          </View>
+          <View style={styles.summaryItem}>
+            <Text style={styles.summaryValue}>Total Collection</Text>
+            <Text style={styles.summaryLabel}>₹34,000</Text>
+          </View>
+        </View>
+      </View>
+
       <ScrollView contentContainerStyle={styles.gridContainer}>
         <View style={styles.grid}>
           {cards.map((card, index) => (
@@ -85,11 +92,11 @@ const Home = ({navigation}) => {
               animation="fadeInUp"
               duration={1000}
               delay={index * 600}
-              style={styles.card}>
+              style={styles.card}
+            >
               <CardComponent
                 title={card.title}
                 value={card.value}
-                backgroundColor={card.backgroundColor}
                 imageSource={card.imageSource}
                 onPress={card.onPress}
               />
@@ -108,15 +115,18 @@ const Home = ({navigation}) => {
         <Animatable.View
           animation="slideInUp"
           duration={500}
-          style={styles.addNowContainer}>
+          style={styles.addNowContainer}
+        >
           <TouchableOpacity
             onPress={() => setVegetableModalVisible(true)}
-            style={styles.entryButtonYellow}>
+            style={styles.entryButtonYellow}
+          >
             <Text style={styles.entryButtonText}>નવી શાકભાજી ઉમેરો</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setCustomerModalVisible(true)}
-            style={styles.entryButtonBlue}>
+            style={styles.entryButtonBlue}
+          >
             <Text style={styles.entryButtonText}>નવો ગ્રાહક ઉમેરો</Text>
           </TouchableOpacity>
         </Animatable.View>
@@ -127,11 +137,12 @@ const Home = ({navigation}) => {
         animationType="slide"
         transparent={true}
         visible={vegetableModalVisible}
-        onRequestClose={handlePressOutside}>
+        onRequestClose={handlePressOutside}
+      >
         <Pressable style={styles.centeredView} onPress={handlePressOutside}>
           <Pressable
             style={styles.modalView}
-            onPress={e => e.stopPropagation()} // Prevents press inside the modal from closing it
+            onPress={(e) => e.stopPropagation()} // Prevents press inside the modal from closing it
           >
             <Text style={styles.modalTitle}>નવી શાકભાજી ઉમેરો</Text>
             <TextInput
@@ -143,7 +154,8 @@ const Home = ({navigation}) => {
             />
             <TouchableOpacity
               style={styles.modalSubmitButton}
-              onPress={handleModalSubmit}>
+              onPress={handleModalSubmit}
+            >
               <Text style={styles.submitButtonText}>ઉમેરો</Text>
             </TouchableOpacity>
           </Pressable>
@@ -155,11 +167,12 @@ const Home = ({navigation}) => {
         animationType="slide"
         transparent={true}
         visible={customerModalVisible}
-        onRequestClose={handlePressOutside}>
+        onRequestClose={handlePressOutside}
+      >
         <Pressable style={styles.centeredView} onPress={handlePressOutside}>
           <Pressable
             style={styles.modalView}
-            onPress={e => e.stopPropagation()} // Prevents press inside the modal from closing it
+            onPress={(e) => e.stopPropagation()} // Prevents press inside the modal from closing it
           >
             <Text style={styles.modalTitle}>નવો ગ્રાહક ઉમેરો</Text>
             <TextInput
@@ -179,7 +192,8 @@ const Home = ({navigation}) => {
             />
             <TouchableOpacity
               style={styles.modalSubmitButton}
-              onPress={handleModalSubmit}>
+              onPress={handleModalSubmit}
+            >
               <Text style={styles.submitButtonText}>ઉમેરો</Text>
             </TouchableOpacity>
           </Pressable>
@@ -192,82 +206,125 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    backgroundColor: '#1F2E35',
+    backgroundColor: '#F8F8F8', // Light background color for eye cooling effect
+  },
+  topSection: {
+    backgroundColor: '#5B86E5', // Light blue color for top section
+    padding: 20,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginBottom: 10,
+  },
+  summaryRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  summaryItem: {
+    // backgroundColor: '#FFF',
+    padding: 15,
+    borderRadius: 10,
+    width: '48%',
+    alignItems: 'center',
+  },
+  summaryValue: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  summaryLabel: {
+    fontSize: 14,
+    color: '#fff',
   },
   gridContainer: {
-    paddingHorizontal: 10,
-    paddingBottom: 20,
+    padding: 15,
   },
   grid: {
-    flexDirection: 'column',
+    // Additional styles if needed for layout
   },
   card: {
-    width: '100%',
-    marginBottom: 10,
+    backgroundColor: '#FFF', // Set the background color to white
+    borderRadius: 10,        // Give the card rounded corners
+    padding: 15,             // Add padding inside the card
+    marginBottom: 20,        // Add margin between cards
+    shadowColor: '#000',     // Shadow color (black)
+    shadowOffset: {
+      width: 0,              // Horizontal shadow offset
+      height: 2,             // Vertical shadow offset
+    },
+    shadowOpacity: 0.25,     // Opacity of the shadow
+    shadowRadius: 3.84,      // Blur radius of the shadow
+    elevation: 5,            // Elevation for Android (controls shadow depth)
   },
   addButton: {
     position: 'absolute',
-    right: 20,
-    bottom: 20,
+    bottom: 30,
+    right: 30,
+    backgroundColor: '#5B86E5',
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#FF565E',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     elevation: 5,
   },
   plusIcon: {
-    fontSize: 30,
+    fontSize: 28,
     color: '#FFF',
+    fontWeight: 'bold',
   },
   addNowContainer: {
     position: 'absolute',
-    bottom: 80,
-    right: 20,
-    padding: 20, // Adjusted to match the design
-    borderRadius: 10,
+    bottom: 100,
+    right: 30,
+    padding: 20,
   },
   entryButtonYellow: {
-    backgroundColor: '#FFC542', // Yellow button color
-    borderRadius: 30,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    backgroundColor: '#FFD700',
+    padding: 10,
+    borderRadius: 10,
     marginBottom: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   entryButtonBlue: {
-    backgroundColor: '#3ED598', // Blue button color
-    borderRadius: 30,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginBottom: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#87CEFA',
+    padding: 10,
+    borderRadius: 10,
   },
   entryButtonText: {
     fontSize: 16,
-    color: '#FFF', // White text color
+    color: '#333',
     fontWeight: 'bold',
   },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
   },
   modalView: {
     width: '80%',
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   modalTitle: {
     fontSize: 18,
@@ -275,26 +332,25 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   input: {
-    width: '100%',
-    padding: 10,
-    marginBottom: 10,
-    borderWidth: 1,
+    height: 40,
     borderColor: '#ccc',
-    borderRadius: 10,
-    backgroundColor: '#f9f9f9',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 15,
+    width: '100%',
   },
   modalSubmitButton: {
-    backgroundColor: '#FF565E',
-    borderRadius: 30,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'center',
+    backgroundColor: '#5B86E5',
+    padding: 10,
+    borderRadius: 5,
+    width: '100%',
     alignItems: 'center',
   },
   submitButtonText: {
-    fontSize: 16,
-    color: '#FFF', // White text color
+    color: '#FFF',
     fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 

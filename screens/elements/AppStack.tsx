@@ -46,9 +46,10 @@ const AppStack = () => {
         name="Home"
         component={Home}
         options={{
+          title: 'હોમ',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
@@ -59,7 +60,7 @@ const AppStack = () => {
           title: 'ફૂલ',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
@@ -70,7 +71,7 @@ const AppStack = () => {
           title: 'શાક',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
@@ -81,7 +82,7 @@ const AppStack = () => {
           title: 'રૂપિયાનો હિસાબ',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
@@ -92,7 +93,7 @@ const AppStack = () => {
           title: 'મુલી',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
@@ -103,7 +104,7 @@ const AppStack = () => {
           title: 'રૂપિયાનો હિસાબ',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
@@ -114,7 +115,7 @@ const AppStack = () => {
           title: 'ફ્લાવર ઉમેરો',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
@@ -125,7 +126,7 @@ const AppStack = () => {
           title: 'વેજીટેબલ ઉમેરો',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
@@ -136,7 +137,7 @@ const AppStack = () => {
           title: 'સંપાદિત કરો ફોર્મ',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
@@ -147,7 +148,7 @@ const AppStack = () => {
           title: 'મુલી ઉમેરો',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
@@ -158,7 +159,7 @@ const AppStack = () => {
           title: 'રૂપિયા કલેક્શન ફોર્મ',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
@@ -169,7 +170,7 @@ const AppStack = () => {
           title: 'બિલ બનાવો',
           headerTintColor: '#fff',
           headerStyle: {
-            backgroundColor: '#1F2E35',
+            backgroundColor: '#5B86E5',
           },
         }}
       />
