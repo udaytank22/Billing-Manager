@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {Dropdown} from 'react-native-element-dropdown';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 import TextInputComponent from './components/InputFieldComponent';
 import * as Animatable from 'react-native-animatable';
 
@@ -12,9 +12,9 @@ const MoneyCollectionForm = () => {
   const [remark, setRemark] = useState('');
   const [status, setStatus] = useState(''); // Status to display deposited amount
   const [customers, setCustomers] = useState([
-    {label: 'ઉદય ટાંક', value: 'uday', notCollected: '200'},
-    {label: 'જયેશ પટેલ', value: 'jayesh', notCollected: '150'},
-    {label: 'મનિષા શાહ', value: 'manisha', notCollected: '300'},
+    { label: 'ઉદય ટાંક', value: 'uday', notCollected: '200' },
+    { label: 'જયેશ પટેલ', value: 'jayesh', notCollected: '150' },
+    { label: 'મનિષા શાહ', value: 'manisha', notCollected: '300' },
   ]);
 
   const handleCustomerChange = value => {
@@ -29,11 +29,18 @@ const MoneyCollectionForm = () => {
     const notCollected = parseFloat(notCollectedAmount);
     const total = notCollected - collected;
 
-    if (collected > notCollected) {
-      setTotalAmount(notCollectedAmount);
-      setStatus(`જમા: ₹${(collected - notCollected).toString()}`);
+    if (collected < notCollected) {
+      setTotalAmount((notCollected - collected).toString());
+      setStatus(`બાકી: ₹${(notCollected - collected).toString()}`);
+    } else if (collected > notCollected) {
+      setTotalAmount('0');
+      setStatus(`હાલ ઉપલબ્ધ: ₹${(collected - notCollected).toString()}`);
+    }
+    else if (collected == notCollected) {
+      setTotalAmount('0');
+      setStatus(`હિસાબ ક્લિયર`);
     } else {
-      setTotalAmount(total >= 0 ? total.toString() : '');
+      setTotalAmount('0');
       setStatus('');
     }
   };
@@ -94,16 +101,6 @@ const MoneyCollectionForm = () => {
         />
       </Animatable.View>
 
-      <Animatable.View animation="fadeInUp" duration={800}>
-        <Text style={styles.fieldTitle}>કુલ રકમ</Text>
-        <TextInputComponent
-          placeholder="કુલ રકમ"
-          keyboardType="numeric"
-          value={totalAmount}
-          editable={false}
-        />
-      </Animatable.View>
-
       {status ? (
         <Animatable.View animation="fadeInUp" duration={800}>
           <Text style={styles.statusText}>{status}</Text>
@@ -132,18 +129,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#1F2E35',
+    backgroundColor: '#F8F8F8',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#fff',
+    color: '#000',
   },
   fieldTitle: {
     fontSize: 16,
     marginBottom: 5,
-    color: '#fff',
+    color: '#000',
   },
   dropdown: {
     height: 50,
@@ -170,7 +167,7 @@ const styles = StyleSheet.create({
     color: 'black', // Ensure selected dropdown item text color is black
   },
   statusText: {
-    color: '#fff', // Red color for status text
+    color: '#000', // Red color for status text
     fontSize: 16,
     marginBottom: 20,
   },

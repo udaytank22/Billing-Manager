@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,10 +9,12 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Dropdown} from 'react-native-element-dropdown';
+import { Dropdown } from 'react-native-element-dropdown';
 import * as Animatable from 'react-native-animatable';
+import LinearGradient from 'react-native-linear-gradient';
+import Header from './components/CustomHeader';
 
-const MakeBill = () => {
+const MakeBill = ({ navigation }) => {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [showFromPicker, setShowFromPicker] = useState(false);
@@ -20,10 +22,10 @@ const MakeBill = () => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const customers = [
-    {label: 'કસ્ટમર 1', value: 'customer1'},
-    {label: 'કસ્ટમર 2', value: 'customer2'},
-    {label: 'કસ્ટમર 3', value: 'customer3'},
-    {label: 'કસ્ટમર 4', value: 'customer4'},
+    { label: 'કસ્ટમર 1', value: 'customer1' },
+    { label: 'કસ્ટમર 2', value: 'customer2' },
+    { label: 'કસ્ટમર 3', value: 'customer3' },
+    { label: 'કસ્ટમર 4', value: 'customer4' },
   ];
 
   const toggleFromDatePicker = () => {
@@ -74,77 +76,86 @@ const MakeBill = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <Animatable.Text animation="fadeInUp" style={styles.title}>
-        બિલ બનાવો
-      </Animatable.Text>
+    <View
+      style={styles.container}>
+      <Header title='Make Bill' showBackButton={true} onBackPress={() => navigation.goBack()} />
+      <View style={{ padding: 20 }}>
+        <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+          <Text style={styles.fieldTitle}>કસ્ટમર</Text>
+          <Dropdown
+            style={styles.dropdown}
+            data={customers}
+            labelField="label"
+            valueField="value"
+            placeholder="કસ્ટમર પસંદ કરો"
+            placeholderStyle={styles.placeholderText}
+            value={selectedCustomer}
+            onChange={item => {
+              setSelectedCustomer(item.value);
+            }}
+            renderItem={renderDropdownItem}
+            selectedTextStyle={styles.selectedText}
+          />
+        </Animatable.View>
 
-      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
-        <Text style={styles.fieldTitle}>કસ્ટમર</Text>
-        <Dropdown
-          style={styles.dropdown}
-          data={customers}
-          labelField="label"
-          valueField="value"
-          placeholder="કસ્ટમર પસંદ કરો"
-          placeholderStyle={styles.placeholderText}
-          value={selectedCustomer}
-          onChange={item => {
-            setSelectedCustomer(item.value);
-          }}
-          renderItem={renderDropdownItem}
-          selectedTextStyle={styles.selectedText}
-        />
-      </Animatable.View>
+        <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+          <Text style={styles.fieldTitle}>પ્રારંભ તારીખ</Text>
+          <View style={styles.dateInput}>
+            <Pressable onPress={toggleFromDatePicker}>
+              <Text style={styles.dateText}>
+                {formatDate(fromDate) || 'પ્રારંભ તારીખ પસંદ કરો'}
+              </Text>
+            </Pressable>
+            {showFromPicker && (
+              <DateTimePicker
+                value={fromDate || new Date()}
+                mode="date"
+                display="spinner"
+                onChange={onChangeFromDate}
+              />
+            )}
+          </View>
+        </Animatable.View>
 
-      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
-        <Text style={styles.fieldTitle}>પ્રારંભ તારીખ</Text>
-        <View style={styles.dateInput}>
-          <Pressable onPress={toggleFromDatePicker}>
-            <Text style={styles.dateText}>
-              {formatDate(fromDate) || 'પ્રારંભ તારીખ પસંદ કરો'}
-            </Text>
-          </Pressable>
-          {showFromPicker && (
-            <DateTimePicker
-              value={fromDate || new Date()}
-              mode="date"
-              display="spinner"
-              onChange={onChangeFromDate}
-            />
-          )}
-        </View>
-      </Animatable.View>
+        <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+          <Text style={styles.fieldTitle}>અંતિમ તારીખ</Text>
+          <View style={styles.dateInput}>
+            <Pressable onPress={toggleToDatePicker}>
+              <Text style={styles.dateText}>
+                {formatDate(toDate) || 'અંતિમ તારીખ પસંદ કરો'}
+              </Text>
+            </Pressable>
+            {showToPicker && (
+              <DateTimePicker
+                value={toDate || new Date()}
+                mode="date"
+                display="spinner"
+                onChange={onChangeToDate}
+              />
+            )}
+          </View>
+        </Animatable.View>
 
-      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
-        <Text style={styles.fieldTitle}>અંતિમ તારીખ</Text>
-        <View style={styles.dateInput}>
-          <Pressable onPress={toggleToDatePicker}>
-            <Text style={styles.dateText}>
-              {formatDate(toDate) || 'અંતિમ તારીખ પસંદ કરો'}
-            </Text>
-          </Pressable>
-          {showToPicker && (
-            <DateTimePicker
-              value={toDate || new Date()}
-              mode="date"
-              display="spinner"
-              onChange={onChangeToDate}
-            />
-          )}
-        </View>
-      </Animatable.View>
+        <Animatable.View animation="fadeInUp" style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleDownload}>
+            <LinearGradient
+              colors={['#4CAF50', '#2e7d32']}
+              style={styles.button}>
+              <Icon name="download" size={20} color="#fff" style={styles.icon} />
+              <Text style={styles.buttonText}>ડાઉનલોડ કરો</Text>
+            </LinearGradient>
+          </TouchableOpacity>
 
-      <Animatable.View animation="fadeInUp" style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleDownload}>
-          <Icon name="download" size={20} color="#fff" style={styles.icon} />
-          <Text style={styles.buttonText}>ડાઉનલોડ કરો</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleShare}>
-          <Icon name="share" size={20} color="#fff" style={styles.icon} />
-          <Text style={styles.buttonText}>શેર કરો</Text>
-        </TouchableOpacity>
-      </Animatable.View>
+          <TouchableOpacity onPress={handleShare}>
+            <LinearGradient
+              colors={['#4CAF50', '#2e7d32']}
+              style={styles.button}>
+              <Icon name="share" size={20} color="#fff" style={styles.icon} />
+              <Text style={styles.buttonText}>શેર કરો</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </Animatable.View>
+      </View>
     </View>
   );
 };
@@ -152,21 +163,14 @@ const MakeBill = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#1F2E35',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#fff',
+    backgroundColor: '#FAF7F0',
   },
   inputContainer: {
     marginBottom: 20,
   },
   fieldTitle: {
     fontSize: 16,
-    color: '#fff',
+    color: '#000',
     marginBottom: 5,
   },
   dropdown: {
@@ -208,14 +212,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    backgroundColor: '#4CAF50',
     padding: 15,
     borderRadius: 5,
-    alignItems: 'center',
-    flex: 1,
     marginHorizontal: 5,
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
     color: '#fff',

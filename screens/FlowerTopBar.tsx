@@ -1,6 +1,6 @@
 import React from 'react';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import FloweHome from './FlowerHome';
 
 const Topbar = createMaterialTopTabNavigator();
@@ -9,22 +9,28 @@ const Flower = () => {
   return (
     <Topbar.Navigator
       screenOptions={{
-        tabBarStyle: {backgroundColor: '#1F2E35'},
-        tabBarActiveTintColor: '#1F2E35',
-        tabBarLabelStyle: {fontSize: 13},
+        tabBarStyle: { backgroundColor: '#f4f4f4' }, // Top bar background color
+        tabBarActiveTintColor: '#fc9700', // Active tab text color (orange tone as mentioned for consistency)
+        tabBarInactiveTintColor: '#bbb', // Inactive tab text color
+        tabBarLabelStyle: { fontSize: 13 }, // Tab label font size
+        tabBarIndicatorStyle: { backgroundColor: '#000' }, // Indicator color under active tab
       }}>
       <Topbar.Screen
         name="Daily"
         component={FloweHome}
-        initialParams={{status: 'Daily'}}
+        initialParams={{ status: 'Daily' }}
         options={{
-          tabBarLabel: ({focused}) => (
+          tabBarLabel: ({ focused }) => (
             <View style={styles.tabLabelContainer}>
               <Image
                 source={require('../Images/6307185-removebg-preview.png')}
                 style={styles.icon}
               />
-              <Text style={{color: focused ? '#fff' : '#bbb', marginLeft: 5}}>
+              <Text
+                style={{
+                  color: focused ? '#000' : '#bbb', // Text color changes when focused (orange for active)
+                  marginLeft: 5,
+                }}>
                 દૈનિક
               </Text>
             </View>
@@ -34,15 +40,19 @@ const Flower = () => {
       <Topbar.Screen
         name="AllEntries"
         component={FloweHome}
-        initialParams={{status: 'AllEntry'}}
+        initialParams={{ status: 'AllEntry' }}
         options={{
-          tabBarLabel: ({focused}) => (
+          tabBarLabel: ({ focused }) => (
             <View style={styles.tabLabelContainer}>
               <Image
                 source={require('../Images/desk-calendar-with-marked-dates-3d-cartoon-style-icon-planning-time-meeting-scheduling-flat-vector-illustration-appointment-deadline-agenda-reminder-time-management-concept.png')}
                 style={styles.icon}
               />
-              <Text style={{color: focused ? '#fff' : '#bbb', marginLeft: 5}}>
+              <Text
+                style={{
+                  color: focused ? '#000' : '#bbb', // Same active color for "AllEntries" tab
+                  marginLeft: 5,
+                }}>
                 બધી એન્ટ્રીઓ
               </Text>
             </View>

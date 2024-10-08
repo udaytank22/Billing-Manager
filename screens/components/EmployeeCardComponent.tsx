@@ -1,7 +1,7 @@
-// components/EmployeeCardComponent.js
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import LinearGradient from 'react-native-linear-gradient';
 
 const EmployeeCardComponent = ({
   name,
@@ -19,7 +19,8 @@ const EmployeeCardComponent = ({
       duration={1000}
       delay={delay}
       style={styles.cardContainer}>
-      <View style={styles.cardDetails}>
+      <View
+        style={styles.cardDetails}>
         <Text style={styles.cardTitle}>{name}</Text>
         <View style={styles.detailRow}>
           <Image
@@ -42,6 +43,20 @@ const EmployeeCardComponent = ({
           />
           <Text style={styles.detailText}>{`સમય: ${shift}`}</Text>
         </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.editButton} onPress={onEdit}>
+            <Image
+              source={require('../../Images/edit.png')}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
+            <Image
+              source={require('../../Images/delete_10336397.png')}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </Animatable.View>
   );
@@ -49,22 +64,26 @@ const EmployeeCardComponent = ({
 
 const styles = StyleSheet.create({
   cardContainer: {
-    flexDirection: 'column',
-    backgroundColor: '#475E69',
-    padding: 15,
     marginVertical: 10,
     borderRadius: 10,
-    elevation: 3,
+    shadowColor: '#000',
+    backgroundColor: '#FAF7F0',
+    borderColor: '#000',
+    borderWidth: 1,
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 8,
+    overflow: 'hidden',
   },
   cardDetails: {
     flex: 1,
-    marginBottom: 10,
+    borderRadius: 10, // Rounded corners for the gradient background
+    padding: 10, // Padding inside the card
   },
   cardTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 5,
-    color: '#fff',
+    color: '#000', // Set title color to white for better contrast
   },
   detailRow: {
     flexDirection: 'row',
@@ -74,31 +93,36 @@ const styles = StyleSheet.create({
   detailText: {
     marginLeft: 10,
     fontSize: 16,
-    color: '#fff',
+    color: '#000', // Set detail text color to white for better visibility
   },
   icon: {
     width: 24,
     height: 24,
   },
   buttonContainer: {
+    position: 'absolute',
+    right: 0,
+    bottom: 10,
+    paddingRight: 10,
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   editButton: {
-    backgroundColor: '#4B134F',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    backgroundColor: '#6fcf97',
+    paddingVertical: 8,
+    paddingHorizontal: 15, // Reduced padding for compact buttons
     borderRadius: 5,
+    marginHorizontal: 10
   },
   deleteButton: {
-    backgroundColor: '#E74C3C',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    backgroundColor: '#f2994a',
+    paddingVertical: 8,
+    paddingHorizontal: 15,
     borderRadius: 5,
   },
   buttonText: {
-    color: '#fff',
+    color: '#000',
     fontWeight: 'bold',
+    fontSize: 14, // Slightly reduced text size for compact look
   },
 });
 

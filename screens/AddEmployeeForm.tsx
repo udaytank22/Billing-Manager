@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Dropdown} from 'react-native-element-dropdown';
+import { Dropdown } from 'react-native-element-dropdown';
 import TextInputComponent from './components/InputFieldComponent';
 import * as Animatable from 'react-native-animatable';
 
@@ -22,22 +22,20 @@ const AddEmployeeForm = () => {
   const [dateDisplay, setDateDisplay] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [remark, setRemark] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [newEmployeeName, setNewEmployeeName] = useState('');
-  const [employees, setEmployees] = useState([
-    {label: 'મુકેશ', value: 'Mukesh'},
-    {label: 'સુરેશ', value: 'Suresh'},
-    {label: 'મહેશ', value: 'Mahesh'},
+  const [employees] = useState([
+    { label: 'મુકેશ', value: 'Mukesh' },
+    { label: 'સુરેશ', value: 'Suresh' },
+    { label: 'મહેશ', value: 'Mahesh' },
   ]);
 
   const workingTypes = [
-    {label: 'આખો દિવસ', value: 'Full Day'},
-    {label: 'અડધું દિવસ', value: 'Half Day'},
+    { label: 'આખો દિવસ', value: 'Full Day' },
+    { label: 'અડધું દિવસ', value: 'Half Day' },
   ];
 
   const times = [
-    {label: 'સવાર', value: 'Morning'},
-    {label: 'સાંજ', value: 'Evening'},
+    { label: 'સવાર', value: 'Morning' },
+    { label: 'સાંજ', value: 'Evening' },
   ];
 
   const toggleDatePicker = () => {
@@ -73,6 +71,9 @@ const AddEmployeeForm = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>કર્મચારી દાખલ કરો</Text>
+
+      {/* Employee Dropdown */}
+      <Text style={styles.fieldTitle}>કર્મચારી પસંદ કરો</Text>
       <Animatable.View animation="fadeInUp" duration={800}>
         <Dropdown
           style={styles.dropdown}
@@ -82,14 +83,14 @@ const AddEmployeeForm = () => {
           placeholder="કર્મચારી પસંદ કરો"
           placeholderStyle={styles.placeholderText}
           value={employee}
-          onChange={item => {
-            if (item.value !== 'add_new') {
-              setEmployee(item.value);
-            }
-          }}
+          onChange={item => setEmployee(item.value)}
           selectedTextStyle={styles.selectedText}
+          itemTextStyle={styles.dropdownText}
         />
       </Animatable.View>
+
+      {/* Working Type Dropdown */}
+      <Text style={styles.fieldTitle}>કામનો પ્રકાર</Text>
       <Animatable.View animation="fadeInUp" duration={800}>
         <Dropdown
           style={styles.dropdown}
@@ -101,8 +102,12 @@ const AddEmployeeForm = () => {
           value={workingType}
           onChange={item => setWorkingType(item.value)}
           selectedTextStyle={styles.selectedText}
+          itemTextStyle={styles.dropdownText}
         />
       </Animatable.View>
+
+      {/* Time Dropdown */}
+      <Text style={styles.fieldTitle}>સમય</Text>
       <Animatable.View animation="fadeInUp" duration={800}>
         <Dropdown
           style={styles.dropdown}
@@ -114,8 +119,12 @@ const AddEmployeeForm = () => {
           value={time}
           onChange={item => setTime(item.value)}
           selectedTextStyle={styles.selectedText}
+          itemTextStyle={styles.dropdownText}
         />
       </Animatable.View>
+
+      {/* Date Picker */}
+      <Text style={styles.fieldTitle}>તારીખ</Text>
       <Animatable.View
         style={styles.dateInput}
         animation="fadeInUp"
@@ -132,6 +141,9 @@ const AddEmployeeForm = () => {
           />
         )}
       </Animatable.View>
+
+      {/* Remark Input */}
+      <Text style={styles.fieldTitle}>નોંધ</Text>
       <Animatable.View
         style={styles.inputContainer}
         animation="fadeInUp"
@@ -142,6 +154,8 @@ const AddEmployeeForm = () => {
           onChangeText={setRemark}
         />
       </Animatable.View>
+
+      {/* Submit Button */}
       <Animatable.View
         style={styles.buttonContainer}
         animation="fadeInUp"
@@ -150,8 +164,6 @@ const AddEmployeeForm = () => {
           <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
         </TouchableOpacity>
       </Animatable.View>
-
-      {/* Modal for adding a new employee */}
     </View>
   );
 };
@@ -160,13 +172,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#1F2E35',
+    backgroundColor: '#F5F5F5',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#fff',
+    color: '#000000',
+  },
+  fieldTitle: {
+    fontSize: 16,
+    marginBottom: 8,
+    color: 'black',
   },
   dropdown: {
     height: 50,
@@ -178,19 +195,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingLeft: 15,
   },
-  dropdownItem: {
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    backgroundColor: '#fff',
-  },
   dropdownText: {
-    color: 'black', // Set dropdown item text color to black
+    color: 'black',
   },
   selectedText: {
-    color: 'black', // Ensure selected text color is black
+    color: 'black',
   },
   placeholderText: {
-    color: 'black', // Set placeholder text color to black
+    color: 'black',
   },
   dateInput: {
     height: 50,
@@ -203,7 +215,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   dateText: {
-    color: 'black', // Set date picker text color to black
+    color: 'black',
   },
   inputContainer: {
     marginBottom: 20,
@@ -220,74 +232,6 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: '#fff',
     fontSize: 16,
-  },
-  addNewItem: {
-    padding: 10,
-    alignItems: 'center',
-    backgroundColor: '#4CAF50',
-    borderRadius: 5,
-    marginVertical: 5,
-  },
-  addNewText: {
-    color: '#fff',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    width: '80%', // Adjust as needed
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    marginTop: 10,
-  },
-  buttonFullWidth: {
-    width: '100%',
-  },
-  buttonAdd: {
-    backgroundColor: '#4CAF50', // Change this to your preferred color
-  },
-  buttonClose: {
-    backgroundColor: '#4CAF50',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-    fontSize: 18,
-    color: 'black', // Set modal title color to black
-  },
-  input: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    width: '100%',
   },
 });
 

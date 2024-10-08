@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -12,10 +12,11 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import TextInputComponent from './components/InputFieldComponent';
-import {Dropdown} from 'react-native-element-dropdown';
+import CustomHeader from './components/CustomHeader'
+import { Dropdown } from 'react-native-element-dropdown';
 import * as Animatable from 'react-native-animatable';
 
-const AddFlowerForm = () => {
+const AddFlowerForm = ({ navigation }) => {
   const [customer, setCustomer] = useState('');
   const [quantity, setQuantity] = useState('');
   const [amount, setAmount] = useState('');
@@ -30,9 +31,9 @@ const AddFlowerForm = () => {
   const [newCustomerName, setNewCustomerName] = useState('');
   const [newCustomerMobile, setNewCustomerMobile] = useState('');
   const [customers, setCustomers] = useState([
-    {label: 'ઉદય ટાંક', value: 'ઉદય ટાંક'},
-    {label: 'Jane Doe', value: 'Jane Doe'},
-    {label: 'John Smith', value: 'John Smith'},
+    { label: 'ઉદય ટાંક', value: 'ઉદય ટાંક' },
+    { label: 'Jane Doe', value: 'Jane Doe' },
+    { label: 'John Smith', value: 'John Smith' },
   ]);
 
   const calculateAmounts = (quantity, rate) => {
@@ -84,7 +85,7 @@ const AddFlowerForm = () => {
     if (newCustomerName && newCustomerMobile) {
       setCustomers([
         ...customers,
-        {label: newCustomerName, value: newCustomerName},
+        { label: newCustomerName, value: newCustomerName },
       ]);
       setCustomer(newCustomerName);
       setModalVisible(false);
@@ -100,117 +101,107 @@ const AddFlowerForm = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Animatable.Text animation="fadeInUp" style={styles.title}>
-        ફ્લાવર ઉમેરો
-      </Animatable.Text>
-      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
-        <Text style={styles.fieldTitle}>ગ્રાહક</Text>
-        <Dropdown
-          style={styles.dropdown}
-          data={customers}
-          labelField="label"
-          valueField="value"
-          placeholder="ગ્રાહક પસંદ કરો"
-          placeholderStyle={styles.dropdownPlaceholder}
-          value={customer}
-          onChange={item => {
-            if (item.value !== 'add_new') {
-              setCustomer(item.value);
-            }
-          }}
-          selectedTextStyle={styles.dropdownSelectedText}
-          renderItem={(item, index) => (
-            <View style={{backgroundColor: 'white', margin: 10}}>
-              <Text style={{color: 'black'}}>{item.label}</Text>
-            </View>
-          )}
-        />
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
-        <Text style={styles.fieldTitle}>જથ્થો</Text>
-        <TextInputComponent
-          placeholder="જથ્થો"
-          keyboardType="numeric"
-          value={quantity}
-          onChangeText={text => {
-            setQuantity(text);
-            const newAmount = calculateAmounts(text, rate);
-            setAmount(newAmount);
-            setTotalAmount(newAmount);
-          }}
-        />
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
-        <Text style={styles.fieldTitle}>ભાવ</Text>
-        <TextInputComponent
-          placeholder="ભાવ"
-          keyboardType="numeric"
-          value={rate}
-          onChangeText={text => {
-            setRate(text);
-            const newAmount = calculateAmounts(quantity, text);
-            setAmount(newAmount);
-            setTotalAmount(newAmount);
-          }}
-          editable={false}
-        />
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
-        <Text style={styles.fieldTitle}>રૂપિયા</Text>
-        <TextInputComponent
-          placeholder="રૂપિયા"
-          keyboardType="numeric"
-          value={amount}
-          onChangeText={setAmount}
-          editable={false}
-        />
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
-        <Text style={styles.fieldTitle}>ટોટલ</Text>
-        <TextInputComponent
-          placeholder="ટોટલ"
-          keyboardType="numeric"
-          value={totalAmount}
-          onChangeText={setTotalAmount}
-          editable={false}
-        />
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
-        <Text style={styles.fieldTitle}>તારીખ</Text>
-        <View style={styles.dateInput}>
-          <Pressable onPress={toggleFromDatePicker}>
-            <Text style={styles.dateText}>
-              {fromDateDisplay || 'તારીખ પસંદ કરો'}
-            </Text>
-          </Pressable>
-          {showFromPicker && (
-            <DateTimePicker
-              value={fromDate}
-              mode="date"
-              display="spinner"
-              onChange={onChangeFromDate}
-              style={styles.datePicker}
-            />
-          )}
-        </View>
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
-        <Text style={styles.fieldTitle}>નોંધ</Text>
-        <TextInputComponent
-          placeholder="નોંધ"
-          value={remark}
-          onChangeText={setRemark}
-        />
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp">
-        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
-        </TouchableOpacity>
-      </Animatable.View>
+    <>
+      <CustomHeader title='Add Flower' showBackButton={true} onBackPress={() => navigation.goBack()} />
+      <ScrollView contentContainerStyle={styles.container}>
+        <Animatable.Text animation="fadeInUp" style={styles.title}>
+          ફ્લાવર ઉમેરો
+        </Animatable.Text>
+        <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+          <Text style={styles.fieldTitle}>ગ્રાહક</Text>
+          <Dropdown
+            style={styles.dropdown}
+            data={customers}
+            labelField="label"
+            valueField="value"
+            placeholder="ગ્રાહક પસંદ કરો"
+            placeholderStyle={styles.dropdownPlaceholder}
+            value={customer}
+            onChange={item => {
+              if (item.value !== 'add_new') {
+                setCustomer(item.value);
+              }
+            }}
+            selectedTextStyle={styles.dropdownSelectedText}
+            renderItem={(item, index) => (
+              <View style={{ backgroundColor: 'white', margin: 10 }}>
+                <Text style={{ color: 'black' }}>{item.label}</Text>
+              </View>
+            )}
+          />
+        </Animatable.View>
+        <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+          <Text style={styles.fieldTitle}>જથ્થો</Text>
+          <TextInputComponent
+            placeholder="જથ્થો"
+            keyboardType="numeric"
+            value={quantity}
+            onChangeText={text => {
+              setQuantity(text);
+              const newAmount = calculateAmounts(text, rate);
+              setAmount(newAmount);
+              setTotalAmount(newAmount);
+            }}
+          />
+        </Animatable.View>
+        <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+          <Text style={styles.fieldTitle}>ભાવ</Text>
+          <TextInputComponent
+            placeholder="ભાવ"
+            keyboardType="numeric"
+            value={rate}
+            onChangeText={text => {
+              setRate(text);
+              const newAmount = calculateAmounts(quantity, text);
+              setAmount(newAmount);
+              setTotalAmount(newAmount);
+            }}
+            editable={false}
+          />
+        </Animatable.View>
+        <Animatable.View animation="fadeInUp" style={[styles.inputContainer, { flexDirection: 'row' }]}>
+          <Text style={styles.fieldTitle}>રૂપિયા: </Text>
+          <Text style={styles.fieldTitle}>{amount}</Text>
+        </Animatable.View>
+        <Animatable.View animation="fadeInUp" style={[styles.inputContainer, { flexDirection: 'row' }]}>
+          <Text style={styles.fieldTitle}>ટોટલ: </Text>
+          <Text style={styles.fieldTitle}>{totalAmount}</Text>
+        </Animatable.View>
+        <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+          <Text style={styles.fieldTitle}>તારીખ</Text>
+          <View style={styles.dateInput}>
+            <Pressable onPress={toggleFromDatePicker}>
+              <Text style={styles.dateText}>
+                {fromDateDisplay || 'તારીખ પસંદ કરો'}
+              </Text>
+            </Pressable>
+            {showFromPicker && (
+              <DateTimePicker
+                value={fromDate}
+                mode="date"
+                display="spinner"
+                onChange={onChangeFromDate}
+                style={styles.datePicker}
+              />
+            )}
+          </View>
+        </Animatable.View>
+        <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+          <Text style={styles.fieldTitle}>નોંધ</Text>
+          <TextInputComponent
+            placeholder="નોંધ"
+            value={remark}
+            onChangeText={setRemark}
+          />
+        </Animatable.View>
+        <Animatable.View animation="fadeInUp">
+          <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+            <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
+          </TouchableOpacity>
+        </Animatable.View>
 
-      {/* Modal for adding a new customer */}
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 
@@ -218,20 +209,20 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: '#1F2E35',
+    backgroundColor: '#FAF7F0',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#000000',
     marginBottom: 20,
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
   fieldTitle: {
     fontSize: 16,
-    color: '#fff',
+    color: '#000000',
     marginBottom: 5,
   },
   dropdown: {

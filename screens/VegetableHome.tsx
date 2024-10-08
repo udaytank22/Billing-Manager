@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -13,14 +13,15 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Dropdown} from 'react-native-element-dropdown';
+import { Dropdown } from 'react-native-element-dropdown';
 import VegetableCardComonent from './components/VegetableCardComponent';
-import FixedBottom from './elements/FixedBottom';
 import * as Animatable from 'react-native-animatable';
+import LinearGradient from 'react-native-linear-gradient'; // For Gradient Background
+import Header from './components/CustomHeader'
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
-const VegrtableHome = ({navigation, route}) => {
+const VegrtableHome = ({ navigation, route }) => {
   const [search, setSearch] = useState('');
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState('');
@@ -31,10 +32,10 @@ const VegrtableHome = ({navigation, route}) => {
   const [newVegetableName, setNewVegetableName] = useState('');
 
   const customers = [
-    {label: 'બટાકા', value: 'બટાકા'},
-    {label: 'લીલી ડુંગળી', value: 'લીલી ડુંગળી'},
-    {label: 'ફુલાવર', value: 'ફુલાવર'},
-    {label: 'કાકડી', value: 'કાકડી'},
+    { label: 'બટાકા', value: 'બટાકા' },
+    { label: 'લીલી ડુંગળી', value: 'લીલી ડુંગળી' },
+    { label: 'ફુલાવર', value: 'ફુલાવર' },
+    { label: 'કાકડી', value: 'કાકડી' },
     // Add more customers as needed
   ];
 
@@ -64,233 +65,81 @@ const VegrtableHome = ({navigation, route}) => {
       purchaseDate: '2023-06-17',
       Remark: 'Just Testing',
     },
-    // Add more data as needed
+    {
+      customerName: 'કાકડી',
+      VegetableWeight: '500',
+      VegetableQuentity: '80',
+      purchaseDate: '2023-06-17',
+      Remark: 'Just Testing',
+    },
+    {
+      customerName: 'કાકડી',
+      VegetableWeight: '500',
+      VegetableQuentity: '80',
+      purchaseDate: '2023-06-17',
+      Remark: 'Just Testing',
+    },
+    {
+      customerName: 'કાકડી',
+      VegetableWeight: '500',
+      VegetableQuentity: '80',
+      purchaseDate: '2023-06-17',
+      Remark: 'Just Testing',
+    },
   ];
 
   const [filteredData, setFilteredData] = useState(cardsData);
 
-  const handleFilterApply = () => {
-    let newFilteredData = cardsData;
-
-    if (selectedCustomer) {
-      newFilteredData = newFilteredData.filter(
-        card => card.customerName === selectedCustomer,
-      );
-    }
-
-    if (selectedDate) {
-      const formattedDate = selectedDate.toISOString().split('T')[0];
-      newFilteredData = newFilteredData.filter(
-        card => card.purchaseDate === formattedDate,
-      );
-    }
-
-    if (selectedQuantity) {
-      newFilteredData = newFilteredData.filter(
-        card => card.VegetableQuentity === selectedQuantity,
-      );
-    }
-
-    setFilteredData(newFilteredData);
-    setShowFilterModal(false);
-  };
-
-  const handleFilterClear = () => {
-    setSelectedCustomer('');
-    setSelectedDate(null);
-    setSelectedQuantity('');
-    setFilteredData(cardsData); // Reset to original data
-    setShowFilterModal(false);
-  };
-
-  const handleDateChange = (event, date) => {
-    setShowDatePicker(false);
-    if (date) {
-      setSelectedDate(date);
-    }
-  };
-
-  const handleAddVegetable = () => {
-    setModalVisible(true);
-  };
-
-  const handleModalSubmit = () => {
-    console.log('its working');
-  };
-
-  const handlePressOutside = () => {
-    setModalVisible(false);
-  };
-
   return (
-    <View style={styles.container}>
-      <Animatable.View
-        animation="fadeIn"
-        duration={5000}
-        style={styles.searchContainer}>
-        <Icon name="search" size={20} color="#555" style={styles.searchIcon} />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="શોધો"
-          placeholderTextColor="#888"
-          value={search}
-          onChangeText={setSearch}
-        />
-        <TouchableOpacity
-          style={styles.filterButton}
-          onPress={() => setShowFilterModal(true)}>
-          <Text style={styles.filterButtonText}>શોધો</Text>
-        </TouchableOpacity>
-      </Animatable.View>
+    <View
+      style={styles.container}>
+      <Header title={'Vegrtable List'} showBackButton={true} onBackPress={() => navigation.goBack()} />
+      <View style={{ padding: 20, marginBottom: 100 }}>
+        <Animatable.View
+          animation="fadeIn"
+          duration={5000}
+          style={styles.inputContainer}>
+          <Icon name="search" size={20} color="#555" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="શોધો"
+            placeholderTextColor="#888"
+            value={search}
+            onChangeText={setSearch}
+          />
+        </Animatable.View>
 
-      <FlatList
-        data={filteredData.filter(card =>
-          card.customerName.toLowerCase().includes(search.toLowerCase()),
-        )}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.cardsContainer}
-        renderItem={({item, index}) => (
-          <Animatable.View
-            animation="fadeInUp"
-            duration={1000}
-            delay={index * 300}
-            style={styles.card}>
-            <VegetableCardComonent
-              vegetableName={item.customerName}
-              vegetableWeight={item.VegetableWeight}
-              vegetableQuantity={item.VegetableQuentity}
-              dateNeeded={item.purchaseDate}
-              remark={item.Remark}
-              type={'VegrtableHome'}
-              onPress={() =>
-                navigation.navigate('EditFlower', {
-                  cardData: item,
-                  pageType: 'VegrtableHome',
-                })
-              }
-            />
-          </Animatable.View>
-        )}
-      />
-
-      {/* Filter Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={showFilterModal}
-        onRequestClose={() => setShowFilterModal(false)}>
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>ફિલ્ટર</Text>
-
-            <Dropdown
-              style={styles.dropdown}
-              data={customers}
-              labelField="label"
-              valueField="value"
-              placeholder="શાકભાજી નામ પસંદ કરો"
-              placeholderStyle={{color: '#000'}}
-              value={selectedCustomer}
-              onChange={item => setSelectedCustomer(item.value)}
-            />
-
-            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-              <Text style={styles.dateText}>
-                {selectedDate ? selectedDate.toDateString() : 'તારીખ પસંદ કરો'}
-              </Text>
-            </TouchableOpacity>
-
-            {showDatePicker && (
-              <DateTimePicker
-                value={selectedDate || new Date()}
-                mode="date"
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                onChange={handleDateChange}
+        <FlatList
+          data={filteredData.filter(card =>
+            card.customerName.toLowerCase().includes(search.toLowerCase()),
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          contentContainerStyle={styles.cardsContainer}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <Animatable.View
+              animation="fadeInUp"
+              duration={1000}
+              delay={index * 300}
+              style={styles.card}>
+              <VegetableCardComonent
+                vegetableName={item.customerName}
+                vegetableWeight={item.VegetableWeight}
+                vegetableQuantity={item.VegetableQuentity}
+                dateNeeded={item.purchaseDate}
+                remark={item.Remark}
+                type={'VegrtableHome'}
+                onPress={() =>
+                  navigation.navigate('EditFlower', {
+                    cardData: item,
+                    pageType: 'VegrtableHome',
+                  })
+                }
               />
-            )}
-
-            <TextInput
-              style={styles.amountInput}
-              placeholder="મોટા જથ્થો"
-              keyboardType="numeric"
-              value={selectedQuantity}
-              onChangeText={setSelectedQuantity}
-            />
-
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.applyButton}
-                onPress={handleFilterApply}>
-                <Text style={styles.applyButtonText}>એપ્લાય</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.clearButton}
-                onPress={handleFilterClear}>
-                <Text style={styles.clearButtonText}>ક્લિયર</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={() => setShowFilterModal(false)}>
-                <Text style={styles.closeButtonText}>બંધ કરો</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
-      {route.params.status === 'Daily' && (
-        <Animatable.View
-          animation="slideInRight"
-          duration={4000}
-          style={[styles.addButtonContainer, {right: width * -0.03}]}>
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => navigation.push('AddVegetableForm')}>
-            <Text style={styles.addButtonText}>એન્ટ્રી ઉમેરો</Text>
-          </TouchableOpacity>
-        </Animatable.View>
-      )}
-
-      {route.params.status === 'Daily' && (
-        <Animatable.View
-          animation="slideInRight"
-          duration={4000}
-          style={[styles.newCustomerButtonContainer, {right: width * -0.03}]}>
-          <TouchableOpacity
-            style={styles.newCustomerButton}
-            onPress={handleAddVegetable}>
-            <Text style={styles.newCustomerButtonText}>નવો ઘરાક ઉમેરો</Text>
-          </TouchableOpacity>
-        </Animatable.View>
-      )}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={handlePressOutside}>
-        <Pressable style={styles.centeredView} onPress={handlePressOutside}>
-          <Pressable
-            style={styles.modalView}
-            onPress={e => e.stopPropagation()} // Prevents press inside the modal from closing it
-          >
-            <Text style={styles.modalTitle}>નવી શાકભાજી ઉમેરો</Text>
-            <TextInput
-              style={styles.modalInput}
-              placeholder="શાકભાજી નામ"
-              value={newVegetableName}
-              onChangeText={setNewVegetableName}
-              placeholderTextColor="#000"
-            />
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleModalSubmit}>
-              <Text style={styles.modalButtonText}>ઉમેરો</Text>
-            </TouchableOpacity>
-          </Pressable>
-        </Pressable>
-      </Modal>
+            </Animatable.View>
+          )}
+        />
+      </View>
     </View>
   );
 };
@@ -298,29 +147,38 @@ const VegrtableHome = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1F2E35',
+    backgroundColor: '#FAF7F0'
   },
-  addButtonContainer: {
-    position: 'absolute',
-    bottom: 80,
+  headerContainer: {
+    backgroundColor: '#2980B9',
+    padding: 15,
+    alignItems: 'center',
   },
-  searchContainer: {
+  headerText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingLeft: 10,
-    paddingRight: 10,
-    margin: 20,
+    backgroundColor: '#FAF7F0',
+    borderColor: '#000',
+    borderWidth: 1,
     borderRadius: 10,
-    elevation: 2,
+    marginVertical: 10,
+    paddingHorizontal: 15,
+    width: '100%',
   },
-  searchIcon: {
+  icon: {
+    width: 18,
+    height: 18,
     marginRight: 10,
+    tintColor: '#FFF',
   },
-  searchInput: {
+  input: {
     flex: 1,
-    fontSize: 16,
-    color: '#000',
+    color: '#FFF',
   },
   filterButton: {
     marginLeft: 10,
@@ -330,164 +188,76 @@ const styles = StyleSheet.create({
   },
   filterButtonText: {
     color: '#fff',
-    fontSize: 16,
   },
   cardsContainer: {
     paddingBottom: 20,
   },
   card: {
-    width: '100%',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   modalBackground: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainer: {
-    width: '90%',
+    width: '80%',
     backgroundColor: '#fff',
-    borderRadius: 10,
     padding: 20,
-    elevation: 5,
+    borderRadius: 10,
+    alignItems: 'center',
   },
   modalTitle: {
-    fontSize: 20,
-    marginBottom: 15,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
+    marginBottom: 20,
   },
   dropdown: {
-    marginBottom: 15,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 5,
+    width: '100%',
+    marginBottom: 20,
   },
   dateText: {
-    marginBottom: 15,
+    marginBottom: 20,
     fontSize: 16,
-    color: '#333',
+    color: '#555',
   },
   amountInput: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 15,
-    paddingHorizontal: 10,
+    width: '100%',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    marginBottom: 20,
     fontSize: 16,
     color: '#000',
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: '100%',
   },
   applyButton: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    backgroundColor: '#2980B9',
+    padding: 10,
     borderRadius: 5,
-    alignItems: 'center',
-    flex: 1,
-    marginRight: 10,
   },
   applyButtonText: {
     color: '#fff',
-    fontSize: 16,
   },
   clearButton: {
-    backgroundColor: '#FFC107',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    backgroundColor: '#e74c3c',
+    padding: 10,
     borderRadius: 5,
-    alignItems: 'center',
-    flex: 1,
-    marginRight: 10,
   },
   clearButtonText: {
     color: '#fff',
-    fontSize: 16,
   },
   closeButton: {
-    backgroundColor: '#f44336',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    backgroundColor: '#95a5a6',
+    padding: 10,
     borderRadius: 5,
-    alignItems: 'center',
-    flex: 1,
   },
   closeButtonText: {
     color: '#fff',
-    fontSize: 16,
-  },
-  addButton: {
-    backgroundColor: '#FFC542',
-    borderTopLeftRadius: 30,
-    borderBottomLeftRadius: 30,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-  },
-  newCustomerButtonContainer: {
-    position: 'absolute',
-    bottom: 20,
-  },
-  newCustomerButton: {
-    backgroundColor: '#3498db',
-    borderTopLeftRadius: 30,
-    borderBottomLeftRadius: 30,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-  },
-  addButtonText: {
-    fontSize: 20,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: '#000',
-  },
-  newCustomerButtonText: {
-    color: '#fff',
-    fontSize: 20,
-  },
-  modalInput: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    marginBottom: 16,
-    backgroundColor: '#fff',
-  },
-  modalButton: {
-    backgroundColor: '#4CAF50',
-    padding: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  modalButtonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  modalView: {
-    width: '80%',
-    backgroundColor: '#FF565E',
-    borderRadius: 8,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
 });
 

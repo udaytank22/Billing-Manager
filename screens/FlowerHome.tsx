@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -13,13 +13,15 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Dropdown} from 'react-native-element-dropdown';
+import { Dropdown } from 'react-native-element-dropdown';
 import CardComponent from './components/FlowerCardComponent';
 import * as Animatable from 'react-native-animatable';
+import LinearGradient from 'react-native-linear-gradient';
+import CustomHeader from './components/CustomHeader';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
-const FloweHome = ({route, navigation}) => {
+const FlowerHome = ({ route, navigation }) => {
   const [search, setSearch] = useState('');
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState('');
@@ -28,9 +30,9 @@ const FloweHome = ({route, navigation}) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const customers = [
-    {label: 'ઉદય ટાંક', value: 'uday'},
-    {label: 'Jane Doe', value: 'jane'},
-    {label: 'John Smith', value: 'john'},
+    { label: 'ઉદય ટાંક', value: 'uday' },
+    { label: 'Jane Doe', value: 'jane' },
+    { label: 'John Smith', value: 'john' },
     // Add more customers as needed
   ];
 
@@ -99,192 +101,60 @@ const FloweHome = ({route, navigation}) => {
 
   const [filteredData, setFilteredData] = useState(cardsData);
   const [visibleIndex, setVisibleIndex] = useState(0);
-  const [newCustomerName, setNewCustomerName] = useState('');
-  const [newCustomerMobile, setNewCustomerMobile] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
 
-  const handleFilterApply = () => {
-    let newFilteredData = cardsData;
-
-    if (selectedCustomer) {
-      newFilteredData = newFilteredData.filter(
-        card => card.customerName === selectedCustomer,
-      );
-    }
-
-    if (selectedDate) {
-      const formattedDate = selectedDate.toISOString().split('T')[0];
-      newFilteredData = newFilteredData.filter(
-        card => card.purchaseDate === formattedDate,
-      );
-    }
-
-    if (selectedAmount) {
-      newFilteredData = newFilteredData.filter(
-        card => card.flowerAmount === selectedAmount,
-      );
-    }
-
-    setFilteredData(newFilteredData);
-    setShowFilterModal(false);
-  };
-
-  const handleAddCustomer = () => {
-    setModalVisible(true);
-  };
-
-  const handleModalSubmit = () => {};
-
-  const handlePressOutside = () => {
-    setModalVisible(false);
-  };
-
-  const handleFilterClear = () => {
-    setSelectedCustomer('');
-    setSelectedDate(null);
-    setSelectedAmount('');
-    setFilteredData(cardsData); // Reset to original data
-    setShowFilterModal(false);
-  };
-
-  const handleDateChange = (event, date) => {
-    setShowDatePicker(false);
-    if (date) {
-      setSelectedDate(date);
-    }
-  };
-
-  const onViewableItemsChanged = useRef(({viewableItems}) => {
+  const onViewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {
       setVisibleIndex(viewableItems[0].index);
     }
   });
 
   return (
-    <View style={styles.container}>
-      <Animatable.View
-        animation="fadeIn"
-        duration={5000}
-        style={styles.searchContainer}>
-        <Icon name="search" size={20} color="#555" style={styles.searchIcon} />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="શોધો"
-          placeholderTextColor="#888"
-          value={search}
-          onChangeText={setSearch}
-        />
-        <TouchableOpacity
-          style={styles.filterButton}
-          onPress={() => setShowFilterModal(true)}>
-          <Text style={styles.filterButtonText}>શોધો</Text>
-        </TouchableOpacity>
-      </Animatable.View>
-
-      <FlatList
-        data={filteredData.filter(card =>
-          card.customerName.toLowerCase().includes(search.toLowerCase()),
-        )}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.cardsContainer}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item, index}) => (
-          <CardComponent
-            customerName={item.customerName}
-            flowerQuantity={item.flowerQuantity}
-            flowerAmount={item.flowerAmount}
-            purchaseDate={item.purchaseDate}
-            animation="fadeInUp"
-            delay={index * 700}
-            onEdit={() =>
-              navigation.navigate('EditFlower', {
-                cardData: item,
-                pageType: 'FlowerHome',
-              })
-            }
-            onDelete={undefined}
-            onViewableItemsChanged={onViewableItemsChanged.current}
-            viewabilityConfig={{itemVisiblePercentThreshold: 50}}
+    <View
+      style={styles.container}>
+      <CustomHeader title="Flower List" showBackButton={true} onBackPress={() => navigation.goBack()} />
+      <View style={{ padding: 20, marginBottom: 100 }}>
+        <Animatable.View
+          animation="fadeIn"
+          duration={5000}
+          style={styles.inputContainer}>
+          <Icon name="search" size={20} color="#555" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="શોધો"
+            placeholderTextColor="#888"
+            value={search}
+            onChangeText={setSearch}
           />
-        )}
-      />
+        </Animatable.View>
 
-      {/* Filter Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={showFilterModal}
-        onRequestClose={() => setShowFilterModal(false)}>
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>ફિલ્ટર</Text>
-
-            <Dropdown
-              style={styles.dropdown}
-              data={customers}
-              labelField="label"
-              valueField="value"
-              placeholder="ગ્રાહક પસંદ કરો"
-              placeholderStyle={{color: '#000'}}
-              value={selectedCustomer}
-              onChange={item => setSelectedCustomer(item.value)}
-              selectedTextStyle={styles.dropdownSelectedText}
-              renderItem={(item, index) => (
-                <View style={{backgroundColor: 'white', margin: 10}}>
-                  <Text style={{color: 'black'}}>{item.label}</Text>
-                </View>
-              )}
+        <FlatList
+          data={filteredData.filter(card =>
+            card.customerName.toLowerCase().includes(search.toLowerCase()),
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          contentContainerStyle={styles.cardsContainer}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <CardComponent
+              customerName={item.customerName}
+              flowerQuantity={item.flowerQuantity}
+              flowerAmount={item.flowerAmount}
+              purchaseDate={item.purchaseDate}
+              animation="fadeInUp"
+              delay={index * 700}
+              onEdit={() =>
+                navigation.navigate('EditFlower', {
+                  cardData: item,
+                  pageType: 'FlowerHome',
+                })
+              }
+              onDelete={undefined}
+              onViewableItemsChanged={onViewableItemsChanged.current}
+              viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
             />
-
-            <View style={{backgroundColor: '#fff', marginBottom: 20}}>
-              <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-                <Text style={styles.dateText}>
-                  {selectedDate
-                    ? selectedDate.toDateString()
-                    : 'તારીખ પસંદ કરો'}
-                </Text>
-              </TouchableOpacity>
-
-              {showDatePicker && (
-                <DateTimePicker
-                  value={selectedDate || new Date()}
-                  mode="date"
-                  display={Platform.OS === 'android' ? 'spinner' : 'default'}
-                  onChange={handleDateChange}
-                />
-              )}
-            </View>
-            <TextInput
-              style={styles.amountInput}
-              placeholder="કુલ રકમ"
-              placeholderTextColor="#888"
-              keyboardType="numeric"
-              value={selectedAmount}
-              onChangeText={setSelectedAmount}
-            />
-
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.applyButton}
-                onPress={handleFilterApply}>
-                <Text style={styles.applyButtonText}>એપ્લાય</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.clearButton}
-                onPress={handleFilterClear}>
-                <Text style={styles.clearButtonText}>ક્લિયર</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={() => setShowFilterModal(false)}>
-                <Text style={styles.closeButtonText}>બંધ કરો</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
+          )}
+        />
+      </View>
     </View>
   );
 };
@@ -292,7 +162,7 @@ const FloweHome = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1F2E35',
+    backgroundColor: '#FAF7F0',
   },
   dropdownSelectedText: {
     color: '#000',
@@ -458,16 +328,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 5,
   },
-  input: {
-    width: '100%',
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 15,
-    backgroundColor: '#fff',
-  },
   modalSubmitButton: {
     backgroundColor: '#4CAF50',
     padding: 10,
@@ -492,6 +352,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FAF7F0',
+    borderColor: '#000',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginVertical: 10,
+    paddingHorizontal: 15,
+    width: '100%',
+  },
+  icon: {
+    width: 18,
+    height: 18,
+    marginRight: 10,
+    tintColor: '#FFF',
+  },
+  input: {
+    flex: 1,
+    color: '#FFF',
+  },
 });
 
-export default FloweHome;
+export default FlowerHome;

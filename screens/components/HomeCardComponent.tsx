@@ -1,70 +1,56 @@
 import React from 'react';
-import {View, StyleSheet, Pressable, Image} from 'react-native';
-import {Card, Title, Paragraph} from 'react-native-paper';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
-const CardComponent = ({
-  title,
-  value,
-  backgroundColor,
-  imageSource,
-  onPress,
-  disabled = false,
-}) => {
+const CardComponent = ({ data, navigation }) => {
   return (
-    <Pressable
-      onPress={onPress}
-      disabled={disabled}
-      style={({pressed}) => [
-        styles.cardWrapper,
-        pressed && !disabled && {opacity: 0.8},
-      ]}>
-      <Card style={[styles.card, {backgroundColor}]}>
-        <View style={styles.content}>
-          <Image source={imageSource} style={styles.image} />
-          <View style={styles.textContainer}>
-            <Title style={styles.title}>{title}</Title>
-            {value && <Paragraph style={styles.value}>{value}</Paragraph>}
-          </View>
+    <TouchableOpacity onPress={() => navigation.navigate(data.navigateTo)} style={styles.card}>
+      <View style={styles.cardGradient}
+      >
+        <View style={styles.textContainer}>
+          <Text style={styles.cardTitle}>{data.title}</Text>
+          <Text style={styles.cardTitle}>Total: {data.total}</Text>
         </View>
-      </Card>
-    </Pressable>
+        <Image source={data.imageSource} style={styles.cardImage} />
+      </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  cardWrapper: {
-    marginBottom: 10,
-    borderRadius: 15,
-    overflow: 'hidden',
-  },
   card: {
+    marginVertical: 5,
     borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: -4, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
     elevation: 5,
-    padding: 15,
+    overflow: 'hidden',
+    backgroundColor: '#FAF7F0',
+    borderColor: '#000',
+    borderWidth: 1
   },
-  content: {
+  cardGradient: {
+    paddingVertical: 20,
+    paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  image: {
-    width: 80,
-    height: 80,
-    marginRight: 15,
-    borderRadius: 40, // Make the image circular
-    borderWidth: 3,
-    borderColor: '#fff', // White border around the image for a cartoonish effect
+    borderRadius: 15,
   },
   textContainer: {
-    flexDirection: 'column',
+    flex: 1,
   },
-  title: {
-    fontSize: 20,
-    color: '#000',
-    fontWeight: 'bold',
+  cardImage: {
+    width: 90,
+    height: 90,
+    borderRadius: 10,
+    marginLeft: 15,
   },
-  value: {
-    fontSize: 16,
+  cardTitle: {
     color: '#000',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 

@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     console.log('userInfo', values.user.id)
     await AsyncStorage.setItem('userToken', values.user.id);
     setUserToken(values.user.id);
-    // try {
+    // try {  
     //   setIsLoading(true);
     //   // Simulating an API call for login
     //   const {email, password} = values;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -11,25 +11,25 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import TextInputComponent from './components/InputFieldComponent';
-import {Dropdown} from 'react-native-element-dropdown';
+import { Dropdown } from 'react-native-element-dropdown';
 import * as Animatable from 'react-native-animatable';
 
 const AddVegetableForm = () => {
   const [customer, setCustomer] = useState('');
-  const [bags, setBags] = useState([{quantity: '', weight: ''}]);
+  const [bags, setBags] = useState([{ quantity: '', weight: '' }]);
   const [fromDate, setFromDate] = useState(new Date());
   const [fromDateDisplay, setFromDateDisplay] = useState('');
   const [fromDateServer, setFromDateServer] = useState('');
   const [showFromPicker, setShowFromPicker] = useState(false);
   const [remark, setRemark] = useState('');
-  const [totalBags, setTotalBags] = useState('');
-  const [totalWeight, setTotalWeight] = useState('');
+  const [totalBags, setTotalBags] = useState('0');
+  const [totalWeight, setTotalWeight] = useState('0');
   const [modalVisible, setModalVisible] = useState(false);
   const [newVegetableName, setNewVegetableName] = useState('');
   const [vegetables, setVegetables] = useState([
-    {label: 'બટાકા', value: 'બટાકા'},
-    {label: 'લીલી ડુંગળી', value: 'લીલી ડુંગળી'},
-    {label: 'ફુલાવર', value: 'ફુલાવર'},
+    { label: 'બટાકા', value: 'બટાકા' },
+    { label: 'લીલી ડુંગળી', value: 'લીલી ડુંગળી' },
+    { label: 'ફુલાવર', value: 'ફુલાવર' },
   ]);
 
   const toggleFromDatePicker = () => {
@@ -59,13 +59,13 @@ const AddVegetableForm = () => {
   };
 
   const handleAddBag = () => {
-    setBags([...bags, {quantity: '', weight: ''}]);
+    setBags([...bags, { quantity: '', weight: '' }]);
   };
 
   const handleBagChange = (index, field, value) => {
     const updatedBags = bags.map((bag, i) => {
       if (i === index) {
-        return {...bag, [field]: value};
+        return { ...bag, [field]: value };
       }
       return bag;
     });
@@ -103,7 +103,7 @@ const AddVegetableForm = () => {
     if (newVegetableName) {
       setVegetables([
         ...vegetables,
-        {label: newVegetableName, value: newVegetableName},
+        { label: newVegetableName, value: newVegetableName },
       ]);
       setCustomer(newVegetableName);
       setModalVisible(false);
@@ -137,8 +137,8 @@ const AddVegetableForm = () => {
           }}
           selectedTextStyle={styles.selectedText}
           renderItem={(item, index) => (
-            <View style={{backgroundColor: 'white', margin: 10}}>
-              <Text style={{color: 'black'}}>{item.label}</Text>
+            <View style={{ backgroundColor: 'white', margin: 10 }}>
+              <Text style={{ color: 'black' }}>{item.label}</Text>
             </View>
           )}
         />
@@ -166,23 +166,13 @@ const AddVegetableForm = () => {
           <Text style={styles.addButtonText}>ઝબલા ઉમેરો</Text>
         </TouchableOpacity>
       </Animatable.View>
-      <Animatable.View animation="fadeInUp" duration={800}>
-        <Text style={styles.fieldTitle}>કુલ બેગ</Text>
-        <TextInputComponent
-          placeholder="કુલ બેગ"
-          keyboardType="numeric"
-          value={totalBags}
-          editable={false}
-        />
+      <Animatable.View animation="fadeInUp" duration={800} style={{ flexDirection: 'row', }}>
+        <Text style={styles.fieldTitle}>કુલ બેગ: </Text>
+        <Text style={styles.fieldTitle}>{totalBags}</Text>
       </Animatable.View>
-      <Animatable.View animation="fadeInUp" duration={800}>
-        <Text style={styles.fieldTitle}>કુલ વજન</Text>
-        <TextInputComponent
-          placeholder="કુલ વજન"
-          keyboardType="numeric"
-          value={totalWeight}
-          editable={false}
-        />
+      <Animatable.View animation="fadeInUp" duration={800} style={{ flexDirection: 'row', }}>
+        <Text style={styles.fieldTitle}>કુલ વજન: </Text>
+        <Text style={styles.fieldTitle}>{totalWeight}</Text>
       </Animatable.View>
       <Animatable.View animation="fadeInUp" duration={800}>
         <Text style={styles.fieldTitle}>તારીખ પસંદ કરો</Text>
@@ -223,13 +213,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#1F2E35',
+    backgroundColor: '#F5F5F5',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: '#ffffff',
+    color: '#000000',
   },
   dropdown: {
     height: 50,
@@ -333,7 +323,7 @@ const styles = StyleSheet.create({
   },
   fieldTitle: {
     fontSize: 16,
-    color: '#ffffff',
+    color: '#000000',
     marginBottom: 8,
   },
   dropdownItem: {

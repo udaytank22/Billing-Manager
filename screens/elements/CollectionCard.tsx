@@ -1,87 +1,69 @@
 // elements/CollectedCard.js
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import LinearGradient from 'react-native-linear-gradient';
 
 const CollectedCard = ({
   name,
   collectedAmount,
   notCollectedAmount,
+  contactDetails,
   status,
   type,
   collectedDate,
   animation,
   delay,
 }) => {
-  console.log(type);
+  const navigation = useNavigation();
   return (
     <Animatable.View
       animation={animation}
       duration={1000}
       delay={delay}
       style={styles.cardContainer}>
-      <View style={styles.cardDetails}>
+      <Pressable style={styles.cardDetails} onPress={() => navigation.navigate('DetailPage', { name, collectedAmount, collectedDate, contactDetails })}>
         <Text style={styles.cardTitle}>{name}</Text>
-        {status === 'Collected' && (
-          <>
-            <View style={styles.detailRow}>
-              <Text style={styles.amountLabel}>એકત્રિત રકમ: </Text>
-              <Text style={styles.detailText}>{collectedAmount} રૂપિયા</Text>
-            </View>
-            <View style={styles.detailRow}>
-              <Text style={styles.amountLabel}>આવેલા રૂપિયા ની તારીખ: </Text>
-              <Text style={styles.detailText}>{collectedDate}</Text>
-            </View>
-          </>
-        )}
-        {status === 'Pending' && (
-          <>
-            <View style={styles.detailRow}>
-              <Text style={styles.amountLabel}>બાકી રકમ: </Text>
-              <Text style={styles.detailText}>{notCollectedAmount} રૂપિયા</Text>
-            </View>
-            <View style={styles.detailRow}>
-              <Text style={styles.amountLabel}>
-                છેલ્લે આવેલા રૂપિયા ની તારીખ:{' '}
-              </Text>
-              <Text style={styles.detailText}>{collectedDate}</Text>
-            </View>
-          </>
-        )}
+        <Text style={styles.cardDiscription}>બાકી રૂપિયા</Text>
+        <Text style={styles.cardDiscription}>{notCollectedAmount}</Text>
         <View style={styles.statusContainer}>
-          <Text style={styles.statusLabel}>સ્થિતિ: </Text>
-          <Text
-            style={[
-              styles.status,
-              status === 'Collected' ? styles.collected : styles.pending,
-            ]}>
-            {status === 'Collected' ? 'એકત્રિત' : 'બાકી'}
-          </Text>
         </View>
-      </View>
+      </Pressable>
     </Animatable.View>
   );
 };
 
 const styles = StyleSheet.create({
   cardContainer: {
-    flexDirection: 'column',
-    backgroundColor: '#475E69',
-    padding: 15,
-    marginVertical: 10,
-    marginHorizontal: 20,
+    flex: 1,
+    margin: 10,
     borderRadius: 10,
-    elevation: 3,
+    height: 150,
+    backgroundColor: '#FAF7F0',
+    borderColor: '#000',
+    borderWidth: 1,
   },
   cardDetails: {
     flex: 1,
-    marginBottom: 10,
+    height: 150,
+    width: 150,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    elevation: 5,
+    borderRadius: 8.85
   },
   cardTitle: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: '#fff',
+    color: '#3d3d3d',
+  },
+  cardDiscription: {
+    fontSize: 15,
+    color: '#3d3d3d',
   },
   detailRow: {
     flexDirection: 'row',
@@ -90,12 +72,12 @@ const styles = StyleSheet.create({
   },
   amountLabel: {
     fontSize: 16,
-    color: '#fff',
+    color: '#000',
   },
   detailText: {
     marginLeft: 10,
     fontSize: 16,
-    color: '#fff',
+    color: '#000',
   },
   statusContainer: {
     flexDirection: 'row',
@@ -104,7 +86,7 @@ const styles = StyleSheet.create({
   },
   statusLabel: {
     fontSize: 16,
-    color: '#fff',
+    color: '#000',
   },
   status: {
     fontSize: 16,
