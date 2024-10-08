@@ -1,99 +1,206 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Image,
+  TextInput,
   TouchableOpacity,
-  Pressable,
+  Dimensions,
+  ScrollView,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import LinearGradient from 'react-native-linear-gradient'; // Assuming expo-linear-gradient is installed
 import { AuthContext } from './elements/AuthContext';
+import CustomButton from './components/CustomButton'; // Import your new button component
+
+const { width, height } = Dimensions.get('window');
 
 const LoginScreen = ({ navigation }) => {
+  const { login } = useContext(AuthContext);
 
-  const { login } = useContext(AuthContext)
   useEffect(() => {
-    // Configure Google Sign-In
     GoogleSignin.configure();
   }, []);
 
   const handleGoogleSignIn = async () => {
     try {
-      console.log('111')
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log('userInfo', userInfo)
       login(userInfo);
     } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log(error)
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log(error)
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log(error)
-      } else {
-        console.log(error)
-      }
+      console.log(error);
     }
   };
 
   return (
-    <Animatable.View animation="fadeIn" delay={500} style={styles.container}>
-      <Animatable.Image
-        animation="slideInUp"
-        style={styles.logo}
-        source={require('../Images/Tank_Brothers-removebg-preview.png')} // Replace with your logo URL
+    <View style={styles.container}>
+      {/* Full-size Top Image */}
+      <Image
+        style={styles.bannerImage}
+        source={require('../Images/topImage.png')}
       />
-      <Pressable style={styles.button} onPress={handleGoogleSignIn}>
-        <View style={styles.buttonContent}>
-          <Image
-            style={styles.googleLogo}
-            source={require('../Images/google-logo.png')} // Path to your Google logo image
-          />
-          <Text style={styles.buttonText}>Sign in with Google</Text>
-        </View>
-      </Pressable>
-    </Animatable.View>
+
+      {/* Bottom Curved View */}
+      <View style={styles.bottomView}>
+        <LinearGradient
+          colors={['#8e6f79', '#1a1519', '#2f1e34']}
+          style={styles.gradientBackground}
+        >
+          <ScrollView contentContainerStyle={{ paddingBottom: 30 }} showsVerticalScrollIndicator={false}>
+            <Text style={styles.welcomeText}>Welcome Back!</Text>
+            <Text style={styles.subText}>Welcome back to Business Manager, we missed you!</Text>
+
+            {/* Username Input */}
+            <View style={styles.inputContainer}>
+              <Image style={styles.icon} source={require('../Images/user-icon.png')} />
+              <TextInput
+                placeholder="Username"
+                placeholderTextColor="#A9A9A9"
+                style={styles.input}
+              />
+            </View>
+
+            {/* Password Input */}
+            <View style={styles.inputContainer}>
+              <Image style={styles.icon} source={require('../Images/password-icon.png')} />
+              <TextInput
+                placeholder="Password"
+                placeholderTextColor="#A9A9A9"
+                secureTextEntry
+                style={styles.input}
+              />
+              <Image style={styles.icon} source={require('../Images/hide-show.png')} />
+            </View>
+            <Text style={styles.forgotText}>Forgot Password?</Text>
+
+            {/* Sign In Button */}
+            <CustomButton
+              text="Sign In"
+              onPress={() => console.log('Sign In pressed')}
+              height={50}
+              width={'100%'}
+              buttonStyle={{ marginVertical: 20 }}
+            // colors={['#FF7A59', '#FF4A32', '#FF7A59']} // Custom gradient colors
+            />
+
+            {/* Or Continue with */}
+            <View style={styles.otherOptionContainer}>
+              <Image source={require('../Images/leftline.png')} />
+              <Text style={styles.orText}>Or continue with</Text>
+              <Image source={require('../Images/rightLine.png')} />
+            </View>
+            {/* Third-Party Login Buttons */}
+            <View style={styles.socialButtonsContainer}>
+              <TouchableOpacity onPress={handleGoogleSignIn} style={styles.socialButton}>
+                <Image style={styles.socialIcon} source={require('../Images/google-logo.png')} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <Image style={styles.socialIcon} source={require('../Images/apple-logo.png')} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <Image style={styles.socialIcon} source={require('../Images/facebook-logo.png')} />
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </LinearGradient>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#252525',
   },
-  logo: {
+  bannerImage: {
     width: '100%',
-    height: '60%',
+    height: height * 0.35,
+    resizeMode: 'cover',
+  },
+  bottomView: {
+    flex: 1,
+    position: 'relative',
+    justifyContent: 'center',
+  },
+  gradientBackground: {
+    flex: 1,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    alignItems: 'center',
+    marginTop: -30,
+  },
+  welcomeText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#FFF',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  subText: {
+    fontSize: 16,
+    color: '#AAA',
+    textAlign: 'center',
     marginBottom: 20,
   },
-  button: {
-    backgroundColor: '#FFFFFF',
-    padding: 10,
-    borderRadius: 15,
-    alignItems: 'center',
-    marginTop: 20,
-    flexDirection: 'row',
-  },
-  buttonContent: {
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#333',
+    borderRadius: 10,
+    marginVertical: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    width: '100%',
   },
-  googleLogo: {
+  icon: {
+    width: 18,
+    height: 18,
+    marginRight: 10,
+    tintColor: '#FFF',
+  },
+  input: {
+    flex: 1,
+    color: '#FFF',
+  },
+  forgotText: {
+    color: '#A4A4A4',
+    fontSize: 12,
+    marginLeft: 5,
+    textAlign: 'right',
+  },
+  socialButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  socialButton: {
+    backgroundColor: '#524851',
+    margin: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    height: 50,
+  },
+  socialIcon: {
     width: 24,
     height: 24,
-    marginRight: 10,
   },
-  buttonText: {
-    color: '#000000',
-    fontSize: 16,
-    fontWeight: 'bold',
+  otherOptionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20, // Adjust to position vertically
+  },
+  orText: {
+    color: '#AAA',
+    marginHorizontal: 10, // Adds space between the text and lines
+    textAlign: 'center',
+    fontSize: 14, // Adjust as per your need
   },
 });
 

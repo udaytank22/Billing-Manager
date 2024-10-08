@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -14,12 +14,14 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EmployeeCardComponent from './components/EmployeeCardComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Dropdown} from 'react-native-element-dropdown';
+import { Dropdown } from 'react-native-element-dropdown';
 import * as Animatable from 'react-native-animatable';
+import LinearGradient from 'react-native-linear-gradient';
+import Header from './components/CustomHeader';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
-const EmployeeHome = ({navigation}) => {
+const EmployeeHome = ({ navigation }) => {
   const [search, setSearch] = useState('');
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [selectedName, setSelectedName] = useState('');
@@ -31,15 +33,15 @@ const EmployeeHome = ({navigation}) => {
   const [newEmployeeName, setNewEmployeeName] = useState('');
 
   const names = [
-    {label: 'રાજ કુમાર', value: 'રાજ કુમાર'},
-    {label: 'આરતી બેન', value: 'આરતી બેન'},
-    {label: 'વિપુલ સિંહ', value: 'વિપુલ સિંહ'},
+    { label: 'રાજ કુમાર', value: 'રાજ કુમાર' },
+    { label: 'આરતી બેન', value: 'આરતી બેન' },
+    { label: 'વિપુલ સિંહ', value: 'વિપુલ સિંહ' },
     // Add more names as needed
   ];
 
   const shifts = [
-    {label: 'સવાર', value: 'સવાર'},
-    {label: 'સાંજ', value: 'સાંજ'},
+    { label: 'સવાર', value: 'સવાર' },
+    { label: 'સાંજ', value: 'સાંજ' },
     // Add more shifts as needed
   ];
 
@@ -140,7 +142,7 @@ const EmployeeHome = ({navigation}) => {
     }
   };
 
-  const onViewableItemsChanged = useRef(({viewableItems}) => {
+  const onViewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {
       setVisibleIndex(viewableItems[0].index);
     }
@@ -151,161 +153,43 @@ const EmployeeHome = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Animatable.View
-        animation="fadeIn"
-        duration={5000}
-        style={styles.searchContainer}>
-        <Icon name="search" size={20} color="#555" style={styles.searchIcon} />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="શોધો"
-          placeholderTextColor="#888"
-          value={search}
-          onChangeText={setSearch}
-        />
-        <TouchableOpacity
-          style={styles.filterButton}
-          onPress={() => setShowFilterModal(true)}>
-          <Text style={styles.filterButtonText}>શોધો</Text>
-        </TouchableOpacity>
-      </Animatable.View>
-
-      <FlatList
-        data={filteredData}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.cardsContainer}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item, index}) => (
-          <EmployeeCardComponent
-            name={item.name}
-            dayType={item.dayType}
-            date={item.date}
-            shift={item.shift}
-            animation="fadeInUp"
-            delay={index * 700}
+    <View
+      style={styles.container}
+    >
+      <Header title='Employee' showBackButton={true} onBackPress={() => navigation.goBack()} />
+      <View style={{ padding: 20, marginBottom: 100 }}>
+        <Animatable.View
+          animation="fadeIn"
+          duration={5000}
+          style={styles.searchContainer}>
+          <Icon name="search" size={20} color="#555" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="શોધો"
+            placeholderTextColor="#888"
+            value={search}
+            onChangeText={setSearch}
           />
-        )}
-        onViewableItemsChanged={onViewableItemsChanged.current}
-        viewabilityConfig={{itemVisiblePercentThreshold: 50}}
-      />
-
-      {/* Filter Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={showFilterModal}
-        onRequestClose={() => setShowFilterModal(false)}>
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>ફિલ્ટર</Text>
-
-            <Dropdown
-              style={styles.dropdown}
-              data={names}
-              labelField="label"
-              valueField="value"
-              placeholder="નામ પસંદ કરો"
-              placeholderStyle={{color: '#000'}}
-              value={selectedName}
-              onChange={item => setSelectedName(item.value)}
+        </Animatable.View>
+        <FlatList
+          data={filteredData}
+          keyExtractor={(item, index) => index.toString()}
+          contentContainerStyle={styles.cardsContainer}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <EmployeeCardComponent
+              name={item.name}
+              dayType={item.dayType}
+              date={item.date}
+              shift={item.shift}
+              animation="fadeInUp"
+              delay={index * 700}
             />
-
-            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-              <Text style={styles.dateText}>
-                {selectedDate ? selectedDate.toDateString() : 'તારીખ પસંદ કરો'}
-              </Text>
-            </TouchableOpacity>
-
-            {showDatePicker && (
-              <DateTimePicker
-                value={selectedDate || new Date()}
-                mode="date"
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                onChange={handleDateChange}
-              />
-            )}
-
-            <Dropdown
-              style={styles.dropdown}
-              data={shifts}
-              labelField="label"
-              valueField="value"
-              placeholder="શિફ્ટ પસંદ કરો"
-              value={selectedShift}
-              onChange={item => setSelectedShift(item.value)}
-            />
-
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.applyButton}
-                onPress={handleFilterApply}>
-                <Text style={styles.applyButtonText}>એપ્લાય</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.clearButton}
-                onPress={handleFilterClear}>
-                <Text style={styles.clearButtonText}>ક્લિયર</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={() => setShowFilterModal(false)}>
-                <Text style={styles.closeButtonText}>બંધ કરો</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
-      <Animatable.View
-        animation="slideInRight"
-        duration={4000}
-        style={[styles.addButtonContainer, {right: width * -0.03}]}>
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => navigation.push('AddEmployeeForm')}>
-          <Text style={styles.addButtonText}>એન્ટ્રી ઉમેરો</Text>
-        </TouchableOpacity>
-      </Animatable.View>
-
-      <Animatable.View
-        animation="slideInRight"
-        duration={4000}
-        style={[styles.newCustomerButtonContainer, {right: width * -0.03}]}>
-        <TouchableOpacity
-          style={styles.newCustomerButton}
-          onPress={handleAddEmployee}>
-          <Text style={styles.newCustomerButtonText}>નવો ઘરાક ઉમેરો</Text>
-        </TouchableOpacity>
-      </Animatable.View>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(!modalVisible)}>
-        <Pressable
-          style={styles.centeredView}
-          onPressOut={() => setModalVisible(false)}>
-          <Pressable style={styles.modalView}>
-            <Text style={styles.modalText}>નવા મુલી ઉમેરો</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="મુલી નામ ઉમેરો"
-              value={newEmployeeName}
-              placeholderTextColor="#000"
-              onChangeText={setNewEmployeeName}
-            />
-            <TouchableOpacity
-              style={[styles.button, styles.buttonFullWidth, styles.buttonAdd]}
-              onPress={handleModalSubmit}>
-              <Text style={styles.textStyle}>ઉમેરો</Text>
-            </TouchableOpacity>
-          </Pressable>
-        </Pressable>
-      </Modal>
+          )}
+          onViewableItemsChanged={onViewableItemsChanged.current}
+          viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
+        />
+      </View>
     </View>
   );
 };
@@ -313,18 +197,18 @@ const EmployeeHome = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1F2E35',
-    padding: 20,
+    backgroundColor: '#FAF7F0',
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginBottom: 10,
+    backgroundColor: '#FAF7F0',
+    borderColor: '#000',
+    borderWidth: 1,
     borderRadius: 10,
-    elevation: 2,
+    marginVertical: 10,
+    paddingHorizontal: 15,
+    width: '100%',
   },
   searchIcon: {
     marginRight: 10,
