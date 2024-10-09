@@ -11,7 +11,7 @@ const ProfileUpdate = ({ navigation }) => {
     return (
         <>
             <CustomHeader title="Update Profile" showBackButton={true} onBackPress={() => navigation.goBack()} />
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.header}>
                     <Text style={styles.headerText}>Edit Profile</Text>
                     <TouchableOpacity>
@@ -67,7 +67,7 @@ const ProfileUpdate = ({ navigation }) => {
                         style={styles.input}
                         value={username}
                         onChangeText={(text) => setUsername(text)}
-                        placeholder="Username"
+                        placeholder="Business Name"
                         placeholderTextColor='#c0c0c0'
                     />
                     <Text style={styles.label}>Enter Your Business email</Text>
@@ -75,7 +75,7 @@ const ProfileUpdate = ({ navigation }) => {
                         style={styles.input}
                         value={email}
                         onChangeText={(text) => setEmail(text)}
-                        placeholder="Email ID"
+                        placeholder="Business email"
                         keyboardType="email-address"
                         placeholderTextColor='#c0c0c0'
                     />
@@ -84,7 +84,7 @@ const ProfileUpdate = ({ navigation }) => {
                         style={styles.input}
                         value={phoneNumber}
                         onChangeText={(text) => setPhoneNumber(text)}
-                        placeholder="Phone Number"
+                        placeholder="Business PhoneNO"
                         keyboardType="phone-pad"
                         placeholderTextColor='#c0c0c0'
                     />
@@ -93,9 +93,8 @@ const ProfileUpdate = ({ navigation }) => {
                         style={styles.input}
                         value={password}
                         onChangeText={(text) => setPassword(text)}
-                        placeholder="Password"
+                        placeholder="Your Address"
                         placeholderTextColor='#c0c0c0'
-                        secureTextEntry
                     />
 
                     <TouchableOpacity style={styles.updateButton}>

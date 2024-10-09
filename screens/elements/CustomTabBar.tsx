@@ -18,10 +18,12 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                 paddingVertical: 20,
                 paddingHorizontal: 20,
                 position: 'relative',
-                borderTopRightRadius: 20,
-                borderTopLeftRadius: 20,
+                borderRadius: 20,
+                // borderTopLeftRadius: 20,
                 borderColor: '#000',
-                borderWidth: 1
+                borderWidth: 1,
+                marginVertical: 1,
+                marginHorizontal: 10
             }}
         >
             {state.routes.map((route, index) => {
