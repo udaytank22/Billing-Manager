@@ -27,7 +27,9 @@ const Profile = ({ navigation }) => {
             if (item.title === 'My Account') {
                 navigation.navigate('MyAccount');
             } else if (item.title === 'Select Preferred Language') {
-                navigation.navigate('PreferredLanguage');
+                navigation.navigate('LanguageSelect');
+            } else if (item.title === 'Select Font Size') {
+                navigation.navigate('FontSizePicker');
             } else if (item.title === 'Trash') {
                 navigation.navigate('Trash');
             } else if (item.title === 'Log out') {
@@ -55,7 +57,7 @@ const Profile = ({ navigation }) => {
                     <Text style={styles.profileName}>Itunuoluwa Abidoye</Text>
                     <Text style={styles.profileHandle}>@itunuoluwa</Text>
                 </View>
-                <TouchableOpacity style={styles.editButton}>
+                <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('ProfileUpdate')}>
                     <Icon name="pencil-outline" size={20} color="#fff" />
                 </TouchableOpacity>
             </View>

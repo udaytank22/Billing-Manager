@@ -18,6 +18,9 @@ import FlowerHome from '../FlowerHome';
 import VegrtableHome from '../VegetableHome';
 import MyTabs from '../BottomBar';
 import ProfileUpdate from '../ProfileDetails';
+import MyAccount from '../MyAccount';
+import LanguageSelect from '../LanguageSelection';
+import FontSizePicker from '../SelectFontSize';
 
 const Stack = createStackNavigator();
 
@@ -161,6 +164,27 @@ const AppStack = () => {
       <Stack.Screen
         name="ProfileUpdate"
         component={ProfileUpdate}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="MyAccount"
+        component={MyAccount}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="LanguageSelect"
+        component={LanguageSelect}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="FontSizePicker"
+        component={FontSizePicker}
         options={{
           headerShown: false
         }}

@@ -7,12 +7,10 @@ import {
   Text,
   FlatList,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import CustomHeader from './components/CustomHeader'; // Import custom header
 import CardComponent from './components/HomeCardComponent'; // New card component
 import cards from './elements/dummyData'; // Import dummy data
 import * as Animatable from 'react-native-animatable';
-import { BarChart } from "react-native-gifted-charts"; // Gifted Charts library
 
 const Home = ({ navigation }) => {
   const [isAddNowOpen, setIsAddNowOpen] = useState(false);
