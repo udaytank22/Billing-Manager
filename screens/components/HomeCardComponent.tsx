@@ -5,14 +5,17 @@ import LinearGradient from 'react-native-linear-gradient';
 const CardComponent = ({ data, navigation }) => {
   return (
     <TouchableOpacity onPress={() => navigation.navigate(data.navigateTo)} style={styles.card}>
-      <View style={styles.cardGradient}
-      >
+      <LinearGradient
+        colors={['#4C669F', '#3B5998', '#192f6a']} // Cooler, professional gradient colors
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.cardGradient}>
         <View style={styles.textContainer}>
           <Text style={styles.cardTitle}>{data.title}</Text>
-          <Text style={styles.cardTitle}>Total: {data.total}</Text>
+          <Text style={styles.cardSubtitle}>Total: {data.total}</Text>
         </View>
         <Image source={data.imageSource} style={styles.cardImage} />
-      </View>
+      </LinearGradient>
     </TouchableOpacity>
   );
 };
@@ -20,34 +23,45 @@ const CardComponent = ({ data, navigation }) => {
 const styles = StyleSheet.create({
   card: {
     marginVertical: 5,
-    borderRadius: 15,
+    borderRadius: 20,
     shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
     elevation: 10,
     overflow: 'hidden',
     backgroundColor: '#FAF7F0',
-    borderColor: '#000',
-    borderWidth: 1
+    borderColor: '#EAEAEA',
+    borderWidth: 1,
   },
   cardGradient: {
-    paddingVertical: 20,
+    paddingVertical: 25,
     paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 15,
+    borderRadius: 20,
   },
   textContainer: {
     flex: 1,
   },
   cardImage: {
-    width: 90,
-    height: 90,
-    borderRadius: 10,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     marginLeft: 15,
+    borderWidth: 2,
+    borderColor: '#fff',
   },
   cardTitle: {
-    color: '#000',
-    fontSize: 18,
-    fontWeight: '600',
+    color: '#fff',
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  cardSubtitle: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
 

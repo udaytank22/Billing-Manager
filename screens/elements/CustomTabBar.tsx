@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Replace with your preferred icon library
+import LinearGradient from 'react-native-linear-gradient'; // For gradient background
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -10,22 +11,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
     };
 
     return (
-        <View
-            style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                backgroundColor: '#FAF7F0', // Set a static background color
-                paddingVertical: 20,
-                paddingHorizontal: 20,
-                position: 'relative',
-                borderRadius: 20,
-                // borderTopLeftRadius: 20,
-                borderColor: '#000',
-                borderWidth: 1,
-                marginVertical: 1,
-                marginHorizontal: 10
-            }}
-        >
+        <View style={styles.tabContainer}>
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
                 const isFocused = state.index === index;
@@ -58,27 +44,19 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                     <TouchableOpacity
                         key={index}
                         onPress={onPress}
-                        style={{ alignItems: 'center', justifyContent: 'center' }}
+                        style={styles.tabButton}
                     >
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                backgroundColor: isFocused ? '#333' : 'transparent',
-                                borderRadius: 20,
-                                paddingVertical: isFocused ? 5 : 0,
-                                paddingHorizontal: isFocused ? 15 : 0,
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Icon name={iconName} size={24} color={isFocused ? '#fff' : '#b3b3b3'} />
+                        <View style={[
+                            styles.iconContainer,
+                            isFocused ? styles.iconContainerFocused : null
+                        ]}>
+                            <Icon
+                                name={iconName}
+                                size={28} // Slightly bigger icon size
+                                color={isFocused ? '#fff' : '#b3b3b3'}
+                            />
                             {isFocused && (
-                                <Text
-                                    style={{
-                                        color: '#fff',
-                                        fontSize: 14,
-                                        marginLeft: 8,
-                                    }}
-                                >
+                                <Text style={styles.label}>
                                     {route.name}
                                 </Text>
                             )}
@@ -89,5 +67,51 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    tabContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        backgroundColor: '#FAF7F0', // Set a static background color
+        paddingVertical: 15,
+        paddingHorizontal: 15,
+        position: 'relative',
+        borderRadius: 30, // Rounded edges
+        elevation: 8, // Shadow for floating effect
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        marginVertical: 10,
+        marginHorizontal: 10,
+        borderColor: '#E0E0E0', // Subtle border color
+        borderWidth: 1,
+    },
+    tabButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        backgroundColor: 'transparent',
+        borderRadius: 20,
+    },
+    iconContainerFocused: {
+        backgroundColor: '#FF6347', // Active tab background color
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: 20,
+    },
+    label: {
+        color: '#fff',
+        fontSize: 10,
+        marginLeft: 8,
+        fontWeight: '600',
+    },
+});
 
 export default CustomTabBar;

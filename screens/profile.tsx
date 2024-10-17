@@ -10,10 +10,9 @@ const Profile = ({ navigation }) => {
 
     const options = [
         { id: '1', title: 'My Account', icon: 'person-outline', actionIcon: 'chevron-forward-outline' },
-        { id: '2', title: 'Select Preferred Language', icon: 'language-outline', actionIcon: 'chevron-forward-outline' },
-        { id: '3', title: 'Select Font Size', icon: 'text-outline', actionIcon: 'chevron-forward-outline' },
-        { id: '4', title: 'Trash', icon: 'trash-outline', actionIcon: 'chevron-forward-outline' },
-        { id: '5', title: 'Log out', icon: 'log-out-outline', actionIcon: 'chevron-forward-outline' }
+        { id: '2', title: 'Select Font Size', icon: 'text-outline', actionIcon: 'chevron-forward-outline' },
+        { id: '3', title: 'Trash', icon: 'trash-outline', actionIcon: 'chevron-forward-outline' },
+        { id: '4', title: 'Log out', icon: 'log-out-outline', actionIcon: 'chevron-forward-outline' }
     ];
 
     const moreOptions = [
@@ -26,8 +25,6 @@ const Profile = ({ navigation }) => {
             // Define navigation based on title or id
             if (item.title === 'My Account') {
                 navigation.navigate('MyAccount');
-            } else if (item.title === 'Select Preferred Language') {
-                navigation.navigate('LanguageSelect');
             } else if (item.title === 'Select Font Size') {
                 navigation.navigate('FontSizePicker');
             } else if (item.title === 'Trash') {

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Pressable } from 'reac
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Header = ({ title, showBackButton, onBackPress, showProfile = false, onPress }) => {
+
     return (
         <View style={styles.headerContainer}>
             <View style={{ flexDirection: 'row' }}>
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 10,
-        backgroundColor: '#FAF7F0',
+        backgroundColor: '#FFF',
         borderColor: '#000',
         borderBottomWidth: 1
     },

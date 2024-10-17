@@ -19,32 +19,13 @@ import VegrtableHome from '../VegetableHome';
 import MyTabs from '../BottomBar';
 import ProfileUpdate from '../ProfileDetails';
 import MyAccount from '../MyAccount';
-import LanguageSelect from '../LanguageSelection';
 import FontSizePicker from '../SelectFontSize';
+import { ActivityIndicator, Text, View } from 'react-native';
 
 const Stack = createStackNavigator();
 
 const AppStack = () => {
-  const [loginusername, setLoginUserName] = useState('');
 
-  // const fetchUserDetail = async () => {
-  //   try {
-  //     let userInfo = await AsyncStorage.getItem('userInfo');
-  //     if (userInfo !== null) {
-  //       const userData = JSON.parse(userInfo);
-  //       setLoginUserName(userData?.mainDetail?.name);
-  //       console.log(loginusername);
-  //     } else {
-  //       console.log('No user info found');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error retrieving user info', error);
-  //   }
-  // };
-
-  useEffect(() => {
-    // fetchUserDetail();
-  }, []);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -114,11 +95,7 @@ const AppStack = () => {
         name="AddVegetableForm"
         component={AddVegetableForm}
         options={{
-          title: 'વેજીટેબલ ઉમેરો',
-          headerTintColor: '#000',
-          headerStyle: {
-            backgroundColor: '#F5F5F5',
-          },
+          headerShown: false
         }}
       />
       <Stack.Screen
@@ -136,22 +113,14 @@ const AppStack = () => {
         name="AddEmployeeForm"
         component={AddEmployeeForm}
         options={{
-          title: 'મુલી ઉમેરો',
-          headerTintColor: '#000',
-          headerStyle: {
-            backgroundColor: '#F5F5F5',
-          },
+          headerShown: false
         }}
       />
       <Stack.Screen
         name="MoneyCollectionForm"
         component={MoneyCollectionForm}
         options={{
-          title: 'રૂપિયા કલેક્શન ફોર્મ',
-          headerTintColor: '#000',
-          headerStyle: {
-            backgroundColor: '#F5F5F5',
-          },
+          headerShown: false
         }}
       />
       <Stack.Screen
@@ -171,13 +140,6 @@ const AppStack = () => {
       <Stack.Screen
         name="MyAccount"
         component={MyAccount}
-        options={{
-          headerShown: false
-        }}
-      />
-      <Stack.Screen
-        name="LanguageSelect"
-        component={LanguageSelect}
         options={{
           headerShown: false
         }}
