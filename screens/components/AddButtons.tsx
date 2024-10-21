@@ -1,10 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Animated } from "react-native";
 import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Importing vector icons
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomHeader from "../components/CustomHeader";
 
-// Card component for options
 const OptionCard = ({ title, onPress, iconName }) => {
     const scale = new Animated.Value(1);
 
@@ -21,17 +20,20 @@ const OptionCard = ({ title, onPress, iconName }) => {
             onPressIn={onPressIn}
             onPressOut={onPressOut}
             onPress={onPress}
-            activeOpacity={0.8}
+            activeOpacity={0.85}
         >
             <Animated.View style={[styles.card, { transform: [{ scale }] }]}>
                 <LinearGradient
-                    colors={['#4C669F', '#3B5998', '#192f6a']}
+                    colors={['#1c92d2', '#f2fcfe']} // Soft, vibrant gradient for a modern feel
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
                     style={styles.cardBackground}
                 >
-                    <Icon name={iconName} size={30} color="#fff" style={styles.icon} />
+                    <View style={styles.iconContainer}>
+                        <Icon name={iconName} size={25} color="#000" style={styles.icon} />
+                    </View>
                     <Text style={styles.cardTitle}>{title}</Text>
+                    <Icon name="chevron-right" size={25} color="#000" style={styles.arrowIcon} />
                 </LinearGradient>
             </Animated.View>
         </TouchableOpacity>
@@ -69,37 +71,45 @@ const AddButtons = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFF'
+        backgroundColor: '#f8f9fa', // Softer, neutral background
     },
     listContainer: {
         paddingVertical: 16,
         paddingHorizontal: 16,
-        backgroundColor: '#FFF'
     },
     card: {
-        marginVertical: 10,
+        marginVertical: 12,
         borderRadius: 15,
         elevation: 8,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 5 },
-        shadowOpacity: 0.4,
+        shadowOpacity: 0.2,
         shadowRadius: 6,
     },
     cardBackground: {
         borderRadius: 15,
-        paddingVertical: 20,
+        paddingVertical: 10,
         paddingHorizontal: 25,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    icon: {
+    iconContainer: {
+        backgroundColor: 'rgba(255, 255, 255, 0.3)', // More subtle transparency
+        padding: 12,
+        borderRadius: 50,
         marginRight: 15,
+    },
+    icon: {
+        alignSelf: 'center',
     },
     cardTitle: {
         fontSize: 18,
-        fontWeight: '700',
-        color: '#fff',
+        color: '#000', // Bright, clean text color
+        flex: 1,
+    },
+    arrowIcon: {
+        marginLeft: 10,
     },
 });
 

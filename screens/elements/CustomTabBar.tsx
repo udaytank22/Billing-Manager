@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     iconContainerFocused: {
-        backgroundColor: '#FF6347', // Active tab background color
+        backgroundColor: '#1c92d2', // Active tab background color
         paddingVertical: 5,
         paddingHorizontal: 15,
         borderRadius: 20,
