@@ -6,7 +6,7 @@ import { StatusBar } from 'react-native';
 function App(): React.JSX.Element {
   return (
     <>
-      <StatusBar backgroundColor='#FAF7F0' barStyle='dark-content' />
+      <StatusBar backgroundColor='#FFF' barStyle='dark-content' />
       <AuthProvider>
         <AppNav />
       </AuthProvider>

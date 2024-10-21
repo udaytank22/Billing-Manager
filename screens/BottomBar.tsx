@@ -1,5 +1,5 @@
 // MyTabs.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './Home';
 import Profile from './profile';
@@ -9,7 +9,9 @@ import Notification from './notification';
 
 const Tab = createBottomTabNavigator();
 
+
 function MyTabs() {
+
     return (
         <Tab.Navigator
             tabBar={(props) => <CustomTabBar {...props} />} // Use the custom tab bar here

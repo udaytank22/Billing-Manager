@@ -13,8 +13,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import TextInputComponent from './components/InputFieldComponent';
 import { Dropdown } from 'react-native-element-dropdown';
 import * as Animatable from 'react-native-animatable';
+import CustomHeader from './components/CustomHeader';
 
-const AddVegetableForm = () => {
+const AddVegetableForm = ({ navigation }) => {
   const [customer, setCustomer] = useState('');
   const [bags, setBags] = useState([{ quantity: '', weight: '' }]);
   const [fromDate, setFromDate] = useState(new Date());
@@ -41,11 +42,7 @@ const AddVegetableForm = () => {
     let year = date.getFullYear();
     let month = (date.getMonth() + 1).toString().padStart(2, '0');
     let day = date.getDate().toString().padStart(2, '0');
-    if (type === 'display') {
-      return `${day}-${month}-${year}`;
-    } else {
-      return `${year}-${month}-${day}`;
-    }
+    return type === 'display' ? `${day}-${month}-${year}` : `${year}-${month}-${day}`;
   };
 
   const onChangeFromDate = (event, selectedDate) => {
@@ -78,8 +75,7 @@ const AddVegetableForm = () => {
     let totalWeight = 0;
     bags.forEach(bag => {
       totalBags += parseInt(bag.quantity) || 0;
-      totalWeight +=
-        (parseInt(bag.quantity) || 0) * (parseFloat(bag.weight) || 0);
+      totalWeight += (parseInt(bag.quantity) || 0) * (parseFloat(bag.weight) || 0);
     });
     setTotalBags(totalBags.toString());
     setTotalWeight(totalWeight.toString());
@@ -101,10 +97,7 @@ const AddVegetableForm = () => {
 
   const handleModalSubmit = () => {
     if (newVegetableName) {
-      setVegetables([
-        ...vegetables,
-        { label: newVegetableName, value: newVegetableName },
-      ]);
+      setVegetables([...vegetables, { label: newVegetableName, value: newVegetableName }]);
       setCustomer(newVegetableName);
       setModalVisible(false);
       setNewVegetableName('');
@@ -118,224 +111,263 @@ const AddVegetableForm = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>શાકભાજી ઉમેરો</Text>
-      <Animatable.View animation="fadeInUp" duration={800}>
-        <Text style={styles.fieldTitle}>શાકભાજી પસંદ કરો</Text>
-        <Dropdown
-          style={styles.dropdown}
-          data={vegetables}
-          labelField="label"
-          valueField="value"
-          placeholder="શાકભાજી પસંદ કરો"
-          placeholderStyle={styles.placeholderText}
-          value={customer}
-          onChange={item => {
-            if (item.value !== 'add_new') {
-              setCustomer(item.value);
-            }
-          }}
-          selectedTextStyle={styles.selectedText}
-          renderItem={(item, index) => (
-            <View style={{ backgroundColor: 'white', margin: 10 }}>
-              <Text style={{ color: 'black' }}>{item.label}</Text>
-            </View>
-          )}
-        />
-      </Animatable.View>
-      {bags.map((bag, index) => (
-        <Animatable.View key={index} animation="fadeInUp" duration={800}>
-          <View style={styles.bagContainer}>
-            <TextInputComponent
-              placeholder="ઝબલાની સંખ્યા"
-              keyboardType="numeric"
-              value={bag.quantity}
-              onChangeText={text => handleBagChange(index, 'quantity', text)}
+    <>
+      <CustomHeader title='Add Vegetable' showBackButton={true} onBackPress={() => navigation.goBack()} />
+      <View style={styles.container}>
+        <View>
+          <Animatable.View animation="fadeInUp" duration={800}>
+            <Text style={styles.fieldTitle}>શાકભાજી પસંદ કરો</Text>
+            <Dropdown
+              style={styles.dropdown}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              itemTextStyle={styles.itemTextStyle}
+              iconStyle={styles.iconStyle}
+              data={vegetables}
+              search
+              maxHeight={300}
+              labelField='label'
+              valueField='value'
+              placeholder='શાકભાજી પસંદ કરો'
+              value={customer}
+              onChange={item => {
+                setCustomer(item.value);
+              }}
             />
-            <TextInputComponent
-              placeholder="વજન (કિલોગ્રામમાં)"
-              keyboardType="numeric"
-              value={bag.weight}
-              onChangeText={text => handleBagChange(index, 'weight', text)}
-            />
-          </View>
+          </Animatable.View>
+
+          {bags.map((bag, index) => (
+            <Animatable.View key={index} animation="fadeInUp" duration={800} style={{ marginTop: 10 }} >
+              <View style={styles.bagContainer}>
+                <TextInputComponent
+                  placeholder="ઝબલાની સંખ્યા"
+                  keyboardType="numeric"
+                  value={bag.quantity}
+                  onChangeText={text => handleBagChange(index, 'quantity', text)}
+                  style={styles.bagInput}
+                />
+                <TextInputComponent
+                  placeholder="વજન (કિલોગ્રામમાં)"
+                  keyboardType="numeric"
+                  value={bag.weight}
+                  onChangeText={text => handleBagChange(index, 'weight', text)}
+                  style={styles.bagInput}
+                />
+              </View>
+            </Animatable.View>
+          ))}
+        </View>
+
+        <Animatable.View animation="fadeInUp" duration={800}>
+          <TouchableOpacity style={styles.addButton} onPress={handleAddBag}>
+            <Text style={styles.addButtonText}>ઝબલા ઉમેરો</Text>
+          </TouchableOpacity>
         </Animatable.View>
-      ))}
-      <Animatable.View animation="fadeInUp" duration={800}>
-        <TouchableOpacity style={styles.addButton} onPress={handleAddBag}>
-          <Text style={styles.addButtonText}>ઝબલા ઉમેરો</Text>
-        </TouchableOpacity>
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" duration={800} style={{ flexDirection: 'row', }}>
-        <Text style={styles.fieldTitle}>કુલ બેગ: </Text>
-        <Text style={styles.fieldTitle}>{totalBags}</Text>
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" duration={800} style={{ flexDirection: 'row', }}>
-        <Text style={styles.fieldTitle}>કુલ વજન: </Text>
-        <Text style={styles.fieldTitle}>{totalWeight}</Text>
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" duration={800}>
-        <Text style={styles.fieldTitle}>તારીખ પસંદ કરો</Text>
-        <View style={styles.dateInput}>
-          <Pressable onPress={toggleFromDatePicker}>
-            <Text style={styles.dateText}>
-              {fromDateDisplay || 'તારીખ પસંદ કરો'}
-            </Text>
-          </Pressable>
+
+        <View style={styles.totalsContainer}>
+          <Animatable.View animation="fadeInUp" duration={800} style={styles.amountContainer}>
+            <Text style={styles.fieldTitle}>કુલ બેગ:</Text>
+            <Text style={styles.totalText}>{totalBags}</Text>
+          </Animatable.View>
+          <Animatable.View animation="fadeInUp" duration={800} style={styles.amountContainer}>
+            <Text style={styles.fieldTitle}>કુલ વજન:</Text>
+            <Text style={styles.totalText}>{totalWeight}</Text>
+          </Animatable.View>
+        </View>
+
+        <Animatable.View animation="fadeInUp" style={styles.inputContainer}>
+          <Text style={styles.fieldTitle}>તારીખ</Text>
           {showFromPicker && (
             <DateTimePicker
               value={fromDate}
               mode="date"
               display="spinner"
               onChange={onChangeFromDate}
+              style={styles.datePicker}
             />
           )}
-        </View>
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" duration={800}>
-        <Text style={styles.fieldTitle}>નોંધ</Text>
-        <TextInputComponent
-          placeholder="નોંધ"
-          value={remark}
-          onChangeText={setRemark}
-        />
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" duration={800}>
-        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
-        </TouchableOpacity>
-      </Animatable.View>
-    </View>
+          {!showFromPicker && (
+            <Pressable onPress={toggleFromDatePicker}>
+              <TextInputComponent
+                placeholder='તારીખ'
+                placeholderTextColor='#c0c0c0'
+                value={fromDateDisplay}
+                style={styles.input}
+                editable={false}
+              />
+            </Pressable>
+          )}
+        </Animatable.View>
+
+        <Animatable.View animation="fadeInUp" duration={800}>
+          <Text style={styles.fieldTitle}>નોંધ</Text>
+          <TextInputComponent
+            placeholder="નોંધ"
+            value={remark}
+            onChangeText={setRemark}
+            style={styles.remarkInput}
+          />
+        </Animatable.View>
+
+        <Animatable.View animation="fadeInUp" duration={800}>
+          <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+            <Text style={styles.submitButtonText}>સબમિટ કરો</Text>
+          </TouchableOpacity>
+        </Animatable.View>
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#F5F5F5',
+    padding: 20,
+    backgroundColor: '#FFFFFF',
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    color: '#000000',
+    fontSize: 32, // Increased size for better visibility
+    fontWeight: '700', // Bold font for emphasis
+    color: '#333',
+    marginBottom: 20,
+  },
+  fieldTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#555',
+    marginBottom: 5,
   },
   dropdown: {
+    marginVertical: 5,
+    height: 50,
+    backgroundColor: '#fff',
+    borderWidth: 0.5,
+    borderRadius: 10,
+    padding: 12,
+    shadowColor: '#000', // Added shadow color
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    elevation: 10, // Added elevation
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    color: '#c0c0c0',
+    shadowColor: '#000',
+    elevation: 10
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    color: '#000',
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+    color: '#000',
+  },
+  input: {
     height: 50,
     borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    marginBottom: 16,
-    backgroundColor: '#ffffff',
+    marginBottom: 20,
+    paddingLeft: 15,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    color: '#000',
+    shadowColor: '#000',
+    elevation: 10
+  },
+  itemTextStyle: {
+    color: '#000',
   },
   placeholderText: {
-    color: '#000',
+    color: '#aaa',
   },
   selectedText: {
-    color: '#000',
-  },
-  dropdownText: {
-    color: '#ffffff',
+    fontSize: 16,
+    color: '#333',
   },
   bagContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 15,
+  },
+  bagInput: {
+    flex: 1,
+    marginHorizontal: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 10,
+    backgroundColor: '#fff', // White background for inputs
   },
   addButton: {
-    backgroundColor: '#4CAF50',
-    padding: 10,
+    backgroundColor: '#007BFF', // Primary color
+    padding: 15,
     borderRadius: 5,
-    alignItems: 'center',
-    marginBottom: 16,
+    marginTop: 10,
   },
   addButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
   },
-  submitButton: {
-    backgroundColor: '#4CAF50',
-    padding: 12,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginBottom: 16,
+  totalsContainer: {
+    marginTop: 20,
+    marginBottom: 20,
   },
-  submitButtonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  modalInput: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    marginBottom: 16,
-    color: '#000000',
-  },
-  modalButton: {
-    backgroundColor: '#4CAF50',
-    padding: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  modalButtonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  modalView: {
-    width: '80%',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    padding: 16,
+  amountContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+    backgroundColor: '#F9F9F9',
+    borderRadius: 10,
+    elevation: 3,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 1,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    marginBottom: 10,
   },
-  modalTitle: {
-    fontSize: 20,
+  totalText: {
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 16,
+    color: '#333',
   },
   dateInput: {
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 8,
+    borderRadius: 5,
     padding: 10,
-    marginBottom: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff', // White background for date input
+    marginBottom: 15,
   },
   dateText: {
-    color: '#000',
-  },
-  fieldTitle: {
     fontSize: 16,
-    color: '#000000',
-    marginBottom: 8,
+    color: '#333',
   },
-  dropdownItem: {
+  remarkInput: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
     padding: 10,
-    backgroundColor: '#2C3E50',
+    height: 80,
+    backgroundColor: '#fff', // White background for remark input
+    marginBottom: 15,
   },
-  addNewItem: {
-    padding: 10,
-    backgroundColor: '#1ABC9C',
+  submitButton: {
+    backgroundColor: '#28a745', // Success color
+    padding: 15,
+    borderRadius: 5,
+    marginTop: 10,
   },
-  addNewText: {
-    color: '#ffffff',
+  submitButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
 

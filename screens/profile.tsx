@@ -5,44 +5,26 @@ import CustomHeader from './components/CustomHeader';
 import { AuthContext } from "./elements/AuthContext";
 
 const Profile = ({ navigation }) => {
-
-    const { logout } = useContext(AuthContext)
+    const { logout } = useContext(AuthContext);
 
     const options = [
-        { id: '1', title: 'My Account', icon: 'person-outline', actionIcon: 'chevron-forward-outline' },
-        { id: '2', title: 'Select Preferred Language', icon: 'language-outline', actionIcon: 'chevron-forward-outline' },
-        { id: '3', title: 'Select Font Size', icon: 'text-outline', actionIcon: 'chevron-forward-outline' },
-        { id: '4', title: 'Trash', icon: 'trash-outline', actionIcon: 'chevron-forward-outline' },
-        { id: '5', title: 'Log out', icon: 'log-out-outline', actionIcon: 'chevron-forward-outline' }
+        { id: '1', title: 'Edit profile information', icon: 'create-outline' },
+        { id: '2', title: 'Notifications', icon: 'notifications-outline', action: 'ON' },
+        { id: '3', title: 'Logout', icon: 'log-out-outline', action: '', onPress: logout }
     ];
 
     const moreOptions = [
         { id: '1', title: 'Help & Support', icon: 'help-circle-outline' },
-        { id: '2', title: 'About App', icon: 'information-circle-outline' }
+        { id: '2', title: 'Contact us', icon: 'call-outline' },
+        { id: '3', title: 'Privacy policy', icon: 'document-text-outline' }
     ];
 
     const renderOption = ({ item }) => {
-        const handleNavigation = () => {
-            // Define navigation based on title or id
-            if (item.title === 'My Account') {
-                navigation.navigate('MyAccount');
-            } else if (item.title === 'Select Preferred Language') {
-                navigation.navigate('LanguageSelect');
-            } else if (item.title === 'Select Font Size') {
-                navigation.navigate('FontSizePicker');
-            } else if (item.title === 'Trash') {
-                navigation.navigate('Trash');
-            } else if (item.title === 'Log out') {
-                logout();
-            }
-            // Add more navigation as needed
-        };
-
         return (
-            <Pressable style={styles.optionContainer} onPress={handleNavigation}>
+            <Pressable style={styles.optionContainer} onPress={item.onPress}>
                 <Icon name={item.icon} size={24} color="#5C5C5C" />
                 <Text style={styles.optionText}>{item.title}</Text>
-                <Icon name={item.actionIcon} size={20} color="#5C5C5C" />
+                {item.action && <Text style={styles.optionAction}>{item.action}</Text>}
             </Pressable>
         );
     };
@@ -50,36 +32,42 @@ const Profile = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <CustomHeader title='Profile' />
+
             {/* Profile Header */}
-            <View style={styles.headerContainer}>
+            <View style={styles.profileHeader}>
                 <Image source={require('../Images/user.png')} style={styles.profileImage} />
-                <View style={styles.profileInfo}>
-                    <Text style={styles.profileName}>Itunuoluwa Abidoye</Text>
-                    <Text style={styles.profileHandle}>@itunuoluwa</Text>
-                </View>
                 <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('ProfileUpdate')}>
-                    <Icon name="pencil-outline" size={20} color="#fff" />
+                    <Icon name="pencil-outline" size={18} color="#fff" />
                 </TouchableOpacity>
+                <Text style={styles.profileName}>Puerto Rico</Text>
+                <Text style={styles.profileDetails}>yourmail@domain.com | +01 234 567 89</Text>
             </View>
 
             {/* Account Options */}
-            <View>
+            <View style={styles.optionsList}>
                 <FlatList
                     data={options}
                     keyExtractor={(item) => item.id}
                     renderItem={renderOption}
-                    style={styles.optionsList}
                 />
+            </View>
 
-                {/* More Options */}
-                <View style={styles.moreContainer}>
-                    <Text style={styles.moreTitle}>More</Text>
-                    <FlatList
-                        data={moreOptions}
-                        keyExtractor={(item) => item.id}
-                        renderItem={renderOption}
-                    />
-                </View>
+            <View style={styles.optionsList}>
+                <FlatList
+                    data={options}
+                    keyExtractor={(item) => item.id}
+                    renderItem={renderOption}
+                />
+            </View>
+
+            {/* More Options */}
+            <View style={styles.moreContainer}>
+                <Text style={styles.moreTitle}>More</Text>
+                <FlatList
+                    data={moreOptions}
+                    keyExtractor={(item) => item.id}
+                    renderItem={renderOption}
+                />
             </View>
         </View>
     );
@@ -88,63 +76,67 @@ const Profile = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FAF7F0',
+        backgroundColor: '#f8f9fa',
     },
-    headerContainer: {
-        flexDirection: 'row',
+    profileHeader: {
         alignItems: 'center',
-        padding: 20,
-        backgroundColor: '#5C5CFF',
-        borderRadius: 10,
-        margin: 16,
-        elevation: 3,
+        padding: 15,
+        backgroundColor: '#fff',
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        elevation: 4,
     },
     profileImage: {
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-    },
-    profileInfo: {
-        flex: 1,
-        marginLeft: 16,
-    },
-    profileName: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    profileHandle: {
-        color: '#fff',
-        fontSize: 14,
+        width: 90,
+        height: 90,
+        borderRadius: 45,
+        borderWidth: 3,
+        borderColor: '#fff',
     },
     editButton: {
-        backgroundColor: '#5C5CFF',
-        padding: 8,
-        borderRadius: 20,
         position: 'absolute',
-        right: 10,
-        top: 10,
+        top: 70,
+        right: 110,
+        backgroundColor: '#ff6347',
+        borderRadius: 50,
+        padding: 6,
+        elevation: 2,
+    },
+    profileName: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#333',
+        marginVertical: 5,
+    },
+    profileDetails: {
+        color: '#555',
+        fontSize: 12,
     },
     optionsList: {
+        marginTop: 10,
         marginHorizontal: 16,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        elevation: 2,
     },
     optionContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 16,
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        marginVertical: 8,
-        elevation: 1,
+        padding: 12,
     },
     optionText: {
         flex: 1,
-        marginLeft: 16,
+        marginLeft: 5,
         color: '#333',
-        fontSize: 16,
+        fontSize: 14,
+    },
+    optionAction: {
+        color: '#007BFF',
+        fontWeight: 'bold',
     },
     moreContainer: {
         marginHorizontal: 16,
+        marginTop: 20,
     },
     moreTitle: {
         fontSize: 18,
