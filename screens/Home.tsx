@@ -49,7 +49,6 @@ const Home = ({ navigation }) => {
           keyExtractor={(item, index) => index.toString()}
           contentContainerStyle={styles.gridContainer}
         />
-        {authVisible && <LocalAuth onAuthenticated={handleAuthenticationSuccess} />} {/* Render LocalAuth conditionally */}
       </View>
     </>
   );

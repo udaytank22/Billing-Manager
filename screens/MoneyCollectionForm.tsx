@@ -5,7 +5,7 @@ import TextInputComponent from './components/InputFieldComponent';
 import * as Animatable from 'react-native-animatable';
 import CustomHeader from './components/CustomHeader';
 
-const MoneyCollectionForm = () => {
+const MoneyCollectionForm = ({ navigation }) => {
   const [customer, setCustomer] = useState('');
   const [notCollectedAmount, setNotCollectedAmount] = useState('');
   const [collectedAmount, setCollectedAmount] = useState('');

@@ -10,7 +10,6 @@ import {
   ScrollView,
 } from 'react-native';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import LinearGradient from 'react-native-linear-gradient'; // Assuming expo-linear-gradient is installed
 import { AuthContext } from './elements/AuthContext';
 import CustomButton from './components/CustomButton'; // Import your new button component
 
@@ -43,67 +42,60 @@ const LoginScreen = ({ navigation }) => {
 
       {/* Bottom Curved View */}
       <View style={styles.bottomView}>
-        <LinearGradient
-          colors={['#8e6f79', '#1a1519', '#2f1e34']}
-          style={styles.gradientBackground}
-        >
-          <ScrollView contentContainerStyle={{ paddingBottom: 30 }} showsVerticalScrollIndicator={false}>
-            <Text style={styles.welcomeText}>Welcome Back!</Text>
-            <Text style={styles.subText}>Welcome back to Business Manager, we missed you!</Text>
+        <ScrollView contentContainerStyle={{ paddingBottom: 30 }} showsVerticalScrollIndicator={false}>
+          <Text style={styles.welcomeText}>Welcome Back!</Text>
+          <Text style={styles.subText}>Welcome back to Business Manager, we missed you!</Text>
 
-            {/* Username Input */}
-            <View style={styles.inputContainer}>
-              <Image style={styles.icon} source={require('../Images/user-icon.png')} />
-              <TextInput
-                placeholder="Username"
-                placeholderTextColor="#A9A9A9"
-                style={styles.input}
-              />
-            </View>
-
-            {/* Password Input */}
-            <View style={styles.inputContainer}>
-              <Image style={styles.icon} source={require('../Images/password-icon.png')} />
-              <TextInput
-                placeholder="Password"
-                placeholderTextColor="#A9A9A9"
-                secureTextEntry
-                style={styles.input}
-              />
-              <Image style={styles.icon} source={require('../Images/hide-show.png')} />
-            </View>
-            <Text style={styles.forgotText}>Forgot Password?</Text>
-
-            {/* Sign In Button */}
-            <CustomButton
-              text="Sign In"
-              onPress={() => console.log('Sign In pressed')}
-              height={50}
-              width={'100%'}
-              buttonStyle={{ marginVertical: 20 }}
-            // colors={['#FF7A59', '#FF4A32', '#FF7A59']} // Custom gradient colors
+          {/* Username Input */}
+          <View style={styles.inputContainer}>
+            <Image style={styles.icon} source={require('../Images/user-icon.png')} />
+            <TextInput
+              placeholder="Username"
+              placeholderTextColor="#A9A9A9"
+              style={styles.input}
             />
+          </View>
 
-            {/* Or Continue with */}
-            <View style={styles.otherOptionContainer}>
-              <Image source={require('../Images/leftline.png')} />
-              <Text style={styles.orText}>Or continue with</Text>
-              <Image source={require('../Images/rightLine.png')} />
-            </View>
-            {/* Third-Party Login Buttons */}
-            <View style={styles.socialButtonsContainer}>
-              <TouchableOpacity onPress={handleGoogleSignIn} style={styles.socialButton}>
-                <Image style={styles.socialIcon} source={require('../Images/google-logo.png')} />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.socialButton}>
-                <Image style={styles.socialIcon} source={require('../Images/apple-logo.png')} />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.socialButton}>
-                <Image style={styles.socialIcon} source={require('../Images/facebook-logo.png')} />
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </LinearGradient>
+          {/* Password Input */}
+          <View style={styles.inputContainer}>
+            <Image style={styles.icon} source={require('../Images/password-icon.png')} />
+            <TextInput
+              placeholder="Password"
+              placeholderTextColor="#A9A9A9"
+              secureTextEntry
+              style={styles.input}
+            />
+          </View>
+          <Text style={styles.forgotText}>Forgot Password?</Text>
+
+          {/* Sign In Button */}
+          <CustomButton
+            text="Sign In"
+            onPress={login}
+            height={50}
+            width={'100%'}
+            buttonStyle={{ marginVertical: 20 }}
+            colors={['#FF7A59', '#FF4A32', '#FF7A59']} // Custom gradient colors
+          />
+
+          {/* Or Continue with */}
+          <View style={styles.otherOptionContainer}>
+            <Text style={styles.orText}>Or continue with</Text>
+          </View>
+
+          {/* Third-Party Login Buttons */}
+          <View style={styles.socialButtonsContainer}>
+            <TouchableOpacity onPress={handleGoogleSignIn} style={styles.socialButton}>
+              <Image style={styles.socialIcon} source={require('../Images/google-logo.png')} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.socialButton}>
+              <Image style={styles.socialIcon} source={require('../Images/apple-logo.png')} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.socialButton}>
+              <Image style={styles.socialIcon} source={require('../Images/facebook-logo.png')} />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -112,7 +104,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#252525',
+    backgroundColor: '#f8f9fa', // Light grey background for a softer look
   },
   bannerImage: {
     width: '100%',
@@ -123,33 +115,29 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
     justifyContent: 'center',
-  },
-  gradientBackground: {
-    flex: 1,
+    backgroundColor: '#FFFFFF', // White background for the bottom view
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
     paddingTop: 50,
-    alignItems: 'center',
-    marginTop: -30,
   },
   welcomeText: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: '#333333', // Darker text for better readability
     textAlign: 'center',
     marginBottom: 10,
   },
   subText: {
     fontSize: 16,
-    color: '#AAA',
+    color: '#666666', // Slightly darker grey for the subtitle
     textAlign: 'center',
     marginBottom: 20,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#333',
+    backgroundColor: '#E0E0E0', // Light grey input background
     borderRadius: 10,
     marginVertical: 10,
     paddingHorizontal: 15,
@@ -160,11 +148,11 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     marginRight: 10,
-    tintColor: '#FFF',
+    tintColor: '#333', // Dark grey for the icon color
   },
   input: {
     flex: 1,
-    color: '#FFF',
+    color: '#333', // Dark text for input
   },
   forgotText: {
     color: '#A4A4A4',
@@ -178,7 +166,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   socialButton: {
-    backgroundColor: '#524851',
+    backgroundColor: '#E0E0E0', // Light grey for social buttons
     margin: 10,
     borderRadius: 8,
     alignItems: 'center',
@@ -194,13 +182,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 20, // Adjust to position vertically
+    marginVertical: 20,
   },
   orText: {
-    color: '#AAA',
-    marginHorizontal: 10, // Adds space between the text and lines
+    color: '#666666',
     textAlign: 'center',
-    fontSize: 14, // Adjust as per your need
+    fontSize: 14,
   },
 });
 

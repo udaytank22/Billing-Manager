@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, Pressable } from "react-native";
-import Icon from 'react-native-vector-icons/Ionicons'; // Ensure you have this package
+import { View, Text, StyleSheet, Image, FlatList, Pressable } from "react-native";
+import Icon from 'react-native-vector-icons/Ionicons';
 import CustomHeader from './components/CustomHeader';
 import { AuthContext } from "./elements/AuthContext";
 
@@ -8,26 +8,24 @@ const Profile = ({ navigation }) => {
     const { logout } = useContext(AuthContext);
 
     const options = [
-        { id: '1', title: 'Edit profile information', icon: 'create-outline' },
-        { id: '2', title: 'Notifications', icon: 'notifications-outline', action: 'ON' },
-        { id: '3', title: 'Logout', icon: 'log-out-outline', action: '', onPress: logout }
+        { id: '1', title: 'Edit profile information', icon: 'create-outline', onPress: () => navigation.navigate('ProfileUpdate') },
+        { id: '2', title: 'Notifications', icon: 'notifications-outline', action: 'ON', onPress: () => console.log('Notifications pressed') },
+        { id: '3', title: 'Logout', icon: 'log-out-outline', onPress: logout }
     ];
 
     const moreOptions = [
-        { id: '1', title: 'Help & Support', icon: 'help-circle-outline' },
-        { id: '2', title: 'Contact us', icon: 'call-outline' },
-        { id: '3', title: 'Privacy policy', icon: 'document-text-outline' }
+        { id: '1', title: 'Help & Support', icon: 'help-circle-outline', onPress: () => console.log('Help & Support pressed') },
+        { id: '2', title: 'Contact us', icon: 'call-outline', onPress: () => console.log('Contact us pressed') },
+        { id: '3', title: 'Privacy policy', icon: 'document-text-outline', onPress: () => console.log('Privacy policy pressed') }
     ];
 
-    const renderOption = ({ item }) => {
-        return (
-            <Pressable style={styles.optionContainer} onPress={item.onPress}>
-                <Icon name={item.icon} size={24} color="#5C5C5C" />
-                <Text style={styles.optionText}>{item.title}</Text>
-                {item.action && <Text style={styles.optionAction}>{item.action}</Text>}
-            </Pressable>
-        );
-    };
+    const renderOption = ({ item }) => (
+        <Pressable style={styles.optionContainer} onPress={item.onPress}>
+            <Icon name={item.icon} size={24} color="#5C5C5C" />
+            <Text style={styles.optionText}>{item.title}</Text>
+            {item.action && <Text style={styles.optionAction}>{item.action}</Text>}
+        </Pressable>
+    );
 
     return (
         <View style={styles.container}>
@@ -36,14 +34,12 @@ const Profile = ({ navigation }) => {
             {/* Profile Header */}
             <View style={styles.profileHeader}>
                 <Image source={require('../Images/user.png')} style={styles.profileImage} />
-                <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('ProfileUpdate')}>
-                    <Icon name="pencil-outline" size={18} color="#fff" />
-                </TouchableOpacity>
-                <Text style={styles.profileName}>Puerto Rico</Text>
-                <Text style={styles.profileDetails}>yourmail@domain.com | +01 234 567 89</Text>
+                <View style={{ marginHorizontal: 10 }}>
+                    <Text style={styles.profileName}>Puerto Rico</Text>
+                    <Text style={styles.profileDetails}>yourmail@domain.com | +01 234 567 89</Text>
+                </View>
             </View>
 
-            {/* Account Options */}
             <View style={styles.optionsList}>
                 <FlatList
                     data={options}
@@ -52,6 +48,7 @@ const Profile = ({ navigation }) => {
                 />
             </View>
 
+            {/* Account Options */}
             <View style={styles.optionsList}>
                 <FlatList
                     data={options}
@@ -80,6 +77,7 @@ const styles = StyleSheet.create({
     },
     profileHeader: {
         alignItems: 'center',
+        flexDirection: 'row',
         padding: 15,
         backgroundColor: '#fff',
         borderBottomLeftRadius: 20,
@@ -92,15 +90,6 @@ const styles = StyleSheet.create({
         borderRadius: 45,
         borderWidth: 3,
         borderColor: '#fff',
-    },
-    editButton: {
-        position: 'absolute',
-        top: 70,
-        right: 110,
-        backgroundColor: '#ff6347',
-        borderRadius: 50,
-        padding: 6,
-        elevation: 2,
     },
     profileName: {
         fontSize: 20,

@@ -197,12 +197,12 @@ const EmployeeHome = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAF7F0',
+    backgroundColor: '#f8f9fa',
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FAF7F0',
+    backgroundColor: '#f8f9fa',
     borderColor: '#000',
     borderWidth: 1,
     borderRadius: 10,
