@@ -163,7 +163,7 @@ const MakeBill = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAF7F0',
+    backgroundColor: '#f8f9fa',
   },
   inputContainer: {
     marginBottom: 20,

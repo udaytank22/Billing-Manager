@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native';
-import CustomHeader from './components/CustomHeader'
+import CustomHeader from './components/CustomHeader';
 
 const ProfileUpdate = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -12,6 +12,7 @@ const ProfileUpdate = ({ navigation }) => {
         <>
             <CustomHeader title="Update Profile" showBackButton={true} onBackPress={() => navigation.goBack()} />
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+                {/* Header Section */}
                 <View style={styles.header}>
                     <Text style={styles.headerText}>Edit Profile</Text>
                     <TouchableOpacity>
@@ -22,81 +23,90 @@ const ProfileUpdate = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
 
+                {/* Form Section */}
                 <View style={styles.form}>
-                    <Text style={styles.title}>Personal Details</Text>
-                    <Text style={styles.label}>Enter Your UserName</Text>
+                    <Text style={styles.sectionTitle}>Personal Details</Text>
+
+                    <Text style={styles.label}>Username</Text>
                     <TextInput
                         style={styles.input}
                         value={username}
                         onChangeText={(text) => setUsername(text)}
-                        placeholder="Username"
-                        placeholderTextColor='#c0c0c0'
+                        placeholder="Enter your username"
+                        placeholderTextColor='#999'
                     />
-                    <Text style={styles.label}>Enter Your email</Text>
+
+                    <Text style={styles.label}>Email</Text>
                     <TextInput
                         style={styles.input}
                         value={email}
                         onChangeText={(text) => setEmail(text)}
-                        placeholder="Email ID"
+                        placeholder="Enter your email"
                         keyboardType="email-address"
-                        placeholderTextColor='#c0c0c0'
+                        placeholderTextColor='#999'
                     />
-                    <Text style={styles.label}>Enter Your PhoneNO</Text>
+
+                    <Text style={styles.label}>Phone Number</Text>
                     <TextInput
                         style={styles.input}
                         value={phoneNumber}
                         onChangeText={(text) => setPhoneNumber(text)}
-                        placeholder="Phone Number"
+                        placeholder="Enter your phone number"
                         keyboardType="phone-pad"
-                        placeholderTextColor='#c0c0c0'
+                        placeholderTextColor='#999'
                     />
-                    <Text style={styles.label}>Enter Your password</Text>
+
+                    <Text style={styles.label}>Password</Text>
                     <TextInput
                         style={styles.input}
                         value={password}
                         onChangeText={(text) => setPassword(text)}
-                        placeholder="Password"
-                        placeholderTextColor='#c0c0c0'
+                        placeholder="Enter your password"
+                        placeholderTextColor='#999'
                         secureTextEntry
                     />
 
+                    <Text style={styles.sectionTitle}>Business Details</Text>
 
-                    <Text style={styles.title}>Business Details</Text>
-                    <Text style={styles.label}>Enter Your Business Name</Text>
+                    <Text style={styles.label}>Business Name</Text>
                     <TextInput
                         style={styles.input}
                         value={username}
                         onChangeText={(text) => setUsername(text)}
-                        placeholder="Business Name"
-                        placeholderTextColor='#c0c0c0'
+                        placeholder="Enter your business name"
+                        placeholderTextColor='#999'
                     />
-                    <Text style={styles.label}>Enter Your Business email</Text>
+
+                    <Text style={styles.label}>Business Email</Text>
                     <TextInput
                         style={styles.input}
                         value={email}
                         onChangeText={(text) => setEmail(text)}
-                        placeholder="Business email"
+                        placeholder="Enter your business email"
                         keyboardType="email-address"
-                        placeholderTextColor='#c0c0c0'
+                        placeholderTextColor='#999'
                     />
-                    <Text style={styles.label}>Enter Your Business PhoneNO</Text>
+
+                    <Text style={styles.label}>Business Phone Number</Text>
                     <TextInput
                         style={styles.input}
                         value={phoneNumber}
                         onChangeText={(text) => setPhoneNumber(text)}
-                        placeholder="Business PhoneNO"
+                        placeholder="Enter your business phone number"
                         keyboardType="phone-pad"
-                        placeholderTextColor='#c0c0c0'
+                        placeholderTextColor='#999'
                     />
-                    <Text style={styles.label}>Enter Your Address</Text>
+
+                    <Text style={styles.label}>Address</Text>
                     <TextInput
                         style={styles.input}
                         value={password}
                         onChangeText={(text) => setPassword(text)}
-                        placeholder="Your Address"
-                        placeholderTextColor='#c0c0c0'
+                        placeholder="Enter your address"
+                        placeholderTextColor='#999'
                     />
 
+                    {/* Update Button */}
                     <TouchableOpacity style={styles.updateButton}>
                         <Text style={styles.updateButtonText}>Update</Text>
                     </TouchableOpacity>
@@ -109,74 +119,73 @@ const ProfileUpdate = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FAF7F0',
+        backgroundColor: '#FAFAFA',
     },
     header: {
-        backgroundColor: '#FAF7F0',
-        paddingBottom: 20,
-        paddingTop: 40,
         alignItems: 'center',
+        paddingVertical: 30,
+        backgroundColor: '#f0f4f7',
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
-        borderColor: '#000',
-        borderBottomWidth: 1,
-        borderRightWidth: 1,
-        borderLeftWidth: 1
     },
     headerText: {
-        color: '#000',
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: 'bold',
-        marginBottom: 10
-    },
-    profileImageContainer: {
-        marginTop: 10,
-        backgroundColor: '#fff',
-        borderRadius: 75,
-        padding: 5,
+        color: '#333',
+        marginBottom: 10,
     },
     profileImage: {
         width: 120,
         height: 120,
         borderRadius: 60,
-    },
-    changePictureText: {
-        marginTop: 5,
-        color: '#666',
-        fontSize: 16,
-        textDecorationLine: 'underline',
+        borderWidth: 3,
+        borderColor: '#FFF',
     },
     form: {
         padding: 20,
     },
-    input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 8,
-        padding: 10,
-        marginBottom: 15,
-        fontSize: 16,
-        color: '#000'
-    },
-    updateButton: {
-        backgroundColor: '#000',
-        paddingVertical: 15,
-        borderRadius: 8,
-        alignItems: 'center',
-    },
-    updateButtonText: {
-        color: '#fff',
+    sectionTitle: {
         fontSize: 18,
         fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
+        paddingBottom: 5,
     },
     label: {
-        color: '#000'
+        fontSize: 16,
+        color: '#666',
+        marginBottom: 5,
     },
-    title: {
-        color: '#000',
-        fontSize: 20,
-        marginBottom: 10
-    }
+    input: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        paddingHorizontal: 15,
+        paddingVertical: 12,
+        fontSize: 16,
+        color: '#333',
+        borderColor: '#ddd',
+        borderWidth: 1,
+        marginBottom: 20,
+        elevation: 2, // Shadow for Android
+        shadowColor: '#000', // Shadow for iOS
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+    },
+    updateButton: {
+        backgroundColor: '#007BFF',
+        paddingVertical: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    updateButtonText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#fff',
+    },
 });
 
 export default ProfileUpdate;

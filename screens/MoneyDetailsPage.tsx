@@ -32,12 +32,7 @@ const DetailPage = ({ route, navigation }) => {
         onBackPress={() => navigation.goBack()}
         showBackButton={true}
       />
-      <LinearGradient
-        colors={['#8e6f79', '#1a1519', '#2f1e34']}
-        start={{ x: 1, y: 1 }}
-        end={{ x: 1, y: 0 }}
-        style={styles.container}
-      >
+      <View style={styles.container}>
         {/* Customer Details */}
         <View style={styles.amountSection}>
           <Text style={styles.customerName}>{route.params.name}</Text>
@@ -72,7 +67,7 @@ const DetailPage = ({ route, navigation }) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItem}
         />
-      </LinearGradient>
+      </View>
     </>
   );
 };
@@ -81,6 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    borderColor: '#f8f9fa'
   },
   // Customer section styles
   customerDetails: {

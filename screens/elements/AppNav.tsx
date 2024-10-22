@@ -7,7 +7,7 @@ import AuthStack from './AuthStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const AppNavigator = () => {
+const AppNav = () => {
   const { isLoading, userToken } = useContext(AuthContext);
 
   if (isLoading) {
@@ -25,4 +25,4 @@ const AppNavigator = () => {
   );
 };
 
-export default AppNavigator;
+export default AppNav;

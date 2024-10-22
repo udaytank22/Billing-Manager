@@ -162,7 +162,7 @@ const FlowerHome = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAF7F0',
+    backgroundColor: '#f8f9fa',
   },
   dropdownSelectedText: {
     color: '#000',
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FAF7F0',
+    backgroundColor: '#f8f9fa',
     borderColor: '#000',
     borderWidth: 1,
     borderRadius: 10,

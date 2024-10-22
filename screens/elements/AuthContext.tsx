@@ -9,9 +9,8 @@ export const AuthProvider = ({ children }) => {
   const [loginError, setLoginError] = useState('');
 
   const login = async (values, userInfo) => {
-    console.log('userInfo', values.user.id)
-    await AsyncStorage.setItem('userToken', values.user.id);
-    setUserToken(values.user.id);
+    await AsyncStorage.setItem('userToken', 'uday');
+    setUserToken('uday');
     // try {  
     //   setIsLoading(true);
     //   // Simulating an API call for login

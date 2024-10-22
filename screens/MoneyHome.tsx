@@ -158,7 +158,7 @@ const MoneyHome = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   gradientContainer: {
     flex: 1,
-    backgroundColor: '#FAF7F0',
+    backgroundColor: '#f8f9fa',
   },
   container: {
     flex: 1,
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FAF7F0',
+    backgroundColor: '#f8f9fa',
     borderColor: '#000',
     borderWidth: 1,
     borderRadius: 10,
