@@ -7,7 +7,10 @@ import { AuthContext } from "./elements/AuthContext";
 const Profile = ({ navigation }) => {
     const { logout } = useContext(AuthContext);
 
-    const options = [
+    const options1 = [
+        { id: '1', title: 'My Account', icon: 'create-outline', onPress: () => navigation.navigate('MyAccount') },
+    ];
+    const options2 = [
         { id: '1', title: 'Edit profile information', icon: 'create-outline', onPress: () => navigation.navigate('ProfileUpdate') },
         { id: '2', title: 'Notifications', icon: 'notifications-outline', action: 'ON', onPress: () => console.log('Notifications pressed') },
         { id: '3', title: 'Logout', icon: 'log-out-outline', onPress: logout }
@@ -42,7 +45,7 @@ const Profile = ({ navigation }) => {
 
             <View style={styles.optionsList}>
                 <FlatList
-                    data={options}
+                    data={options1}
                     keyExtractor={(item) => item.id}
                     renderItem={renderOption}
                 />
@@ -51,7 +54,7 @@ const Profile = ({ navigation }) => {
             {/* Account Options */}
             <View style={styles.optionsList}>
                 <FlatList
-                    data={options}
+                    data={options2}
                     keyExtractor={(item) => item.id}
                     renderItem={renderOption}
                 />
