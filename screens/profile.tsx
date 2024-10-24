@@ -9,6 +9,7 @@ const Profile = ({ navigation }) => {
 
     const options1 = [
         { id: '1', title: 'My Account', icon: 'create-outline', onPress: () => navigation.navigate('MyAccount') },
+        { id: '2', title: 'Bank Transaction', icon: 'create-outline', onPress: () => navigation.navigate('Transactions') },
     ];
     const options2 = [
         { id: '1', title: 'Edit profile information', icon: 'create-outline', onPress: () => navigation.navigate('ProfileUpdate') },
