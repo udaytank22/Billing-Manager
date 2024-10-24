@@ -21,6 +21,7 @@ import ProfileUpdate from '../ProfileDetails';
 import MyAccount from '../MyAccount';
 import FontSizePicker from '../SelectFontSize';
 import { ActivityIndicator, Text, View } from 'react-native';
+import Transactions from '../Transactions';
 
 const Stack = createStackNavigator();
 
@@ -147,6 +148,13 @@ const AppStack = () => {
       <Stack.Screen
         name="FontSizePicker"
         component={FontSizePicker}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="Transactions"
+        component={Transactions}
         options={{
           headerShown: false
         }}
