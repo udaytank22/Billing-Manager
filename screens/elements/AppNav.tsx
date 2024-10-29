@@ -1,14 +1,18 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthContext } from './AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { isLoggedIn } from '../redux/slices/authSlice';
 import AppStack from './AppStack';
 import AuthStack from './AuthStack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 const AppNav = () => {
-  const { isLoading, userToken } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const { isLoading, userToken } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(isLoggedIn());
+  }, [dispatch]);
 
   if (isLoading) {
     return (

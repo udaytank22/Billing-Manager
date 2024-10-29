@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -12,11 +12,28 @@ import {
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { AuthContext } from './elements/AuthContext';
 import CustomButton from './components/CustomButton'; // Import your new button component
+import { useDispatch } from 'react-redux';
+import { loginSuccess, setLoading } from './redux/slices/authSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width, height } = Dimensions.get('window');
 
 const LoginScreen = ({ navigation }) => {
-  const { login } = useContext(AuthContext);
+
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    dispatch(setLoading(true));
+    if (username === 'test' && password === 'password') {
+      await AsyncStorage.setItem('userToken', 'token');
+      dispatch(loginSuccess('token'));
+    } else {
+      alert('Invalid credentials');
+    }
+    dispatch(setLoading(false));
+  };
 
   useEffect(() => {
     GoogleSignin.configure();
@@ -53,6 +70,8 @@ const LoginScreen = ({ navigation }) => {
               placeholder="Username"
               placeholderTextColor="#A9A9A9"
               style={styles.input}
+              value={username}
+              onChangeText={setUsername}
             />
           </View>
 
@@ -64,6 +83,8 @@ const LoginScreen = ({ navigation }) => {
               placeholderTextColor="#A9A9A9"
               secureTextEntry
               style={styles.input}
+              value={password}
+              onChangeText={setPassword}
             />
           </View>
           <Text style={styles.forgotText}>Forgot Password?</Text>
@@ -71,7 +92,7 @@ const LoginScreen = ({ navigation }) => {
           {/* Sign In Button */}
           <CustomButton
             text="Sign In"
-            onPress={login}
+            onPress={handleLogin}
             height={50}
             width={'100%'}
             buttonStyle={{ marginVertical: 20 }}

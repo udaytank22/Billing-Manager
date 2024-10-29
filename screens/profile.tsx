@@ -3,9 +3,16 @@ import { View, Text, StyleSheet, Image, FlatList, Pressable } from "react-native
 import Icon from 'react-native-vector-icons/Ionicons';
 import CustomHeader from './components/CustomHeader';
 import { AuthContext } from "./elements/AuthContext";
+import { useDispatch } from "react-redux";
+import { logoutSuccess } from "./redux/slices/authSlice";
 
 const Profile = ({ navigation }) => {
-    const { logout } = useContext(AuthContext);
+    // const { logout } = useContext(AuthContext);
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        dispatch(logoutSuccess(null));
+    }
 
     const options1 = [
         { id: '1', title: 'My Account', icon: 'create-outline', onPress: () => navigation.navigate('MyAccount') },
@@ -14,7 +21,7 @@ const Profile = ({ navigation }) => {
     const options2 = [
         { id: '1', title: 'Edit profile information', icon: 'create-outline', onPress: () => navigation.navigate('ProfileUpdate') },
         { id: '2', title: 'Notifications', icon: 'notifications-outline', action: 'ON', onPress: () => console.log('Notifications pressed') },
-        { id: '3', title: 'Logout', icon: 'log-out-outline', onPress: logout }
+        { id: '3', title: 'Logout', icon: 'log-out-outline', onPress: handleLogout }
     ];
 
     const moreOptions = [
