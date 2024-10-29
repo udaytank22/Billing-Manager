@@ -5,5 +5,5 @@ module.exports = {
             packageName: "com.business",
         },
     },
-    assets: ['./assets/fonts/'], // if you're linking custom assets like fonts
+    assets: ['./assets/fonts/'],
 };

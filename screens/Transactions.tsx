@@ -119,6 +119,7 @@ const Transactions = ({ navigation }) => {
                 );
 
                 const formattedTransactions = transactionMessages.map((sms) => {
+                    console.log(sms)
                     const creditMatch = sms.body.match(
                         /INR\s+([\d,.]+)\s+credited\s+to\s+A\/c\s+no\.\s+(XX\d+).*?on\s+(\d{2}-\d{2}-\d{2})/i
                     );
