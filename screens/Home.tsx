@@ -4,7 +4,6 @@ import CustomHeader from './components/CustomHeader';
 import CardComponent from './components/HomeCardComponent';
 import cards from './elements/dummyData';
 import * as Animatable from 'react-native-animatable';
-import LocalAuth from './components/Localauth';
 
 const Home = ({ navigation }) => {
   const [authVisible, setAuthVisible] = useState(false);

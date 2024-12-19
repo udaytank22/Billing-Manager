@@ -12,8 +12,8 @@ import {
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { AuthContext } from './elements/AuthContext';
 import CustomButton from './components/CustomButton'; // Import your new button component
-import { useDispatch } from 'react-redux';
-import { loginSuccess, setLoading } from './redux/slices/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { authenticateUser } from './redux/slices/authSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width, height } = Dimensions.get('window');
@@ -25,14 +25,13 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    dispatch(setLoading(true));
-    if (username === 'test' && password === 'password') {
-      await AsyncStorage.setItem('userToken', 'token');
-      dispatch(loginSuccess('token'));
+    if (username && password) {
+      console.log('username', username)
+      console.log('password', password)
+      dispatch(authenticateUser({ username, password }));
     } else {
-      alert('Invalid credentials');
+      console.warn('Invalid credentials');
     }
-    dispatch(setLoading(false));
   };
 
   useEffect(() => {
@@ -40,13 +39,14 @@ const LoginScreen = ({ navigation }) => {
   }, []);
 
   const handleGoogleSignIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      login(userInfo);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   await GoogleSignin.hasPlayServices();
+    //   const userInfo = await GoogleSignin.signIn();
+    //   // login(userInfo);
+    //   dispatch(setLoading(true));
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (
